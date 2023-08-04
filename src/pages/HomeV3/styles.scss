@@ -1,0 +1,65 @@
+.home-page3 {
+    display: flex;
+    flex-direction: column;
+    margin: 100px 0;
+    gap: 100px;
+
+    .title-size {
+        color: white;
+        font-weight: 400;
+        font-size: 48px;
+        line-height: 75px;
+        letter-spacing: 5%;
+        align-items: center;
+        font-family: 'Paytone One', sans-serif;
+    }
+    
+
+    .btn {
+            height: 62px;
+            width: 282px;
+    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            border-radius: 6px;
+    
+            // background: linear-gradient(23deg, rgb(16 164 204), rgb(61 236 167));
+            background: #24C3BC !important;
+    
+            .btn__title {
+                font-size: 20px;
+                font-weight: 800;
+                line-height: 25px;
+            }
+
+            &:hover {
+                box-shadow: #24c3bc 0 2px 36px, #24c3bc 0 0 0 1px;
+            }
+        }
+
+    @media (max-width: 1200px) {
+        .title-size {
+            font-size: 40px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        margin-top: 50px;
+        gap: 50px;
+        .title-size {
+            text-align: center;
+            font-size: 36px;
+            line-height: 50px;
+            letter-spacing: 5%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .btn {
+            height: 50px;
+            width: 200px;
+        }
+    }
+}

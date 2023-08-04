@@ -1,0 +1,143 @@
+.wrapper-banner {
+    display: flex;
+    // flex-wrap: wrap;
+    align-items: center;
+    max-width: 1440px;
+    // padding: 0 40px;
+    margin: 0 auto;
+    gap: 100px;
+    justify-content: center;
+
+    .left {
+
+
+        .title-1 {
+            font-size: 24px;
+        }
+
+        .title-2 {
+            font-size: 24px;
+        }
+
+        .starkport-img {
+            width: 100%;
+            max-width: 474px;
+            height: 49px;
+            margin: 20px 0px 16px 0;
+        }
+
+        .all-time-volume {
+            padding: 16px 0;
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 32px;
+            letter-spacing: 3px;
+            // text-align: center;
+            color: #14ffe3;
+            opacity: 0.7;
+        }
+
+        .starknet-img {
+            width: 56px;
+            height: 56px;
+        }
+
+        .powered-starknet {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 30px;
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
+    }
+
+    .right {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logo-banner {
+            // width: 60%;
+            max-width: 300px;
+            height: fit;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        gap: 0;
+
+        
+    }
+
+    @media (max-width: 768px) {
+        padding: 0 10px;
+        gap: 0;
+
+        .left {
+            display: flex;
+            flex: 2;
+            flex-direction: column;
+            // justify-content: center;
+            // align-items: center;
+
+            .title-1 {
+                font-size: 16px;
+            }
+
+            .title-size {
+                text-align: start;
+            }
+
+            .starkport-img {
+                width: 300px;
+                height: 30px;
+                // width: fit-content;
+            }
+
+            .title-2 {
+                font-size: 16px;
+                // text-align: center;
+            }
+
+            .all-time-volume {
+                font-size: 24px;
+                text-align: start;
+                letter-spacing: 0;
+            }
+
+            .powered-starknet {
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 30px;
+            }
+        }
+
+        .right {
+            flex: 1;
+            // display: none;
+
+            .logo-banner {
+                width: 100%;
+                max-width: 300px;
+                // height: fit;
+                // display: none;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+
+        .left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right {
+            display: none;
+        }
+    }
+}

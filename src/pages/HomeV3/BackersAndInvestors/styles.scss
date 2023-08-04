@@ -1,0 +1,57 @@
+.wrapper-backers-investors {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    gap: 30px;
+
+    .title {
+        width: 610px;
+        height: 36px;
+    }
+    .wrapper-logos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        gap: 40px;
+    }
+
+    .message {
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+    .logos-line-1 {
+        display: flex;
+        justify-content: center;
+        margin-right: 180px;
+        gap: 80px;
+    }
+
+    .logos-line-2 {
+        display: flex;
+        justify-content: center;
+        // width: 100%;
+        margin-left: 180px;
+        gap: 80px;
+    }
+
+    .logo {
+        // width: 245px;
+        height: 48px;
+    }
+
+    @media (max-width: 767px) {
+        gap: 20px;
+
+        .message {
+            font-size: 20px;
+        }
+        .title {
+            width: 300px;
+        }
+    }
+}

@@ -1,0 +1,95 @@
+.wrapper-launchpad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin: 0 20px;
+
+    // flex-wrap: wrap;
+
+    .launchpad-card-img {
+        width: 600px;
+        // height: 563px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+
+    .subtitle {
+        max-width: 550px;
+        font-size: 24px;
+        line-height: 35px;
+        font-weight: 400;
+    }
+
+    @media (max-width: 767px) {
+        .content {
+            align-items: center;
+        }
+
+        .launchpad-card-img {
+            max-width: 300px;
+        }
+
+        .title {
+            margin: 0 auto;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            font-size: 20px;
+        }
+    }
+        @media (max-width: 1200px) {
+    
+    
+            
+                display: flex;
+                // flex-direction: column;
+                align-items: center;
+                // gap: 0;
+    
+                .launchpad-card-img {
+                    width: 400px;
+                }
+
+                .content {
+                    gap: 20px;
+                }
+
+                .subtitle {
+                    max-width: 500px;
+                }
+            
+    
+    
+        }
+    @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+        
+        
+        .content {
+            gap: 20px;
+            align-items: center;
+        }
+
+        .subtitle {
+            text-align: center;
+        }
+    
+        
+        
+    }
+}
+
+
