@@ -23,7 +23,7 @@ import {
 } from '../../configs/networks.js';
 import { Token, TokenAmount } from '@uniswap/sdk';
 import { Fraction } from '@uniswap/sdk-core';
-import { parseUnits } from '@ethersproject/units';
+import { formatEther, parseEther, parseUnits } from '@ethersproject/units';
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React.js';
 import useListTokens from '../../hooks/useListTokens.js';
 import { EmptyPool, getCurrencyBalances, getPoolInfo } from '../../state/liquidity.js';
@@ -507,7 +507,7 @@ const getCurrentDateInUTC = () => {
     return `${year}-${month}-${day}`;
 };
 
-const FormSwap = ({ setHistoricalPrices, setVol }) => {
+const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
     const { address, status } = useAccount();
     const [isShow, setIsShow] = useState(false);
     const navigate = useNavigate();
@@ -567,17 +567,21 @@ const FormSwap = ({ setHistoricalPrices, setVol }) => {
 
     useEffect(() => {
         async function getPairId(token0Address, token1Address) {
-            let res = await axios.get(
-                `https://api.starksport.finance/api/token-pairs/0x3fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac/0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`,
-            );
-            // setRowsData(res.data);
-            // console.log("🚀 ~ file: index.js:560 ~ getPairId ~ res:", res.data)
-            let vol = parseFloat(res.data).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            });
-            // console.log('🚀 ~ file: index.js:571 ~ getPairId ~ vol:', vol);
-            setVol(vol);
+            try {
+                let res = await axios.get(
+                    `https://api.starksport.finance/api/token-pairs/0x3fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac/0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`,
+                );
+                // setRowsData(res.data);
+                // console.log("🚀 ~ file: index.js:560 ~ getPairId ~ res:", res.data)
+                let vol = parseFloat(res.data).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+                // console.log('🚀 ~ file: index.js:571 ~ getPairId ~ vol:', vol);
+                setVol(vol);
+            } catch (error) {
+                console.log(error);
+            }
         }
         getPairId(token0.address, token1.address);
     }, [token0, token1]);
@@ -609,7 +613,7 @@ const FormSwap = ({ setHistoricalPrices, setVol }) => {
 
     const [tokens, setTokens] = useState({
         [Field.INPUT]: WETH,
-        [Field.OUTPUT]: TOKEN_LIST[2],
+        [Field.OUTPUT]: TOKEN_LIST[1],
     });
 
     // Reset token 0 input amount when change another token
@@ -641,6 +645,7 @@ const FormSwap = ({ setHistoricalPrices, setVol }) => {
                 ]);
                 poolInfo && setPoolInfo(poolInfo);
                 balances && setBalances(balances);
+                setPairAddr(`${tokens[Field.INPUT]?.address ?? ''}:${tokens[Field.OUTPUT]?.address ?? ''}`);
             } catch (error) {
                 console.error(error);
             }
@@ -822,7 +827,6 @@ const FormSwap = ({ setHistoricalPrices, setVol }) => {
         (async () => {
             try {
                 const _tokens = await handleSearchToken();
-                console.log(_tokens);
                 _setListTokens(_tokens);
             } catch (error) {
                 console.error(error);
@@ -1018,7 +1022,6 @@ const FormSwap = ({ setHistoricalPrices, setVol }) => {
 };
 
 const SwapPage = () => {
-    const { address, status } = useAccount();
     const [vol, setVol] = useState(0);
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
@@ -1036,71 +1039,6 @@ const SwapPage = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    /// CLAIM FREE TOKENS
-    const calls = [
-        {
-            contractAddress: mockDataTokenTest[0].address,
-            entrypoint: 'mint',
-            calldata: [address, getTokenAmountInWei(mockDataTokenTest[0].freeToken, mockDataTokenTest[0].decimals), 0],
-        },
-        {
-            contractAddress: mockDataTokenTest[1].address,
-            entrypoint: 'mint',
-            calldata: [address, getTokenAmountInWei(mockDataTokenTest[1].freeToken, mockDataTokenTest[1].decimals), 0],
-        },
-        {
-            contractAddress: mockDataTokenTest[2].address,
-            entrypoint: 'mint',
-            calldata: [address, getTokenAmountInWei(mockDataTokenTest[2].freeToken, mockDataTokenTest[2].decimals), 0],
-        },
-    ];
-
-    const handleClaimFreeToken = () => {
-        if (status == 'connected') {
-            execute();
-        } else {
-            alert('Please connect wallet');
-        }
-    };
-
-    const { execute } = useStarknetExecute({ calls });
-    const data = [
-        { name: 'Tháng 1', doanhThu: 2400, chiPhi: 800, loiNhuan: 1600 },
-        { name: 'Tháng 2', doanhThu: 1398, chiPhi: 1200, loiNhuan: 198 },
-        { name: 'Tháng 3', doanhThu: 9800, chiPhi: 2000, loiNhuan: 7800 },
-        { name: 'Tháng 4', doanhThu: 3908, chiPhi: 2780, loiNhuan: 1128 },
-        { name: 'Tháng 5', doanhThu: 4800, chiPhi: 1890, loiNhuan: 2910 },
-        { name: 'Tháng 6', doanhThu: 3800, chiPhi: 2390, loiNhuan: 1410 },
-        { name: 'Tháng 7', doanhThu: 4300, chiPhi: 3490, loiNhuan: 810 },
-    ];
-
-    // const formatTimestamp = (dateStr) => {
-    //     const months = [
-    //         'January',
-    //         'February',
-    //         'March',
-    //         'April',
-    //         'May',
-    //         'June',
-    //         'July',
-    //         'August',
-    //         'September',
-    //         'October',
-    //         'November',
-    //         'December',
-    //     ];
-    //     const date = new Date(Date.parse(dateStr));
-
-    //     const day = date.getDate().toString().padStart(2, '0');
-    //     const month = months[date.getMonth()];
-    //     const year = date.getFullYear();
-    //     const hours = date.getHours();
-    //     const minutes = date.getMinutes().toString().padStart(2, '0');
-    //     const seconds = date.getSeconds().toString().padStart(2, '0');
-    //     const ampm = hours >= 12 ? 'PM' : 'AM';
-    //     const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes} ${ampm}`;
-    //     return formattedDate;
-    // };
 
     function formatTimestamp(timestamp) {
         const date = new Date(timestamp);
@@ -1130,19 +1068,20 @@ const SwapPage = () => {
     }
 
     function formatPrice3(price) {
-        console.log('🚀 ~ file: index.js:1002 ~ formatPrice3 ~ price:', price);
-        let formattedPrice = 0;
-        if (price > 1) {
-            formattedPrice = Number(price).toFixed(2);
-        } else {
-            formattedPrice = Number(price).toFixed(6);
-        }
-        return parseFloat(formattedPrice);
+        // console.log('🚀 ~ file: index.js:1002 ~ formatPrice3 ~ price:', price);
+        // let formattedPrice = 0;
+        // if (price > 1) {
+        //     formattedPrice = Number(price / 10 ** 18).toFixed(2);
+        // } else {
+        //     formattedPrice = Number(price).toFixed(6);
+        // }
+        // return parseFloat(formattedPrice);
+        return formatEther(price);
     }
 
     const convertToLocalTime = (timestamp) => {
         // Create a Date object from the given timestamp
-        const date = new Date(timestamp);
+        const date = new Date(timestamp * 1000);
 
         // Format the date and time
         const year = date.getFullYear();
@@ -1159,6 +1098,7 @@ const SwapPage = () => {
     const [dateCurrent, setDateCurrent] = useState();
     const [activeIndex, setActiveIndex] = useState(0);
     const [rowsData, setRowsData] = useState([]); // TODO
+    const [pairAddr, setPairAddr] = useState(':');
 
     // useEffect(() => {
     //     if (historicalPrices && historicalPrices.length > 0) {
@@ -1197,12 +1137,16 @@ const SwapPage = () => {
     }
 
     useEffect(() => {
-        async function getSwapTx() {
-            let res = await axios.get(`https://api.starksport.finance/api/swap-transactions/latest`);
-            setRowsData(res.data);
+        async function getSwapTx(pairAddr) {
+            try {
+                const tokens = pairAddr.split(':');
+                if (tokens.length != 2 || !isAddress(tokens[0]) || !isAddress(tokens[1])) return;
+                let res = await axios.get(`https://api-zeta.starksport.finance/indexer/tx/${pairAddr}`);
+                setRowsData(res.data);
+            } catch (error) {}
         }
-        getSwapTx();
-    }, []);
+        getSwapTx(pairAddr);
+    }, [pairAddr]);
 
     // Handle short address type
     const shortAddress = (address) => {
@@ -1264,7 +1208,7 @@ const SwapPage = () => {
                     </AreaChart>
                 </div>
 
-                <FormSwap setVol={setVol} setHistoricalPrices={setHistoricalPrices} />
+                <FormSwap setVol={setVol} setHistoricalPrices={setHistoricalPrices} setPairAddr={setPairAddr} />
             </div>
 
             {/* <div className="form-claim">
@@ -1330,26 +1274,24 @@ const SwapPage = () => {
                                     <TableCell
                                         style={{ textAlign: 'center', cursor: 'pointer' }}
                                         onClick={() => {
-                                            openInNewTab(`https://starkscan.co/tx/` + row.tx_hash);
+                                            openInNewTab(`https://athens3.explorer.zetachain.com/evm/tx/` + row.txHash);
                                         }}
                                     >
-                                        {shortAddress(row.tx_hash)}
+                                        {shortAddress(row.txHash)}
                                         <img
                                             src={svg.link}
                                             style={{ height: 13, width: 13, marginLeft: 5, marginBottom: 15 }}
                                         />
                                     </TableCell>
+                                    <TableCell style={{ textAlign: 'center' }}>{shortAddress(row.from)}</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>
-                                        {shortAddress(row.sender_address)}
+                                        {formatPrice3(row.tokenAmountIn) + ' ' + row.tokenIn}
                                     </TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>
-                                        {formatPrice3(row.amount_in) + ' ' + row.token_in_symbol}
+                                        {formatPrice3(row.tokenAmountOut) + ' ' + row.tokenOut}
                                     </TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>
-                                        {formatPrice3(row.amount_out) + ' ' + row.token_out_symbol}
-                                    </TableCell>
-                                    <TableCell style={{ textAlign: 'center' }}>
-                                        {convertToLocalTime(row.transaction_timestamp)}
+                                        {convertToLocalTime(row.timestamp)}
                                     </TableCell>
                                 </TableRow>
                             ))}

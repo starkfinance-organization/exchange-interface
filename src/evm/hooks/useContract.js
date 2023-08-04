@@ -34,7 +34,6 @@ export async function callStaticContract(contract, method, args, overrides = {})
         // console.log(staticTx);
         if (typeof staticTx.wait !== 'function') return staticTx;
         const res = await staticTx.wait();
-        console.log(res);
         return res;
     } catch (error) {
         console.error(error);

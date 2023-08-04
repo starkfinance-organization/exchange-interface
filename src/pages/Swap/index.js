@@ -1070,8 +1070,10 @@ const SwapPage = () => {
 
     useEffect(() => {
         async function getSwapTx() {
-            let res = await axios.get(`https://api.starksport.finance/api/swap-transactions/latest`);
-            setRowsData(res.data);
+            try {
+                let res = await axios.get(`https://api.starksport.finance/api/swap-transactions/latest`);
+                setRowsData(res.data);
+            } catch (error) {}
         }
         getSwapTx();
     }, []);
