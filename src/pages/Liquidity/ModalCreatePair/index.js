@@ -1314,6 +1314,34 @@ const FormSwap = ({ setIsShowCreatePair }) => {
             fetchData();
         }
     }, [token0InputAmount]);
+
+    const percentNumbers = [
+            {
+                number: 25,
+                handleChossingPercent: () => {
+                return;
+                }
+            },
+            {
+                number: 50,
+                handleChossingPercent: () => {
+                return;  
+                }
+            },
+            {
+                number: 75,
+                handleChossingPercent: () => {
+                return;  
+                }
+            },
+            {
+                number: 100,
+                handleChossingPercent: () => {
+                return;  
+                }
+            }
+    ]
+
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2, margin: 0 }}>
             <ModalSelectToken
@@ -1352,9 +1380,16 @@ const FormSwap = ({ setIsShowCreatePair }) => {
                             <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
                         </div>
                     </div>
-                    <div className="input-balance-wrapper">
+                    <div className="input-balance-wrapper" style={{marginBottom: 10}}>
                         <p>Balance: {token0BalanceAmount}</p>
                     </div>
+
+                    <div className='wrapper-percent'>
+                        {percentNumbers.map((item, index) => {
+                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                        })}
+                    </div>
+
                 </div>
             </div>
             <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
