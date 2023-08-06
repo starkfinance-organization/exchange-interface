@@ -244,12 +244,13 @@
 
             .btn-percent {
                 background-color: transparent;
-                border: 2px solid #24C3BC;
+                border: 1px solid #24C3BC;
                 border-radius: 999px;
-                padding: 0 12px;
+                padding: 0 8px;
                 cursor: pointer;
 
                 p {
+                    font-size: 1.2rem;
                     color: #24C3BC;
                 }
             }
