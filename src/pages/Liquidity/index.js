@@ -1878,6 +1878,33 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
 
     const { isShowingSetting, toggleSettingSwap } = useModalSettingSwap();
 
+    const percentNumbers = [
+        {
+            number: 25,
+            handleChossingPercent: () => {
+              return;
+            }
+        },
+        {
+            number: 50,
+            handleChossingPercent: () => {
+              return;  
+            }
+        },
+        {
+            number: 75,
+            handleChossingPercent: () => {
+              return;  
+            }
+        },
+        {
+            number: 100,
+            handleChossingPercent: () => {
+              return;  
+            }
+        }
+    ]
+
     return (
         <Modal
             open={isShowAddLiquidity}
@@ -1955,9 +1982,16 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 />
                             </div>
                         </div>
-                        <div className="input-balance-wrapper">
+                        <div className="input-balance-wrapper" style={{marginBottom: 10}}>
                             <p>Balance: {token0BalanceAmount}</p>
                         </div>
+
+                        <div className='wrapper-percent'>
+                            {percentNumbers.map((item, index) => {
+                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                            })}
+                        </div>
+
                     </div>
                 </div>
                 <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>

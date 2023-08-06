@@ -234,6 +234,25 @@
                     cursor: pointer;
                 }
             }
+
+            .wrapper-percent {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: end;
+                gap: 10px;
+            }
+
+            .btn-percent {
+                background-color: transparent;
+                border: 2px solid #24C3BC;
+                border-radius: 999px;
+                padding: 0 12px;
+                cursor: pointer;
+
+                p {
+                    color: #24C3BC;
+                }
+            }
         }
 
         .icon-swap-wrapper {
