@@ -9,7 +9,9 @@
     justify-content: center;
 
     .left {
-
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .title-1 {
             font-size: 24px;
@@ -54,7 +56,6 @@
     }
 
     .right {
-
         display: flex;
         align-items: center;
         justify-content: center;
@@ -68,8 +69,6 @@
 
     @media (max-width: 1200px) {
         gap: 0;
-
-        
     }
 
     @media (max-width: 768px) {
@@ -129,7 +128,6 @@
     }
 
     @media (max-width: 480px) {
-
         .left {
             display: flex;
             justify-content: center;

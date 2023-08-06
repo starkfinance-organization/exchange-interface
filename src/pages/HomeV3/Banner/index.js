@@ -30,9 +30,9 @@ function Banner() {
                     <p className="btn__title">MINT NOW</p>
                 </div>
             </div>
-            <div className="right">
+            {/* <div className="right">
                 <img className="logo-banner" src={assets.images.logo_gif} alt="" />
-            </div>
+            </div> */}
         </div>
     );
 }
