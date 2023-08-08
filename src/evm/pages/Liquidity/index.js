@@ -397,10 +397,10 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                         </div>
 
                         <div className='wrapper-percent' style={{marginTop: 10}}>
-                        {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
-                        })}
-                    </div>
+                            {percentNumbers.map((item, index) => {
+                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                            })}
+                        </div>
 
                     </div>
                 </div>
