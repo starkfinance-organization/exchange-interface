@@ -834,6 +834,33 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
         })();
     }, [handleSearchToken]);
 
+    const percentNumbers = [
+        {
+            number: 25,
+            handleChoosingPercent: () => {
+              return;
+            }
+        },
+        {
+            number: 50,
+            handleChoosingPercent: () => {
+              return;  
+            }
+        },
+        {
+            number: 75,
+            handleChoosingPercent: () => {
+              return;  
+            }
+        },
+        {
+            number: 100,
+            handleChoosingPercent: () => {
+              return;  
+            }
+        }
+    ]
+
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2 }}>
             {/* Select token modal */}
@@ -956,14 +983,21 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                     <div className="input-balance-wrapper">
                         <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
                     </div>
+
+                    <div className='wrapper-percent'>
+                        {percentNumbers.map((item, index) => {
+                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                        })}
+                    </div>
+
                 </div>
             </div>
 
             <div
                 className="center icon-swap-wrapper"
                 style={{
-                    marginTop: -20,
-                    marginBottom: -20,
+                    marginTop: 4,
+                    marginBottom: 4,
                     zIndex: 99,
                     border: '4px solid #26193c',
                     cursor: 'pointer',
