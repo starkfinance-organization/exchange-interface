@@ -32,517 +32,9 @@ import { approves, getAllowances, getToken } from '../../state/erc20';
 import { isAddress } from '../../utils/index.js';
 import { Button, Modal } from 'antd';
 
-const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
-// const provider = new RpcProvider({
-//     nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
-// });
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
-const erc20abi = [
-    {
-        members: [
-            {
-                name: 'low',
-                offset: 0,
-                type: 'felt',
-            },
-            {
-                name: 'high',
-                offset: 1,
-                type: 'felt',
-            },
-        ],
-        name: 'Uint256',
-        size: 2,
-        type: 'struct',
-    },
-    {
-        data: [
-            {
-                name: 'from_',
-                type: 'felt',
-            },
-            {
-                name: 'to',
-                type: 'felt',
-            },
-            {
-                name: 'value',
-                type: 'Uint256',
-            },
-        ],
-        keys: [],
-        name: 'Transfer',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'owner',
-                type: 'felt',
-            },
-            {
-                name: 'spender',
-                type: 'felt',
-            },
-            {
-                name: 'value',
-                type: 'Uint256',
-            },
-        ],
-        keys: [],
-        name: 'Approval',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'account',
-                type: 'felt',
-            },
-        ],
-        keys: [],
-        name: 'Paused',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'account',
-                type: 'felt',
-            },
-        ],
-        keys: [],
-        name: 'Unpaused',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'previousOwner',
-                type: 'felt',
-            },
-            {
-                name: 'newOwner',
-                type: 'felt',
-            },
-        ],
-        keys: [],
-        name: 'OwnershipTransferred',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'implementation',
-                type: 'felt',
-            },
-        ],
-        keys: [],
-        name: 'Upgraded',
-        type: 'event',
-    },
-    {
-        data: [
-            {
-                name: 'previousAdmin',
-                type: 'felt',
-            },
-            {
-                name: 'newAdmin',
-                type: 'felt',
-            },
-        ],
-        keys: [],
-        name: 'AdminChanged',
-        type: 'event',
-    },
-    {
-        inputs: [
-            {
-                name: 'owner',
-                type: 'felt',
-            },
-            {
-                name: 'recipient',
-                type: 'felt',
-            },
-            {
-                name: 'proxy_admin',
-                type: 'felt',
-            },
-        ],
-        name: 'initializer',
-        outputs: [],
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'name',
-        outputs: [
-            {
-                name: 'name',
-                type: 'felt',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'symbol',
-        outputs: [
-            {
-                name: 'symbol',
-                type: 'felt',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'totalSupply',
-        outputs: [
-            {
-                name: 'totalSupply',
-                type: 'Uint256',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'decimals',
-        outputs: [
-            {
-                name: 'decimals',
-                type: 'felt',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'account',
-                type: 'felt',
-            },
-        ],
-        name: 'balanceOf',
-        outputs: [
-            {
-                name: 'balance',
-                type: 'Uint256',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'owner',
-                type: 'felt',
-            },
-            {
-                name: 'spender',
-                type: 'felt',
-            },
-        ],
-        name: 'allowance',
-        outputs: [
-            {
-                name: 'remaining',
-                type: 'Uint256',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'paused',
-        outputs: [
-            {
-                name: 'paused',
-                type: 'felt',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'owner',
-        outputs: [
-            {
-                name: 'owner',
-                type: 'felt',
-            },
-        ],
-        stateMutability: 'view',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'recipient',
-                type: 'felt',
-            },
-            {
-                name: 'amount',
-                type: 'Uint256',
-            },
-        ],
-        name: 'transfer',
-        outputs: [
-            {
-                name: 'success',
-                type: 'felt',
-            },
-        ],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'sender',
-                type: 'felt',
-            },
-            {
-                name: 'recipient',
-                type: 'felt',
-            },
-            {
-                name: 'amount',
-                type: 'Uint256',
-            },
-        ],
-        name: 'transferFrom',
-        outputs: [
-            {
-                name: 'success',
-                type: 'felt',
-            },
-        ],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'spender',
-                type: 'felt',
-            },
-            {
-                name: 'amount',
-                type: 'Uint256',
-            },
-        ],
-        name: 'approve',
-        outputs: [
-            {
-                name: 'success',
-                type: 'felt',
-            },
-        ],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'spender',
-                type: 'felt',
-            },
-            {
-                name: 'added_value',
-                type: 'Uint256',
-            },
-        ],
-        name: 'increaseAllowance',
-        outputs: [
-            {
-                name: 'success',
-                type: 'felt',
-            },
-        ],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'spender',
-                type: 'felt',
-            },
-            {
-                name: 'subtracted_value',
-                type: 'Uint256',
-            },
-        ],
-        name: 'decreaseAllowance',
-        outputs: [
-            {
-                name: 'success',
-                type: 'felt',
-            },
-        ],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'newOwner',
-                type: 'felt',
-            },
-        ],
-        name: 'transferOwnership',
-        outputs: [],
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'renounceOwnership',
-        outputs: [],
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'pause',
-        outputs: [],
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'unpause',
-        outputs: [],
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                name: 'new_implementation',
-                type: 'felt',
-            },
-        ],
-        name: 'upgrade',
-        outputs: [],
-        type: 'function',
-    },
-];
-
-const mockDataTokenTest = [
-    {
-        name: 'WBTC',
-        icon: assets.svg.btc,
-        address: '0x3fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac',
-        decimals: 8,
-        freeToken: 1,
-    },
-    {
-        name: 'ETH',
-        icon: assets.images.eth,
-        address: '0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
-        decimals: 18,
-        freeToken: 10000,
-    },
-    {
-        name: 'USDC',
-        icon: assets.images.usdc,
-        address: '0x53c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8',
-        decimals: 6,
-        freeToken: 5000,
-    },
-    {
-        name: 'USDT',
-        icon: assets.images.usdt,
-        address: '0x68f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8',
-        decimals: 6,
-        freeToken: 10000,
-    },
-    {
-        name: 'DAI',
-        icon: assets.images.dai,
-        address: '0xda114221cb83fa859dbdb4c44beeaa0bb37c7537ad5ae66fe5e0efd20e6eb3',
-        decimals: 18,
-        freeToken: 10000,
-    },
-    {
-        name: 'SFN',
-        icon: assets.images.newlogo,
-        address: '0x482c9ba8eac039eba45c875eeac660eb91768ca4a32cf3c5ae804cc62dccd2',
-        decimals: 18,
-        freeToken: 10000,
-    },
-];
-
-function getTokenAmountInWei(amount, decimals) {
-    // const base = new BigNumber(10).exponentiatedBy(decimals);
-    // const tokenAmountInWei = new BigNumber(amount).multipliedBy(base);
-    // const tokenAmountInWeiString = BigInt(tokenAmountInWei.toString()).value.toString();
-    // return tokenAmountInWeiString;
-    return '';
-}
-
-function getTokenAmountInEther(amount, decimals) {
-    // const tokenAmountInWei = new BigNumber(amount);
-    // const etherAmount = tokenAmountInWei.dividedBy(new BigNumber(10 ** decimals));
-    // return etherAmount.toFixed(6);
-    return '';
-}
-
-function getDeadlineTime() {
-    const unixTimeSeconds = Math.floor(new Date().getTime() / 1000); // current Unix time in seconds
-    const fiveMinutesInSeconds = 20 * 60; // convert 20 minutes to seconds
-    const newUnixTimeSeconds = unixTimeSeconds + fiveMinutesInSeconds; // add 20 minutes to the current Unix time
-    return newUnixTimeSeconds;
-}
-const getCurrentDateInUTC = () => {
-    const now = new Date();
-
-    const year = now.getUTCFullYear();
-    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-    const day = String(now.getUTCDate()).padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-};
-
 const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
-    const { address, status } = useAccount();
     const [isShow, setIsShow] = useState(false);
     const navigate = useNavigate();
-
-    const inputToken0Ref = useRef(null);
-
-    // Token Picker
-    const [token0, setToken0] = useState(mockDataTokenTest[0]);
-    const [token1, setToken1] = useState(mockDataTokenTest[1]);
-    const [typeModal, setTypeModal] = useState(1);
-
-    // Token 0 Input Amount
-    const [token0InputAmount, setToken0InputAmount] = useState(0);
-    const initialRender = useRef(true);
-    const handleToken0InputAmountChange = (event) => {
-        if (event.target.value === '') {
-            setToken0InputAmount(0);
-            setToken1OutputAmount(0);
-            setToken1OutputDisplayAmount(0);
-        } else {
-            setToken0InputAmount(getTokenAmountInWei(event.target.value, token0.decimals));
-        }
-    };
-
-    // Token 1 Output Amount
-    const [token1OutputAmount, setToken1OutputAmount] = useState(0);
-
-    // Token 1 Output Display Amount
-    const [token1OutputDisplayAmount, setToken1OutputDisplayAmount] = useState(0);
-
-    // Token 0 Balance
-    const [token0BalanceAmount, setToken0BalanceAmount] = useState(0);
-
-    // Token 1 Balance
-    const [token1BalanceAmount, setToken1BalanceAmount] = useState(0);
 
     // Slippage
     const [slippagePercentage, setSlippagePercentage] = useState(0.5);
@@ -566,7 +58,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
     };
 
     useEffect(() => {
-        async function getPairId(token0Address, token1Address) {
+        async function getPairId() {
             try {
                 let res = await axios.get(
                     `https://api.starksport.finance/api/token-pairs/0x3fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac/0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7`,
@@ -583,8 +75,8 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                 console.log(error);
             }
         }
-        getPairId(token0.address, token1.address);
-    }, [token0, token1]);
+        getPairId();
+    }, []);
 
     const openModalSetting = () => {
         toggleSettingSwap();
@@ -834,32 +326,43 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
         })();
     }, [handleSearchToken]);
 
+    const setTokenAmountByPercentOfBalance = (percent, independentField) => {
+        const balance =
+            independentField === Field.INPUT ? balances?.[0]?.raw.toString() : balances?.[1]?.raw.toString();
+        const value = !balance ? '' : BigNumber.from(balance).mul(BigNumber.from(percent)).div(BigNumber.from(100));
+        handleChangeAmounts(formatEther(value.toString()).toString(), independentField);
+    };
+
     const percentNumbers = [
         {
             number: 25,
-            handleChoosingPercent: () => {
-              return;
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(25, independentField);
+                return;
+            },
         },
         {
             number: 50,
-            handleChoosingPercent: () => {
-              return;  
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(50, independentField);
+                return;
+            },
         },
         {
             number: 75,
-            handleChoosingPercent: () => {
-              return;  
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(75, independentField);
+                return;
+            },
         },
         {
             number: 100,
-            handleChoosingPercent: () => {
-              return;  
-            }
-        }
-    ]
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(100, independentField);
+                return;
+            },
+        },
+    ];
 
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2 }}>
@@ -984,12 +487,19 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                         <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
                     </div>
 
-                    <div className='wrapper-percent'>
+                    <div className="wrapper-percent">
                         {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                            return (
+                                <button
+                                    key={index}
+                                    className="btn-percent"
+                                    onClick={() => item.handleChoosingPercent(Field.INPUT)}
+                                >
+                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                </button>
+                            );
                         })}
                     </div>
-
                 </div>
             </div>
 

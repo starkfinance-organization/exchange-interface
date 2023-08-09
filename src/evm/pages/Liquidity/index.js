@@ -9,7 +9,7 @@ import PoolComponent from './Pools';
 import './style.scss';
 
 import { BigNumber } from '@ethersproject/bignumber';
-import { formatUnits, parseUnits } from '@ethersproject/units';
+import { formatEther, formatUnits, parseUnits } from '@ethersproject/units';
 import { Token, TokenAmount } from '@uniswap/sdk';
 import { Fraction } from '@uniswap/sdk-core';
 import { Field, ROUTER_ADDRESS, TOKEN_ICON_LIST, TOKEN_LIST, UNKNOWN_TOKEN_ICON, WETH } from '../../configs/networks';
@@ -285,32 +285,43 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
         setIsShow(true);
     };
 
+    const setTokenAmountByPercentOfBalance = (percent, independentField) => {
+        const balance =
+            independentField === Field.INPUT ? balances?.[0]?.raw.toString() : balances?.[1]?.raw.toString();
+        const value = !balance ? '' : BigNumber.from(balance).mul(BigNumber.from(percent)).div(BigNumber.from(100));
+        handleChangeAmounts(formatEther(value.toString()).toString(), independentField);
+    };
+
     const percentNumbers = [
         {
             number: 25,
-            handleChoosingPercent: () => {
-              return;
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(25, independentField);
+                return;
+            },
         },
         {
             number: 50,
-            handleChoosingPercent: () => {
-              return;  
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(50, independentField);
+                return;
+            },
         },
         {
             number: 75,
-            handleChoosingPercent: () => {
-              return;  
-            }
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(75, independentField);
+                return;
+            },
         },
         {
             number: 100,
-            handleChoosingPercent: () => {
-              return;  
-            }
-        }
-    ]
+            handleChoosingPercent: (independentField) => {
+                setTokenAmountByPercentOfBalance(100, independentField);
+                return;
+            },
+        },
+    ];
 
     return (
         <Modal
@@ -396,12 +407,19 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                             <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
                         </div>
 
-                        <div className='wrapper-percent' style={{marginTop: 10}}>
+                        <div className="wrapper-percent" style={{ marginTop: 10 }}>
                             {percentNumbers.map((item, index) => {
-                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                                return (
+                                    <button
+                                        key={index}
+                                        className="btn-percent"
+                                        onClick={() => item.handleChoosingPercent(Field.INPUT)}
+                                    >
+                                        <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                    </button>
+                                );
                             })}
                         </div>
-
                     </div>
                 </div>
                 <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
