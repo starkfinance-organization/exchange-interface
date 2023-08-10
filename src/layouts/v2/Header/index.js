@@ -117,12 +117,20 @@ const HeaderLayout = () => {
                     }}
                 >
                     <img src={assets.images.logo} alt="logo" style={{ height: '5rem', width: '5rem' }} />
-                    <h2 className="header__title">Stark Sport</h2>
+                    <h2 className="header__title">STARKSPORT</h2>
                 </div>
-
-                <div className="header__nav row ">
+            </div>
+            <div className="header__nav row ">
+                    <div
+                        className="header__item p-15"
+                        onClick={() => {
+                            openInNewTab('https://starksport.finance/');
+                        }}
+                    >
+                        <h4 style={{color: "white"}}>Home</h4>
+                    </div>
                     <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
-                        <h4>Exchange</h4>
+                        <h4 style={{color: "white"}}>Exchange</h4>
 
                         {showMenu && (
                             <div ref={menuRef} className="menu col">
@@ -164,17 +172,14 @@ const HeaderLayout = () => {
 
                     <div
                         className="header__item p-15"
-                        onClick={() => openInNewTab('https://marketplace.starksport.finance')}
+                        onClick={() => {
+                            openInNewTab('https://marketplace.starksport.finance/');
+                        }}
                     >
                         <h4>Marketplace</h4>
                     </div>
 
-                    <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            navClick(route.launchpad);
-                        }}
-                    >
+                    <div className="header__item p-15" onClick={() => navClick(route.launchpad)}>
                         <h4>Launchpads</h4>
                     </div>
 
@@ -243,7 +248,6 @@ const HeaderLayout = () => {
                         <h4>Documentation</h4>
                     </div>
                 </div>
-            </div>
 
             <div className="row g-20">
                 <ButtonConnectWallet />

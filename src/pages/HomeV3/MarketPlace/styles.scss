@@ -9,13 +9,16 @@
     .wrapper-title {
         text-align: center;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
+    .title {
+        max-width: 800px;
+    }
 
     .subtitle {
         font-size: 24px;
-        line-height: 38px;
+        line-height: 30px;
         font-weight: 400;
     }
 
@@ -24,9 +27,13 @@
     }
 
     @media (max-width: 768px) {
+
+        .title {
+            max-width: 600px;
+        }
  
         .subtitle {
-            font-size: 20px;
+            font-size: 16px;
             margin: 0 20px;
         }
 

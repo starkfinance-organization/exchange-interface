@@ -4,11 +4,11 @@
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
-    gap: 30px;
+    // gap: 30px;
 
     .title {
-        width: 610px;
-        height: 36px;
+        max-width: 800px;
+        padding: 0 10px;
     }
     .wrapper-logos {
         display: flex;
@@ -20,8 +20,8 @@
     }
 
     .message {
-        font-size: 24px;
-        font-weight: 400;
+        font-size: 32px;
+        font-weight: 600;
     }
 
     .logos-line-1 {
@@ -45,13 +45,20 @@
     }
 
     @media (max-width: 767px) {
-        gap: 20px;
+        // gap: 20px;
+
+        .title {
+            max-width: 600px;
+        }
 
         .message {
             font-size: 20px;
         }
-        .title {
-            width: 300px;
+    }
+
+    @media (max-width:480px) {
+        .message {
+            font-size: 16px;
         }
     }
 }

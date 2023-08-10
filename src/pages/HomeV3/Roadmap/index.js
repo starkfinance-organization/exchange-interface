@@ -7,7 +7,8 @@ function Roadmap() {
     const withDevice = window.innerWidth;
     return (
         <div className='wrapper-roadmap'>
-            <p className='title-size'>ROADMAP</p>
+            <img className='title' src={assets.images.ROAD_MAP} alt="" />
+            {/* <p className='title-size'>ROADMAP</p> */}
             <div className='wrapper-overflow'>
             {withDevice > 480 ? 
                 (

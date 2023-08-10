@@ -16,11 +16,11 @@ const Drawer = ({ isShowing, hide }) => {
         win.focus();
     };
 
-    return isShowing
-        ? ReactDOM.createPortal(
+    return ReactDOM.createPortal(
               <React.Fragment>
-                  <div className="drawer-overlay" onClick={hide} />
-                  <div className="drawer-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
+                {isShowing && <div className="drawer-overlay" onClick={hide} />}
+                {/* <div className="drawer-overlay" onClick={hide} /> */}
+                  <div className={`drawer-wrapper ${isShowing ? 'show-drawer' : ''}`} aria-modal aria-hidden tabIndex={-1} role="dialog">
                       <div
                           className="drawer"
                           onClick={(event) => {
@@ -29,7 +29,7 @@ const Drawer = ({ isShowing, hide }) => {
                       >
                           <p
                               className="drawer__item"
-                              onClick={() => openInNewTab('https://marketplace.starksport.finance')}
+                              onClick={() => openInNewTab('https://marketplace.starksport.finance/events')}
                           >
                               Marketplace
                           </p>
@@ -55,12 +55,7 @@ const Drawer = ({ isShowing, hide }) => {
                               Yield Farms
                           </p>
 
-                          <p
-                              className="drawer__item"
-                              onClick={() => {
-                                  navClick(route.launchpad);
-                              }}
-                          >
+                          <p className="drawer__item" onClick={() => navClick(route.launchpad)}>
                               Launchpads
                           </p>
 
@@ -73,8 +68,8 @@ const Drawer = ({ isShowing, hide }) => {
                         </p> */}
 
                           {/* <p className="drawer__item" onClick={() => navClick(route.info)}>
-                            Info
-                        </p> */}
+                              Info
+                          </p> */}
 
                           {/* <p
                               className="drawer__item"
@@ -97,7 +92,7 @@ const Drawer = ({ isShowing, hide }) => {
               </React.Fragment>,
               document.body,
           )
-        : null;
+        ;
 };
 
 export default Drawer;

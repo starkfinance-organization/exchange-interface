@@ -13,16 +13,16 @@ function SecurityAndAudit() {
             <img id='bg-security-audit' className="bg-security-audit" src={assets.images.bg_security_audit} alt="" />
             <div className="logos-certik-stark">
                 <div>
-                    <img src={assets.images.certik_audit} alt="" />
+                    <img className='logo_item' src={assets.images.certik_audit} alt="" />
                 </div>
-                <div>
-                    <img src={assets.images.audit_logo_white} alt="" />
+                <div className='logo_right'>
+                    <img className='logo_item' src={assets.images.audit_logo_white} alt="" />
                 </div>
             </div>
             <div className="content">
                 <img className="logo-audit" src={assets.images.gif2} alt="" />
-                {/* <img className="title" src={assets.images.secutity_audit} alt='' /> */}
-                <p className='title-size'>SECURITY & AUDIT</p>
+                <img className="title" src={assets.images.SECURITY_AUDIT} alt='' />
+                {/* <p className='title-size'>SECURITY & AUDIT</p> */}
                 <p className="subtitle">
                     Due to the experimental nature of our platform, we consider security a top priority.
                     <br />

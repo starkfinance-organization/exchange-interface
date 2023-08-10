@@ -7,15 +7,13 @@
     gap: 50px;
 
     .our-features-img {
-        margin-bottom: 50px;
-        width: 450px;
-        height: 43px;
+        max-width: 450px;
     }
 
     .items {
         width: 100%;
         display: flex;
-        gap: 20px;
+        gap: 24px;
         flex-wrap: wrap;
         justify-content: center;
     }
@@ -56,6 +54,7 @@
         font-size: 16px;
         font-weight: 400;
         line-height: 20px;
+        color: #ffffffb3;
     }
 
     @media (max-width: 1200px) {
@@ -75,7 +74,8 @@
             width: 330px;
         }
         .our-features-img {
-            width: 300px;
+            max-width: 350px;
+            padding: 0 10px;
         }
     }
 }

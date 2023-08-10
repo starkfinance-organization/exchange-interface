@@ -11,8 +11,8 @@ function Earnings() {
                 <img src={assets.images.background_Manchester_Unit} alt=''/>
             </div>
             <div className='content'>
-                {/* <img className='title' src={assets.images.starkport_earnings} alt='' /> */}
-                <p className='title-size'>STARKSPORT EARNINGS</p>
+                <img className='title' src={assets.images.STARKSPORT_EARNINGS} alt='' />
+                {/* <p className='title-size'>STARKSPORT EARNINGS</p> */}
                 <p className='subtitle'>We provide benefits for long term users of the protocol.<br/>You can get a huge profits with your assets.</p>
                 <div
                     className="btn"

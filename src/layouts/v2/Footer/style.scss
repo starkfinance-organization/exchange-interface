@@ -13,6 +13,7 @@
     border-radius: 4px;
     border-width: 4px;
     background-image: linear-gradient(to right bottom, #ffffff47, #ffffff00);
+    cursor: pointer;
   }
 
   .icon {
@@ -23,6 +24,7 @@
   .subtitle-footer {
     font-size: 20px;
     font-weight: 500;
+    color: #ffffffb3;
   }
 
   @media (max-width: 768px) {

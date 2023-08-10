@@ -11,8 +11,8 @@ function OurFeatures() {
     return (
         <div className="wrapper-our-features">
             <div>
-                {/* <img className="our-features-img" src={assets.images.ourfeatures} alt="" /> */}
-                <p className='title-size'>OUR FEATURES</p>
+                <img className="our-features-img" src={assets.images.OUR_FEATURES} alt="" />
+                {/* <p className='title-size'>OUR FEATURES</p> */}
             </div>
 
             <div className="items">

@@ -105,8 +105,10 @@ function Partners() {
     const line_2 = collabsAndPartners.find(item => item.line === 2);
     return (
         <div className="wrapper-partners">
-            {/* <img className="title" src={assets.images.collabs_partners} alt="" /> */}
-            <p className='title-size'>COLLABS & PARTNERS</p>
+            <div className='wrapper-title'>
+                <img className="title" src={assets.images.COLLAB_AND_PARTNERS} alt="" />
+            </div>
+            {/* <p className='title-size'>COLLABS & PARTNERS</p> */}
             {showArrow ? (<div className='scroll-arrow fade-in-out'><img className='arrow' src={assets.svg.arrow_right} alt=''/></div>) : <></>}
             <div className='wrapper-logos' onScroll={handleScroll} >
                 <div className="logos">

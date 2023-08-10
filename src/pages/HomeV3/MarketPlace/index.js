@@ -11,8 +11,8 @@ function MarketPlace() {
     return (
         <div className="wrapper-martketplace">
             <div className="wrapper-title">
-                {/* <img className="title" src={assets.images.markrtplace} alt="" /> */}
-                <p className='title-size'>STARKSPORT NFT MARKETPLACE</p>
+                <img className="title" src={assets.images.STARKSPORT_NFT_MARKETPLACE} alt="" />
+                {/* <p className='title-size'>STARKSPORT NFT MARKETPLACE</p> */}
                 <p className="subtitle">
                     You can own unique NFTs from others or participate in an auction for rare ones
                 </p>
