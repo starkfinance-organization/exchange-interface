@@ -6,17 +6,18 @@
 
     .header__nav {
         flex: 1;
-        justify-content: space-evenly;
+        justify-content: flex-start;
+        margin-left: 32px;
     }
 
     .header__item {
-        &>h4 {
+        & > h4 {
             color: #9393c4;
             font-weight: 700;
         }
 
         &:hover {
-            &>h4 {
+            & > h4 {
                 color: #c2c2e4;
             }
 
@@ -91,7 +92,7 @@
     padding: 0 1.5rem;
 
     .btn-conc__title {
-        color: #c2c2e4;
+        color: #fff;
         font-size: 1.3rem;
         text-align: center;
     }

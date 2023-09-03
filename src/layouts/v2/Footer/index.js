@@ -3,7 +3,7 @@ import './style.scss';
 
 const FooterLayout = () => {
     const contactData = {
-        telegram: 'https://t.me/starksportglobal',
+        // telegram: 'https://t.me/starksportglobal',
         telegramChannel: 'https://t.me/starksportchanel',
         twitter: 'https://twitter.com/starkfinance',
         discord: 'https://discord.com/invite/starksport',
@@ -22,14 +22,36 @@ const FooterLayout = () => {
 
                 <div className='wrapper-logo-footer'>
                     <div className='border-logo'>
-                        <img
+                    <img
                         src={assets.svg.iconTelegram}
                         alt="discord"
-                        className='icon'
+                        className="icon"
                         onClick={() => {
                             openInNewTab(contactData.telegramChannel);
                         }}
                     />
+                </div>
+
+                {/* <div className='border-logo'>
+                    <img
+                        src={assets.svg.iconTelegram}
+                        alt="discord"
+                        className='icon'
+                        onClick={() => {
+                            openInNewTab(contactData.telegram);
+                        }}
+                    />
+                </div> */}
+                <div className='wrapper-logo-footer'>
+                    <div className="border-logo">
+                        <img
+                            src={assets.svg.iconDiscord}
+                            alt="discord"
+                            className="icon"
+                            onClick={() => {
+                                openInNewTab(contactData.discord);
+                            }}
+                        />
                     </div>
                 </div>
                 
@@ -85,14 +107,12 @@ const FooterLayout = () => {
                         />
                     </div>
                 </div>
-                
-                
-                
             </div>
-            <div style={{color: "#ffffffb3"}}>
+            <div style={{ color: '#ffffffb3' }}>
                 <p className="text-center subtitle-footer">Contact: support@starksport.finance</p>
                 <p className="text-center subtitle-footer">2023 © Copyright STARKSPORT. All Rights Reserved</p>
             </div>
+        </div>
         </div>
     );
 };

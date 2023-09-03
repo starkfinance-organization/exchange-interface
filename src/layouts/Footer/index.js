@@ -18,7 +18,7 @@ const Footer = () => {
         <div className="footer-layout row">
             <div className="col gap-4">
                 <div className="row a-center gap-10">
-                    <img src={assets.images.newlogo} style={{ height: 30, width: 30, borderRadius: 50 }} />
+                    <img src={assets.images.logo} style={{ height: 30, width: 30, borderRadius: 50 }} />
                     <h1 className="project-name">STARKSPORT</h1>
                 </div>
                 <h4 style={{fontSize:18, maxWidth: 500, color: "#ffffffb3"}}>
@@ -29,28 +29,32 @@ const Footer = () => {
             <div className="row gap-50">
                 <div className="col gap-20">
                     <h1 className="footer-title">SUPPORT</h1>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://starksport.gitbook.io/staksport/support');
                         }}
                     >
                         FAQ
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://discord.gg/Z2Z8BwHy6k');
                         }}
                     >
                         Tokenomics
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://starksport.gitbook.io/staksport/tokennomics');
                         }}
                     >
                         Audits
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://alpha.starkguardians.com/audits');
                         }}
@@ -60,28 +64,32 @@ const Footer = () => {
                 </div>
                 <div className="col gap-20">
                     <h1 className="footer-title">ACCESS</h1>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://starksport.gitbook.io/staksport/');
                         }}
                     >
                         Exchange
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://starksport.gitbook.io/staksport/roadmap');
                         }}
                     >
                         Marketplace
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://starksport.gitbook.io/staksport');
                         }}
                     >
                         Launchpad
                     </h4>
-                    <h4 style={{fontSize:18, color: "#ffffffb3"}}
+                    <h4
+                        style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
                             openInNewTab('https://github.com/possc/StarkSportContracts');
                         }}
