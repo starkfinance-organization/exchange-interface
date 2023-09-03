@@ -31,6 +31,7 @@ const FooterLayout = () => {
                         }}
                     />
                 </div>
+            </div>
 
                 {/* <div className='border-logo'>
                     <img
@@ -42,7 +43,7 @@ const FooterLayout = () => {
                         }}
                     />
                 </div> */}
-                <div className='wrapper-logo-footer'>
+                {/* <div className='wrapper-logo-footer'>
                     <div className="border-logo">
                         <img
                             src={assets.svg.iconDiscord}
@@ -53,9 +54,9 @@ const FooterLayout = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div> */}
                 
-                <div className='wrapper-logo-footer'>
+                {/* <div className='wrapper-logo-footer'>
                     <div className='border-logo'>
                         <img
                             src={assets.svg.iconTelegram}
@@ -66,8 +67,7 @@ const FooterLayout = () => {
                             }}
                         />
                     </div>
-                </div>
-                
+                </div> */}
 
                 <div className='wrapper-logo-footer'>
                     <div className='border-logo'>
@@ -107,12 +107,11 @@ const FooterLayout = () => {
                         />
                     </div>
                 </div>
-            </div>
+                </div>
             <div style={{ color: '#ffffffb3' }}>
                 <p className="text-center subtitle-footer">Contact: support@starksport.finance</p>
                 <p className="text-center subtitle-footer">2023 © Copyright STARKSPORT. All Rights Reserved</p>
             </div>
-        </div>
         </div>
     );
 };
