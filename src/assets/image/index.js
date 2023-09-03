@@ -101,7 +101,8 @@ import STARKSPORT_LAUNCHPAD from './STARKSPORT_LAUNCHPAD.png';
 import STARKSPORT_EARNINGS from './STARKSPORT_EARNINGS.png';
 import ROAD_MAP from './ROAD_MAP.png';
 import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
-import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png'
+import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
+import bg_home from './bg-home.png';
 
 
 const images = {
@@ -207,6 +208,7 @@ const images = {
     ROAD_MAP,
     BACKER_AND_INVESTORS,
     COLLAB_AND_PARTNERS,
+    bg_home,
 };
 
 export default images;

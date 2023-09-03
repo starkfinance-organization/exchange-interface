@@ -22,14 +22,11 @@ const Footer = () => {
                     <h1 className="project-name">STARKSPORT</h1>
                 </div>
                 <h4 style={{fontSize:18, maxWidth: 500, color: "#ffffffb3"}}>
-                    Blockchain is a key tool for determining the direction of finance in the future. The two most
-                    talked-about issues in the emerging virtual asset market are DeFi and NFT. Upgrading constantly,
-                    we'll provide services for our clients until the decentralized financial market allows for the
-                    unrestricted exchange of all digital assets.
+                    Starksport aims to combine the outstanding features of Defi, NFT Marketplace and Launchpad together to attract users and support other projects on multichain
                 </h4>
             </div>
 
-            <div className="row gap-50 flex-wrap">
+            <div className="row gap-50">
                 <div className="col gap-20">
                     <h1 className="footer-title">SUPPORT</h1>
                     <h4 style={{fontSize:18, color: "#ffffffb3"}}

@@ -16,62 +16,74 @@ const FooterLayout = () => {
     };
 
     return (
-        <div className="footer-layout col g-10">
+        <div className="footer-layout col g-10" style={{borderTop: '1px solid #ffffff80'}}>
             {/* <p className="text-center fz-18">Stark Sport us a product developer by 0xIcii</p> */}
             <div className="row g-15 a-center j-center">
 
-                <div className='border-logo'>
-                    <img
-                    src={assets.svg.iconTelegram}
-                    alt="discord"
-                    className='icon'
-                    onClick={() => {
-                        openInNewTab(contactData.telegramChannel);
-                    }}
-                />
-                </div>
-
-                <div className='border-logo'>
-                    <img
+                <div className='wrapper-logo-footer'>
+                    <div className='border-logo'>
+                        <img
                         src={assets.svg.iconTelegram}
                         alt="discord"
                         className='icon'
                         onClick={() => {
-                            openInNewTab(contactData.telegram);
+                            openInNewTab(contactData.telegramChannel);
                         }}
                     />
-                </div>
-                <div className='border-logo'>
-                    <img
-                        src={assets.svg.iconDiscord}
-                        alt="discord"
-                        className='icon'
-                        onClick={() => {
-                            openInNewTab(contactData.discord);
-                        }}
-                    />
+                    </div>
                 </div>
                 
-                <div className='border-logo'>
-                    <img
-                        src={assets.svg.iconX}
-                        alt="Twitter"
-                        className='icon'
-                        onClick={() => {
-                            openInNewTab(contactData.twitter);
-                        }}
-                    />
+                <div className='wrapper-logo-footer'>
+                    <div className='border-logo'>
+                        <img
+                            src={assets.svg.iconTelegram}
+                            alt="discord"
+                            className='icon'
+                            onClick={() => {
+                                openInNewTab(contactData.telegram);
+                            }}
+                        />
+                    </div>
+                </div>
+                
+
+                <div className='wrapper-logo-footer'>
+                    <div className='border-logo'>
+                        <img
+                            src={assets.svg.iconDiscord}
+                            alt="discord"
+                            className='icon'
+                            onClick={() => {
+                                openInNewTab(contactData.discord);
+                            }}
+                        />
+                    </div>
+                </div>
+                
+                <div className='wrapper-logo-footer'>
+                    <div className='border-logo'>
+                        <img
+                            src={assets.svg.iconX}
+                            alt="Twitter"
+                            className='icon'
+                            onClick={() => {
+                                openInNewTab(contactData.twitter);
+                            }}
+                        />
+                    </div>
                 </div>
 
-                <div className='border-logo'>
-                    <img
-                        src={assets.svg.iconMedium}
-                        alt="Medium"
-                        className='icon'
-                        onClick={() => {
-                            openInNewTab(contactData.medium);
-                        }}
-                    />
+                <div className='wrapper-logo-footer'>
+                    <div className='border-logo'>
+                        <img
+                            src={assets.svg.iconMedium}
+                            alt="Medium"
+                            className='icon'
+                            onClick={() => {
+                                openInNewTab(contactData.medium);
+                            }}
+                        />
+                    </div>
                 </div>
                 
                 

@@ -79,8 +79,13 @@ const App = () => {
                             return <Route key={index} path={route.path} element={<Page />}></Route>;
                         })}
                     </Routes>
-                    <Footer />
-                    <FooterLayout />
+                    <div style={{position: 'relative'}}>
+                        <div className='overlay-footer'></div>
+                        <div className='wrapper-footer'>
+                            <Footer />
+                            <FooterLayout />
+                        </div>
+                    </div>
                 </div>
             </Router>
         </StarknetConfig>
