@@ -515,6 +515,7 @@ const getCurrentDateInUTC = () => {
 const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
     const { address, status } = useAccount();
     const [isShow, setIsShow] = useState(false);
+    const [percent, setPercent] = useState(100);
     const navigate = useNavigate();
 
     const inputToken0Ref = useRef(null);
@@ -779,32 +780,34 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
     const { isShowingSetting, toggleSettingSwap } = useModalSettingSwap();
 
-        const percentNumbers = [
+    const percentNumbers = [
         {
             number: 25,
             handleChoosingPercent: () => {
-              return;
-            }
+                return;
+            },
         },
         {
             number: 50,
             handleChoosingPercent: () => {
-              return;  
-            }
+                return;
+            },
         },
         {
             number: 75,
             handleChoosingPercent: () => {
-              return;  
-            }
+                return;
+            },
         },
         {
             number: 100,
             handleChoosingPercent: () => {
-              return;  
-            }
-        }
-    ]
+                return;
+            },
+        },
+    ];
+
+    const currentPath = window.location.pathname;
 
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2 }}>
@@ -822,9 +825,15 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
             <div className="row j-between" style={{ margin: '10px 0' }}>
                 <div className="row gap-10" style={{ marginBottom: 10 }}>
-                    <h4 className="hover-primary-color ">Swap</h4>
                     <h4
-                        className="hover-primary-color title-noactive"
+                        className={`hover-primary-color-2 ${
+                            currentPath === '/swap' ? 'primary-color-1' : 'primary-color-2'
+                        }`}
+                    >
+                        Swap
+                    </h4>
+                    <h4
+                        className="hover-primary-color-2 primary-color-2 title-noactive"
                         onClick={() => {
                             navigate('/liquidity');
                         }}
@@ -851,32 +860,47 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                     <div className="row">
                         <input
                             placeholder="0.0"
+                            style={{ color: '#fff !important' }}
                             type={'number'}
                             ref={inputToken0Ref}
                             onChange={handleToken0InputAmountChange}
                         />
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                setTypeModal(1);
-                                setIsShow(true);
-                            }}
-                        >
-                            <img src={token0.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
-                            <h5>{token0.name}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    setTypeModal(1);
+                                    setIsShow(true);
+                                }}
+                            >
+                                <img src={token0.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
+                                <h5>{token0.name}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="wrapper-percent">
+                                {percentNumbers.map((item, index) => {
+                                    return (
+                                        <button
+                                            key={index}
+                                            className={`${
+                                                item.number === percent ? 'btn-percent-select' : 'btn-percent'
+                                            }`}
+                                            onClick={item.handleChoosingPercent}
+                                        >
+                                            <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="input-balance-wrapper">
+                                <p>Balance: {token0BalanceAmount}</p>
+                            </div>
                         </div>
                     </div>
-                    <div className="input-balance-wrapper">
-                        <p>Balance: {token0BalanceAmount}</p>
-                    </div>
-
-                    <div className='wrapper-percent'>
-                        {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
-                        })}
-                    </div>
-
                 </div>
             </div>
 
@@ -886,7 +910,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                     marginTop: 4,
                     marginBottom: 4,
                     zIndex: 99,
-                    border: '4px solid #26193c',
+                    // border: '4px solid #26193c',
                     cursor: 'pointer',
                 }}
                 onClick={() => handleChangeToken()}
@@ -898,20 +922,26 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 <div style={{ padding: 12, marginTop: 10 }}>
                     <div className="row">
                         <h4 style={{ margin: 'auto' }}>~ {token1OutputDisplayAmount}</h4>
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                setTypeModal(2);
-                                setIsShow(true);
-                            }}
-                        >
-                            <img src={token1.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
-                            <h5>{token1.name}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    setTypeModal(2);
+                                    setIsShow(true);
+                                }}
+                            >
+                                <img src={token1.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
+                                <h5>{token1.name}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
+                                <p>Balance: {token1BalanceAmount}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
-                        <p>Balance: {token1BalanceAmount}</p>
                     </div>
                 </div>
             </div>

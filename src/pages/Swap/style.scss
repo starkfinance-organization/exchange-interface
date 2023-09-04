@@ -3,16 +3,23 @@
     overflow-y: auto;
     margin: 100px auto;
 
+    .primary-color-1 {
+        color: #24c3bc;
+    }
+    .primary-color-2 {
+        color: rgba(36, 195, 188, 0.5);
+    }
+
     .chart-wrapper {
         display: flex;
         flex-direction: column;
         // align-items: center;
         justify-content: center;
-        background-color: #353535;
+        background-color: rgba(36, 195, 188, 0.1) !important;
         padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #3f1661;
-        background-color: #15155c21;
+        border-radius: 6px !important;
+        border: 1px solid #24c3bc !important;
+        // background-color: #15155c21;
         margin: 0 10px;
     }
 
@@ -42,7 +49,7 @@
         }
 
         .title-noactive {
-            color: gray;
+            color: rgba(36, 195, 188, 0.5) !important;
             &:hover {
                 cursor: pointer;
                 color: var(--primary-color);
@@ -59,9 +66,10 @@
             text-align: center;
         }
         .input-balance-wrapper {
+            display: flex;
+            justify-content: start;
             width: 100%;
             border-radius: 10px;
-            margin-top: 10px;
             margin-bottom: 10px;
             padding-right: 4px;
             p {
@@ -74,9 +82,9 @@
         .input-wrapper {
             height: 100%;
             width: 100%;
-            background-color: #1c114d;
-            border: 1px solid #271a5e;
-            border-radius: 10px;
+            background-color: rgba(36, 195, 188, 0.2) !important;
+            border: 1px solid #24c3bc !important;
+            border-radius: 6px;
 
             h4 {
                 width: 60%;
@@ -99,8 +107,10 @@
             }
 
             .option-wrapper {
+                display: flex;
+                justify-content: end;
                 border-radius: 30px;
-                background: #473b5f;
+                background: transparent !important;
                 padding: 4px;
                 &:hover {
                     cursor: pointer;
@@ -112,24 +122,38 @@
                 flex-wrap: wrap;
                 justify-content: end;
                 gap: 10px;
+                margin-top: 10px;
             }
 
             .btn-percent {
-                background-color: transparent;
-                border: 1px solid #24C3BC;
-                border-radius: 999px;
-                padding: 0 8px;
+                background-color: rgba(217, 217, 217, 0.5) !important;
+                border: none !important;
+                border-radius: 3px !important;
+                padding: 0 4px;
                 cursor: pointer;
 
                 p {
-                    font-size: 1.2rem;
-                    color: #24C3BC;
+                    font-size: 18px !important;
+                    color: #fff !important;
+                }
+            }
+
+            .btn-percent-select {
+                background-color: #24c3bc !important;
+                border: none !important;
+                border-radius: 3px !important;
+                padding: 0 4px;
+                cursor: pointer;
+
+                p {
+                    font-size: 18px !important;
+                    color: #fff !important;
                 }
             }
         }
 
         .icon-swap-wrapper {
-            background-color: #382d4c;
+            background-color: transparent !important;
             margin: 0 auto;
             border-radius: 12px;
             padding: 5px;

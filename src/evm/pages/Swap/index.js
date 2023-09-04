@@ -432,7 +432,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
 
             <div className="row j-between" style={{ margin: '10px 0' }}>
                 <div className="row gap-10" style={{ marginBottom: 10 }}>
-                    <h4 className="hover-primary-color ">Swap</h4>
+                    <h4 className="hover-primary-color">Swap</h4>
                     <h4
                         className="hover-primary-color title-noactive"
                         onClick={() => {

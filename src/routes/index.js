@@ -8,6 +8,7 @@ import {
     LendingPage,
     AirdropPage,
     InfoPage,
+    FaucetPage,
 } from '../pages';
 import TestnetTokenPage from '../pages/ClaimTestnetToken';
 import HomePage from '../pages/Home';
@@ -30,6 +31,7 @@ const publicRoutes = [
     { path: route.privatesale, element: PrivateSalePage },
     // { path: route.claimToken, element: TestnetTokenPage },
     // { path: route.info, element: InfoPage },
+    { path: route.faucet, element: FaucetPage },
     { path: '*', element: ComingSoonPage },
 ];
 

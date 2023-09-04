@@ -108,7 +108,13 @@ const HeaderLayout = () => {
     };
 
     return (
-        <div className="header row a-center j-between px-15">
+        <div
+            className="header row a-center j-between"
+            style={{
+                paddingLeft: '120px',
+                paddingRight: '120px',
+            }}
+        >
             <div className="row a-center g-15">
                 <div
                     className="row g-10 a-center"
@@ -141,6 +147,14 @@ const HeaderLayout = () => {
                                     }}
                                 >
                                     Liquidity
+                                </p>
+                                <p
+                                    className="menu__item py-10 fw-7"
+                                    onClick={() => {
+                                        navClick(route.faucet);
+                                    }}
+                                >
+                                    Faucet
                                 </p>
                                 <p
                                     className="menu__item py-10 fw-7"
