@@ -40,9 +40,9 @@ const ButtonConnectWallet = () => {
                 </div>
             ) : (
                 <div className="row g-5 a-center">
-                    <span className="btn-conc__title fw-7">Connect</span>
-                    <span className="btn-conc__title btn-conc__title--hidden fw-7">Wallet</span>
-                    <img className="btn-conc__icon" src={assets.svg.iconPower} alt="icon-power" />
+                    <span className="btn-conc__title fw-7">Launch</span>
+                    <span className="btn-conc__title btn-conc__title--hidden fw-7">App</span>
+                    {/* <img className="btn-conc__icon" src={assets.svg.iconPower} alt="icon-power" /> */}
                 </div>
             )}
         </div>
@@ -127,6 +127,14 @@ const HeaderLayout = () => {
                 </div>
 
                 <div className="header__nav row ">
+                    <div
+                        className="header__item p-15"
+                        onClick={() => {
+                            navClick(route.home);
+                        }}
+                    >
+                        <h4>Home</h4>
+                    </div>
                     <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
                         <h4>Exchange</h4>
 
@@ -189,7 +197,7 @@ const HeaderLayout = () => {
                             navClick(route.launchpad);
                         }}
                     >
-                        <h4>Launchpads</h4>
+                        <h4>Launchpad</h4>
                     </div>
 
                     <div
@@ -197,7 +205,7 @@ const HeaderLayout = () => {
                         onMouseEnter={handleMenuEarnHover}
                         onMouseLeave={handleMenuEarnLeave}
                     >
-                        <h4>Earn</h4>
+                        <h4>Earnings</h4>
 
                         {showMenuEarn && (
                             <div ref={menuRef} className="menu col">

@@ -77,14 +77,19 @@
     display: flex;
     align-items: center;
 
-    border: 1px solid #9393c4;
-    border-radius: 4px;
-    padding: 0 1.5rem;
+    border: 2px solid #7abdf7;
+    border-radius: 6px;
+    padding: 0 30px;
 
     .btn-conc__title {
-        color: #c2c2e4;
-        font-size: 1.3rem;
+        color: #fff;
         text-align: center;
+        font-family: Roboto;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 1px;
     }
 
     .btn-conc__icon {

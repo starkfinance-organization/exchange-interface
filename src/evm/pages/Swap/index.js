@@ -34,6 +34,7 @@ import { Button, Modal } from 'antd';
 
 const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
     const [isShow, setIsShow] = useState(false);
+    const [percent, setPercent] = useState(100);
     const navigate = useNavigate();
 
     // Slippage
@@ -364,6 +365,8 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
         },
     ];
 
+    const currentPath = window.location.pathname;
+
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2 }}>
             {/* Select token modal */}
@@ -432,9 +435,15 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
 
             <div className="row j-between" style={{ margin: '10px 0' }}>
                 <div className="row gap-10" style={{ marginBottom: 10 }}>
-                    <h4 className="hover-primary-color">Swap</h4>
                     <h4
-                        className="hover-primary-color title-noactive"
+                        className={`hover-primary-color-2 ${
+                            currentPath === '/swap' ? 'primary-color-1' : 'primary-color-2'
+                        }`}
+                    >
+                        Swap
+                    </h4>
+                    <h4
+                        className="hover-primary-color-2 primary-color-2 title-noactive"
                         onClick={() => {
                             navigate('/liquidity');
                         }}
@@ -449,7 +458,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                         openModalSetting();
                     }}
                 >
-                    <img src={assets.svg.setting} style={{ width: 15, height: 15 }} />
+                    <img src={assets.svg.setting} style={{ width: 15, height: 15 }} alt="" />
                 </div>
                 {/* <div style={{ height: 20, width: 20 }}>
                     <img src={assets.svg.setting} />
@@ -468,37 +477,44 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                             }
                             onChange={(e) => handleChangeAmounts(e.target.value, Field.INPUT)}
                         />
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                handleTokenShow(Field.INPUT);
-                            }}
-                        >
-                            <img
-                                alt={tokens[Field.INPUT]?.symbol ?? '?'}
-                                src={TOKEN_ICON_LIST[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
-                                style={{ height: 30, width: 30 }}
-                            />
-                            <h5>{tokens[Field.INPUT]?.symbol ?? '--'}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    handleTokenShow(Field.INPUT);
+                                }}
+                            >
+                                <img
+                                    alt={tokens[Field.INPUT]?.symbol ?? '?'}
+                                    src={TOKEN_ICON_LIST[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    style={{ height: 30, width: 30 }}
+                                />
+                                <h5>{tokens[Field.INPUT]?.symbol ?? '--'}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="wrapper-percent">
+                                {percentNumbers.map((item, index) => {
+                                    return (
+                                        <button
+                                            key={index}
+                                            className={`${
+                                                item.number === percent ? 'btn-percent-select' : 'btn-percent'
+                                            }`}
+                                            onClick={() => item.handleChoosingPercent(Field.INPUT)}
+                                        >
+                                            <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="input-balance-wrapper">
+                                <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="input-balance-wrapper">
-                        <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
-                    </div>
-
-                    <div className="wrapper-percent">
-                        {percentNumbers.map((item, index) => {
-                            return (
-                                <button
-                                    key={index}
-                                    className="btn-percent"
-                                    onClick={() => item.handleChoosingPercent(Field.INPUT)}
-                                >
-                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
-                                </button>
-                            );
-                        })}
                     </div>
                 </div>
             </div>
@@ -526,23 +542,29 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                                 ? typedValue
                                 : trade?.outputAmount.toSignificant(18) ?? ''}
                         </h4>
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                handleTokenShow(Field.OUTPUT);
-                            }}
-                        >
-                            <img
-                                alt={tokens[Field.OUTPUT]?.symbol ?? '?'}
-                                src={TOKEN_ICON_LIST[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
-                                style={{ height: 30, width: 30 }}
-                            />
-                            <h5>{tokens[Field.OUTPUT]?.symbol ?? '--'}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    handleTokenShow(Field.OUTPUT);
+                                }}
+                            >
+                                <img
+                                    alt={tokens[Field.OUTPUT]?.symbol ?? '?'}
+                                    src={TOKEN_ICON_LIST[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    style={{ height: 30, width: 30 }}
+                                />
+                                <h5>{tokens[Field.OUTPUT]?.symbol ?? '--'}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
+                                <p>Balance: {balances?.[1]?.toSignificant(18)}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
-                        <p>Balance: {balances?.[1]?.toSignificant(18)}</p>
                     </div>
                 </div>
             </div>
