@@ -21,15 +21,77 @@
         border: 1px solid #24c3bc !important;
         // background-color: #15155c21;
         margin: 0 10px;
+        .chart-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            .chart-content-1 {
+                display: flex;
+                flex-direction: column;
+                & > h5 {
+                    font-size: 18px;
+                    font-weight: 800;
+                    margin-top: 12px;
+                    color: #fff;
+                }
+                .chart-content-1__p1 {
+                    color: #24c3bc;
+                    font-family: Roboto;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 800;
+                    letter-spacing: 1.2px;
+                    text-transform: uppercase;
+                }
+                .chart-content-1__p2 {
+                    color: #fff;
+                    font-family: Roboto;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 800;
+                    letter-spacing: 0.9px;
+                }
+            }
+            .chart-content-2 {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 14px;
+                .active {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    border-radius: 3px;
+                    background: #24c3bc;
+                    padding: 6px 13px;
+                    max-height: 33px;
+                    max-width: 41px;
+                    font-size: 18px;
+                    color: #fff;
+                }
+                .in-active {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    border-radius: 3px;
+                    background: rgba(217, 217, 217, 0.5);
+                    padding: 6px 13px;
+                    max-height: 33px;
+                    max-width: 41px;
+                    font-size: 18px;
+                    color: #fff;
+                }
+            }
+        }
     }
 
     .form-wrapper {
         max-width: 400px;
         width: 100%;
 
-        background-color: #15155c21;
-        border: 1px solid #3f1661;
-        border-radius: 10px;
+        background-color: rgba(36, 195, 188, 0.1);
+        border: 1px solid #24c3bc;
+        border-radius: 6px;
         padding: 15px;
 
         .btn__setting {
@@ -174,21 +236,27 @@
     .table-swap {
         margin: 50px auto;
         max-width: 1220px;
-        padding: 10px;
+        padding: 0;
         font-size: 20px;
         background-color: #15155c21;
-        border-radius: 30px;
-        border: 1px solid #3f1661;
+        border-radius: 4px;
+        border: 1px solid #24c3bc;
 
         table {
-            background-color: #15155c21;
+            background-color: rgba(36, 195, 188, 0.1);
         }
 
-        th,
+        th {
+            font-size: 16px;
+            color: #fff;
+            border-bottom: 1px solid #24c3bc;
+        }
+
         td {
             font-size: 16px;
             color: #fff;
-            border-bottom: 1px solid #3f1661;
+            // border-bottom: 1px solid #24c3bc;
+            border-bottom: none;
         }
     }
 }
