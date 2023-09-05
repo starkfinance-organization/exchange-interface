@@ -1,5 +1,13 @@
 .header {
     height: 64px;
+    margin-top: 51px;
+    padding-left: 120px;
+    padding-right: 120px;
+
+    @media (max-width: 1200px) {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
 
     .header__item {
         & > h4 {
@@ -39,6 +47,11 @@
             cursor: pointer;
         }
 
+        & > a {
+            color: #c2c2e4;
+            cursor: pointer;
+        }
+
         &::after {
             content: '';
             height: 10px;
@@ -51,6 +64,18 @@
             border-top: #3d1472 solid 1px;
             border-left: #3d1472 solid 1px;
             transform: rotate(45deg);
+        }
+    }
+
+    .menu-drawer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .menu-drawer-icon {
+            display: block;
+            @media only screen and (max-width: 485px) {
+                display: none;
+            }
         }
     }
 
@@ -80,6 +105,10 @@
     border: 2px solid #7abdf7;
     border-radius: 6px;
     padding: 0 30px;
+
+    @media (max-width: 400px) {
+        padding: 0 5px;
+    }
 
     .btn-conc__title {
         color: #fff;

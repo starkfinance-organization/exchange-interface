@@ -108,13 +108,7 @@ const HeaderLayout = () => {
     };
 
     return (
-        <div
-            className="header row a-center j-between"
-            style={{
-                paddingLeft: '120px',
-                paddingRight: '120px',
-            }}
-        >
+        <div className="header row a-center j-between">
             <div className="row a-center g-15">
                 <div
                     className="row g-10 a-center"
@@ -158,9 +152,7 @@ const HeaderLayout = () => {
                                 </p>
                                 <p
                                     className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.faucet);
-                                    }}
+                                    onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
                                 >
                                     Faucet
                                 </p>
@@ -267,7 +259,13 @@ const HeaderLayout = () => {
                 </div>
             </div>
 
-            <div className="row g-20">
+            <div className="menu-drawer g-20">
+                <img
+                    src={assets.svg.iconSwitchNetwork}
+                    alt="Switch network icon"
+                    style={{ width: '50px', height: '50px' }}
+                    className="menu-drawer-icon"
+                />
                 <ButtonConnectWallet />
                 <Drawer isShowing={isDrawerShowing} hide={toggleDrawer} />
                 <div className="menu-icon" onClick={toggleDrawer}>
