@@ -4,7 +4,7 @@ import assets from '../../assets';
 import Footer from '../../layouts/Footer';
 import { route } from '../../routes/configs';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
-import './style.scss';
+// import './style.scss';
 import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
