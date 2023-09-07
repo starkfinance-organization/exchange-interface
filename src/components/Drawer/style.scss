@@ -12,12 +12,18 @@
 .drawer-wrapper {
   position: fixed;
   top: 0%;
-  left: 0;
+  transform: translateX(-100%);
   z-index: 1050;
   width: fit-content;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  transition: transform 0.5s ease-in-out;
+
+  &.show-drawer {
+    transform: translateX(0);
+  }
+
 
   .drawer {
     width: 300px;

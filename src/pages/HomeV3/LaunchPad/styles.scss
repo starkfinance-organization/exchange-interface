@@ -1,3 +1,15 @@
+#support-title {
+    display: none;
+    max-width: 800px;
+}
+
+.wrapper-launchpad-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .wrapper-launchpad {
     display: flex;
     align-items: center;
@@ -8,14 +20,17 @@
     // flex-wrap: wrap;
 
     .launchpad-card-img {
-        width: 600px;
+        max-width: 600px;
         // height: 563px;
+    }
+
+    .title {
+        max-width: 550px;
     }
 
     .content {
         display: flex;
         flex-direction: column;
-        gap: 50px;
     }
 
 
@@ -24,6 +39,7 @@
         font-size: 24px;
         line-height: 35px;
         font-weight: 400;
+        margin: 10px 0 40px 0;
     }
 
     @media (max-width: 767px) {
@@ -38,7 +54,7 @@
         .title {
             margin: 0 auto;
             text-align: center;
-            max-width: 300px;
+            // max-width: 300px;
         }
 
         .subtitle {
@@ -47,49 +63,72 @@
             font-size: 20px;
         }
     }
-        @media (max-width: 1200px) {
+    @media (max-width: 1200px) {
     
     
             
-                display: flex;
-                // flex-direction: column;
-                align-items: center;
-                // gap: 0;
+        display: flex;
+        // flex-direction: column;
+        align-items: center;
+        // gap: 0;
     
-                .launchpad-card-img {
-                    width: 400px;
-                }
-
-                .content {
-                    gap: 20px;
-                }
-
-                .subtitle {
-                    max-width: 500px;
-                }
-            
-    
-    
+        .launchpad-card-img {
+            max-width: 400px;
         }
+
+        .subtitle {
+            max-width: 500px;
+        }
+    }
+
+
+
     @media (max-width: 768px) {
         display: flex;
         flex-direction: column;
         align-items: center;
         flex-wrap: wrap;
-        
+    
         
         .content {
-            gap: 20px;
             align-items: center;
+        }
+
+        .title {
+            max-width: 600px;
         }
 
         .subtitle {
             text-align: center;
         }
     
-        
-        
+    }
+
+    @media (max-width: 480px) {
+        .subtitle {
+            font-size: 16px;
+        }
     }
 }
 
+@media (max-width: 950px) {
+
+    #support-title {
+        display: block;
+    }
+    
+    #main-title {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    #support-title {
+        display: none;
+    }
+
+    #main-title {
+        display: block;
+    }
+}
 

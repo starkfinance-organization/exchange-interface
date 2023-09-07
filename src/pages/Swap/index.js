@@ -44,7 +44,9 @@ const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2da
 // const provider = new RpcProvider({
 //     nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
 // });
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
+const provider = new RpcProvider({
+    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+});
 const erc20abi = [
     {
         members: [
@@ -901,6 +903,19 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                                 <p>Balance: {token0BalanceAmount}</p>
                             </div>
                         </div>
+                    </div>
+                    <div className="input-balance-wrapper">
+                        <p>Balance: {token0BalanceAmount}</p>
+                    </div>
+
+                    <div className="wrapper-percent">
+                        {percentNumbers.map((item, index) => {
+                            return (
+                                <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
+                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

@@ -20,7 +20,9 @@ import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
 const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2daa7be435c2';
 const ethContractAddress = '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7';
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
+const provider = new RpcProvider({
+    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+});
 const erc20abi = [
     {
         members: [
@@ -1750,9 +1752,9 @@ const PairComponent = ({
 
                             const pairWithSymbols = foundPair
                                 ? {
-                                      ...foundPair,
-                                      pairSymbol: `${foundPair.token0SymbolData}/${foundPair.token1SymbolData}`,
-                                  }
+                                    ...foundPair,
+                                    pairSymbol: `${foundPair.token0SymbolData}/${foundPair.token1SymbolData}`,
+                                }
                                 : null;
                             console.log('🚀 ~ file: index.js:1737 ~ pairWithSymbols:', pairWithSymbols);
                             if (pairWithSymbols) {
@@ -1847,7 +1849,7 @@ const MyPools = ({ allPairs, pairsSymbol }) => {
                                 </div>
                             </>
                         )}
-                        {}
+                        { }
                     </div>
                 ) : (
                     <h5 style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>

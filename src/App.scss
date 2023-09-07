@@ -1,2 +1,18 @@
-.layout-wrapper {
+.content-wrapper {
+    background-image: url('../src/assets/image/bg-home.png');
+    background-size: 100% 100%;
+}
+
+.wrapper-footer {
+    max-width: 1600px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.overlay-footer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080;
+    z-index: -1;
 }

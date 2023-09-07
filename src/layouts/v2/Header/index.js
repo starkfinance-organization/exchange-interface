@@ -33,15 +33,14 @@ const ButtonConnectWallet = () => {
     return (
         <div className="btn-conc g-5" onClick={toggle}>
             <ModalWallet isShowing={isShowing} hide={toggle} />
-            <div></div>
             {status == 'connected' || isConnectedEvm ? (
                 <div>
                     <span className="btn-conc__title fw-7">{shortAddress()}</span>
                 </div>
             ) : (
-                <div className="row g-5 a-center">
-                    <span className="btn-conc__title fw-7">Launch</span>
-                    <span className="btn-conc__title btn-conc__title--hidden fw-7">App</span>
+                <div className="row a-center">
+                    <span className="btn-conc__title fw-7">Launch App</span>
+                    {/* <span className="btn-conc__title btn-conc__title--hidden fw-7">App</span> */}
                     {/* <img className="btn-conc__icon" src={assets.svg.iconPower} alt="icon-power" /> */}
                 </div>
             )}
@@ -116,55 +115,71 @@ const HeaderLayout = () => {
                         navClick(route.home);
                     }}
                 >
-                    <img src={assets.images.logo} alt="logo" style={{ height: '70px', width: '70px' }} />
+                    <img src={assets.images.logo} alt="logo" style={{ height: '5rem', width: '5rem' }} />
                     <h2 className="header__title">STARKSPORT</h2>
                 </div>
+            </div>
+            <div className="header__nav row ">
+                <div
+                    className="header__item p-15"
+                    onClick={() => {
+                        openInNewTab('https://starksport.finance/');
+                    }}
+                >
+                    <h4 style={{ color: 'white' }}>Home</h4>
+                </div>
+                <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
+                    <h4>Exchange</h4>
 
-                <div className="header__nav row ">
-                    <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            navClick(route.home);
-                        }}
-                    >
-                        <h4>Home</h4>
-                    </div>
-                    <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
-                        <h4>Exchange</h4>
+                    <div className="header__nav row ">
+                        <div
+                            className="header__item p-15"
+                            onClick={() => {
+                                navClick(route.home);
+                            }}
+                        >
+                            <h4>Home</h4>
+                        </div>
+                        <div
+                            className="header__item p-15"
+                            onMouseEnter={handleMenuHover}
+                            onMouseLeave={handleMenuLeave}
+                        >
+                            <h4>Exchange</h4>
 
-                        {showMenu && (
-                            <div ref={menuRef} className="menu col">
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.swap);
-                                    }}
-                                >
-                                    Swap
-                                </p>
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick('liquidity');
-                                    }}
-                                >
-                                    Liquidity
-                                </p>
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
-                                >
-                                    Faucet
-                                </p>
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.liquidity2);
-                                    }}
-                                >
-                                    Overview
-                                </p>
-                                {/* <div
+                            {showMenu && (
+                                <div ref={menuRef} className="menu col">
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick(route.swap);
+                                        }}
+                                    >
+                                        Swap
+                                    </p>
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick('liquidity');
+                                        }}
+                                    >
+                                        Liquidity
+                                    </p>
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
+                                    >
+                                        Faucet
+                                    </p>
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick(route.liquidity2);
+                                        }}
+                                    >
+                                        Overview
+                                    </p>
+                                    {/* <div
                                     className="menu__item py-10 fw-7"
                                     onClick={() => {
                                         navClick(route.claimToken);
@@ -172,65 +187,67 @@ const HeaderLayout = () => {
                                 >
                                     <h4>Claim Testnet Token</h4>
                                 </div> */}
-                            </div>
-                        )}
-                    </div>
+                                </div>
+                            )}
+                        </div>
 
-                    <div
-                        className="header__item p-15"
-                        onClick={() => openInNewTab('https://marketplace.starksport.finance')}
-                    >
-                        <h4>Marketplace</h4>
-                    </div>
+                        <div
+                            className="header__item p-15"
+                            onClick={() => {
+                                openInNewTab('https://marketplace.starksport.finance/');
+                            }}
+                        >
+                            <h4>Marketplace</h4>
+                        </div>
 
-                    <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            navClick(route.launchpad);
-                        }}
-                    >
-                        <h4>Launchpad</h4>
-                    </div>
+                        <div
+                            className="header__item p-15"
+                            onClick={() => {
+                                navClick(route.launchpad);
+                            }}
+                        >
+                            <h4>Launchpad</h4>
+                        </div>
 
-                    <div
-                        className="header__item p-15"
-                        onMouseEnter={handleMenuEarnHover}
-                        onMouseLeave={handleMenuEarnLeave}
-                    >
-                        <h4>Earnings</h4>
+                        <div
+                            className="header__item p-15"
+                            onMouseEnter={handleMenuEarnHover}
+                            onMouseLeave={handleMenuEarnLeave}
+                        >
+                            <h4>Earnings</h4>
 
-                        {showMenuEarn && (
-                            <div ref={menuRef} className="menu col">
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.pools);
-                                    }}
-                                >
-                                    Staking
-                                </p>
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.farms);
-                                    }}
-                                >
-                                    Yield Farms
-                                </p>
+                            {showMenuEarn && (
+                                <div ref={menuRef} className="menu col">
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick(route.pools);
+                                        }}
+                                    >
+                                        Staking
+                                    </p>
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick(route.farms);
+                                        }}
+                                    >
+                                        Yield Farms
+                                    </p>
 
-                                <p
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.lending);
-                                    }}
-                                >
-                                    Lending Network
-                                </p>
-                            </div>
-                        )}
-                    </div>
+                                    <p
+                                        className="menu__item py-10 fw-7"
+                                        onClick={() => {
+                                            navClick(route.lending);
+                                        }}
+                                    >
+                                        Lending Network
+                                    </p>
+                                </div>
+                            )}
+                        </div>
 
-                    {/* <div
+                        {/* <div
                         className="header__item p-15"
                         onClick={() => {
                             navClick(route.airdrop);
@@ -239,7 +256,7 @@ const HeaderLayout = () => {
                         <h4>NFT Holder Reward</h4>
                     </div> */}
 
-                    {/* <div
+                        {/* <div
                         className="header__item p-15"
                         onClick={() => {
                             navClick(route.info);
@@ -248,28 +265,29 @@ const HeaderLayout = () => {
                         <h4>Info</h4>
                     </div> */}
 
-                    <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/');
-                        }}
-                    >
-                        <h4>Documentation</h4>
+                        <div
+                            className="header__item p-15"
+                            onClick={() => {
+                                openInNewTab('https://starksport.gitbook.io/staksport/');
+                            }}
+                        >
+                            <h4>Documentation</h4>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div className="menu-drawer g-20">
-                <img
-                    src={assets.svg.iconSwitchNetwork}
-                    alt="Switch network icon"
-                    style={{ width: '50px', height: '50px' }}
-                    className="menu-drawer-icon"
-                />
-                <ButtonConnectWallet />
-                <Drawer isShowing={isDrawerShowing} hide={toggleDrawer} />
-                <div className="menu-icon" onClick={toggleDrawer}>
-                    <img src={assets.svg.iconMenu} alt="menu" style={{ height: 40, width: 40 }} />
+                    <div className="menu-drawer g-20">
+                        <img
+                            src={assets.svg.iconSwitchNetwork}
+                            alt="Switch network icon"
+                            style={{ width: '50px', height: '50px' }}
+                            className="menu-drawer-icon"
+                        />
+                        <ButtonConnectWallet />
+                        <Drawer isShowing={isDrawerShowing} hide={toggleDrawer} />
+                        <div className="menu-icon" onClick={toggleDrawer}>
+                            <img src={assets.svg.iconMenu} alt="menu" style={{ height: 40, width: 40 }} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

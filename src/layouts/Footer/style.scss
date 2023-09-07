@@ -1,13 +1,13 @@
 .footer-layout {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-between;
     gap: 50px;
+    width: 100%;
+    margin: auto;
 
     // background-color: #171717;
-    padding: 100px 20px;
+    padding: 100px 0;
 
     .footer-title {
         // background: -webkit-linear-gradient(#3740fb, var(--primary-color));
@@ -19,9 +19,17 @@
     }
 
     .project-name {
-        font-family: 'Changa', sans-serif;
+        font-family: 'Paytone One', sans-serif;
         font-weight: 700;
-        font-size: 40px;
+        font-size: 28px;
         color: #1de7d9;
     }
+
+@media (max-width:767px) {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
 }
+}
+

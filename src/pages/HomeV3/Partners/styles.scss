@@ -9,6 +9,17 @@
         text-align: center;
     }
 
+    .wrapper-title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+        max-width: 800px;
+    }
+
     .scroll-arrow {
         position: absolute;
         bottom: 145px;
@@ -32,9 +43,9 @@
     }
 
     .box-border {
-        padding: 2px;
+        padding: 1px;
         border-radius: 6px;
-        background-image: linear-gradient(to right bottom, #e025cd78, #ffffff26, #e025cd86);
+        background-color: #24C3BC;
     }
 
     .logos-partner-line_1 {
@@ -57,7 +68,8 @@
         justify-content: center;
         width: 250px;
         height: 150px;
-        background-color: var(--color-background);
+        background-color: #24c3bb0a;
+        border: 1px solid #24C3BC;
         padding: 40px 50px;
         border-radius: 6px;
         gap: 10px;
@@ -71,6 +83,8 @@
     .partner-name {
         // width: 66px;
         height: 35px;
+        font-weight: 700;
+        color: #ffffff;
     }
 
     @keyframes fadeEffect {
@@ -94,6 +108,9 @@
     @media (max-width: 768px) {
         gap: 20px;
 
+        .title {
+            max-width: 600px;
+        }
         // .scroll-arrow {
         //     top: 210px;
         // }

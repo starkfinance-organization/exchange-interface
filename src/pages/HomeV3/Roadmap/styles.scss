@@ -2,7 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 30px;
+    align-items: center;
+    gap: 80px;
+
+    .title {
+        max-width: 400px;
+        padding: 0 50px;
+    }
 
     .title-size {
         text-align: center;
@@ -51,6 +57,13 @@
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-color);
+        }
+
+        @media (max-width:768px) {
+            gap: 50px;
+            .title {
+                max-width: 350px;
+            }
         }
     
     .roadmap-mobile {

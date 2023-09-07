@@ -9,11 +9,13 @@ function LaunchPad() {
         win.focus();
     };
     return (
-        <div className="wrapper-launchpad">
+        <div className='wrapper-launchpad-1'>
+            <img id='support-title' className="title" src={assets.images.STARKSPORT_LAUNCHPAD} alt="" />
+            <div className="wrapper-launchpad">
             <img className="launchpad-card-img" src={assets.images.nft} alt="" />
             <div className="content">
-                {/* <img className="title" src={assets.images.staspost_launchpad} alt="" /> */}
-                <p className='title-size'>STARKSPORT LAUNCHPAD</p>
+                <img id='main-title' className="title" src={assets.images.STARKSPORT_LAUNCHPAD} alt="" />
+                {/* <p className='title-size'>STARKSPORT LAUNCHPAD</p> */}
                 <p className="subtitle">
                     An all-in-one Incubation Hub empowers investors and allows quality project creators the ability to provide token or NFT sales.
                 </p>
@@ -27,6 +29,8 @@ function LaunchPad() {
                 </div>
             </div>
         </div>
+        </div>
+        
     );
 }
 

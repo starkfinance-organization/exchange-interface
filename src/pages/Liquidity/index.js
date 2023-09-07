@@ -23,7 +23,9 @@ import LiquidityPageEvm from '../../evm/pages/Liquidity';
 const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
 const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2daa7be435c2';
 
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
+const provider = new RpcProvider({
+    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+});
 const erc20abi = [
     {
         members: [
@@ -1723,7 +1725,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
             setToken1OutputAmount(0);
             setToken1OutputDisplayAmount(0);
             inputToken0Ref.current.value = '';
-        } catch (err) {}
+        } catch (err) { }
     }, [token0, token1]);
 
     useEffect(() => {
@@ -1882,25 +1884,25 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
         {
             number: 25,
             handleChossingPercent: () => {
-              return;
+                return;
             }
         },
         {
             number: 50,
             handleChossingPercent: () => {
-              return;  
+                return;
             }
         },
         {
             number: 75,
             handleChossingPercent: () => {
-              return;  
+                return;
             }
         },
         {
             number: 100,
             handleChossingPercent: () => {
-              return;  
+                return;
             }
         }
     ]
@@ -1982,13 +1984,13 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 />
                             </div>
                         </div>
-                        <div className="input-balance-wrapper" style={{marginBottom: 10}}>
+                        <div className="input-balance-wrapper" style={{ marginBottom: 10 }}>
                             <p>Balance: {token0BalanceAmount}</p>
                         </div>
 
                         <div className='wrapper-percent'>
                             {percentNumbers.map((item, index) => {
-                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100 ? "MAX" : item.number + '%'}</p></button>)
                             })}
                         </div>
 

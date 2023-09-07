@@ -1,12 +1,12 @@
 .header {
     height: 64px;
-    margin-top: 51px;
-    padding-left: 120px;
-    padding-right: 120px;
+    margin: auto;
+    max-width: 1546px;
 
-    @media (max-width: 1200px) {
-        padding-left: 40px;
-        padding-right: 40px;
+    .header__nav {
+        flex: 1;
+        justify-content: flex-start;
+        margin-left: 32px;
     }
 
     .header__item {
@@ -19,12 +19,13 @@
             & > h4 {
                 color: #c2c2e4;
             }
+
             cursor: pointer;
         }
     }
 
     .header__title {
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Paytone One', sans-serif;
     }
 
     .menu-icon {
@@ -112,6 +113,7 @@
 
     .btn-conc__title {
         color: #fff;
+        font-size: 1.3rem;
         text-align: center;
         font-family: Roboto;
         font-size: 20px;

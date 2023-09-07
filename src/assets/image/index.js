@@ -59,7 +59,7 @@ import markrtplace from './marketplace.png';
 import cards_desktop from './cards_desktop.png';
 import starsport_card from './starsport_card.png';
 import staspost_launchpad from './starsport_launchpad.png';
-import starkport_earnings from './starksport_earnings.png';
+// import starkport_earnings from './starksport_earnings.png';
 import background_Manchester_Unit from './backgroud_for_poster_soccer_Manchester_Unit.png';
 import backers_investors from './backers_and_investors.png';
 import starknet_logo_1 from './starknet_logo_1.png';
@@ -93,8 +93,21 @@ import gif2 from './GIF2.gif';
 import certik_logo from './certik_logo.png';
 import stark_guardians_logo from './StarkGuardians_logo.png';
 import metamask from './metamask.png';
+<<<<<<< HEAD
 import zeta from './zeta.png';
 import opside from './opside.png';
+=======
+import STARKPORT from './STARKPORT.png';
+import OUR_FEATURES from './OUR_FEATURES.png';
+import SECURITY_AUDIT from './SECURITY_AUDIT.png';
+import STARKSPORT_NFT_MARKETPLACE from './STARKSPORT_NFT_MARKETPLACE.png';
+import STARKSPORT_LAUNCHPAD from './STARKSPORT_LAUNCHPAD.png';
+import STARKSPORT_EARNINGS from './starksport_earnings.png';
+import ROAD_MAP from './ROAD_MAP.png';
+import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
+import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
+import bg_home from './bg-home.png';
+>>>>>>> 80426aad3f1ac4f1766e08bc887d8c4be35fa8db
 
 const images = {
     metamask,
@@ -157,7 +170,7 @@ const images = {
     cards_desktop,
     starsport_card,
     staspost_launchpad,
-    starkport_earnings,
+    // starkport_earnings,
     background_Manchester_Unit,
     backers_investors,
     starknet_logo_1,
@@ -192,6 +205,16 @@ const images = {
     stark_guardians_logo,
     zeta,
     opside,
+    STARKPORT,
+    OUR_FEATURES,
+    SECURITY_AUDIT,
+    STARKSPORT_NFT_MARKETPLACE,
+    STARKSPORT_LAUNCHPAD,
+    STARKSPORT_EARNINGS,
+    ROAD_MAP,
+    BACKER_AND_INVESTORS,
+    COLLAB_AND_PARTNERS,
+    bg_home,
 };
 
 export default images;
