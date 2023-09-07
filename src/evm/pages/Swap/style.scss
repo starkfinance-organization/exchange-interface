@@ -2,6 +2,11 @@
     height: inherit;
     overflow-y: auto;
     margin: 100px auto;
+    padding: 0 120px;
+
+    @media (max-width: 1200px) {
+        padding: 0 40px;
+    }
 
     .primary-color-1 {
         color: #24c3bc;
@@ -12,6 +17,7 @@
 
     .chart-wrapper {
         display: flex;
+        max-width: 870px;
         flex-direction: column;
         // align-items: center;
         justify-content: center;
@@ -20,7 +26,6 @@
         border-radius: 10px;
         border-radius: 6px !important;
         border: 1px solid #24c3bc !important;
-        margin: 0 10px;
         .chart-header {
             display: flex;
             flex-direction: row;
@@ -86,7 +91,7 @@
     }
 
     .form-wrapper {
-        max-width: 400px;
+        max-width: 739px;
         width: 100%;
 
         background-color: rgba(36, 195, 188, 0.1);
@@ -135,9 +140,13 @@
             margin-bottom: 10px;
             padding-right: 4px;
             p {
-                font-size: 12px;
+                font-family: Roboto;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 800;
+                letter-spacing: 0.8px;
                 text-align: right;
-                color: #a09ba9 !important;
+                color: #fff !important;
             }
         }
 
@@ -235,7 +244,7 @@
 
     .table-swap {
         margin: 50px auto;
-        max-width: 1220px;
+        max-width: 1639px;
         padding: 0;
         font-size: 20px;
         background-color: #15155c21;

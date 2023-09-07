@@ -5,6 +5,7 @@ import { useActiveWeb3React } from '../../../hooks/useActiveWeb3React';
 import { getOwnerLiquidityPools, removeLiquidityCallback } from '../../../state/liquidity';
 import '../style.scss';
 import { Button } from 'antd';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const PairComponent = ({ pool, setReload }) => {
     const { account, library, chainId } = useActiveWeb3React();
@@ -103,6 +104,39 @@ const MyPools = () => {
                     </h5>
                 )}
             </div>
+            {/* <div className="table-swap">
+                <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
+                    <Table sx={{}} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ textAlign: 'center' }}>Txhash</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>Address</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>From</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>To</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>Timestamp</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    aaa
+                                </TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>aaa</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>aaa</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>aaa</TableCell>
+                                <TableCell style={{ textAlign: 'center' }}>aaa</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div> */}
         </div>
     );
 };

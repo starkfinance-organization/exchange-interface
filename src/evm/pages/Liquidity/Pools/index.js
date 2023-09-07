@@ -1794,7 +1794,7 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                 >
                     <div className="row gap-10">
                         <div className="row gap-10 cursor-pointer" style={{ marginBottom: 10 }}>
-                            <h3 style={{ color: 'white' }}>Your liquidity</h3>
+                            <h3 style={{ color: 'white' }}>Your liquiditys</h3>
                         </div>
                     </div>
 

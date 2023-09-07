@@ -803,7 +803,7 @@ const SwapPage = () => {
                         <Tooltip content={<CustomTooltip />} />
                     </AreaChart> */}
                     <AreaChart
-                        width={windowSize.width > 600 ? 600 : windowSize.width - 80}
+                        width={windowSize.width > 828 ? 828 : windowSize.width - 45}
                         height={300}
                         data={DUMMY_DATA.data}
                     >
