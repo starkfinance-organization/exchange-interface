@@ -11,7 +11,7 @@
 
 .modal-wrapper-wallet {
     position: fixed;
-    top: 30%;
+    top: 25%;
     left: 1%;
     z-index: 1050;
     width: 98%;
@@ -27,7 +27,7 @@
         border-radius: 10px;
         max-width: 800px;
         border: 1px solid #24c3bc;
-        background: rgba(36, 195, 188, 0.1);
+        background: rgba(36, 195, 188, 0.3);
         padding: 48px 82px;
 
         .modal-header {

@@ -4,6 +4,7 @@ import assets from '../../../assets';
 import Footer from '../../../layouts/Footer';
 import { route } from '../../../routes/configs';
 import MyPools from '../MyPools';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import '../style.scss';
 import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
@@ -1884,14 +1885,16 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
         setActiveTab(status);
     };
 
+    console.log(allPairs);
+
     return (
         <div className="pool-page">
             <div className="form-wrapper col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
                 <div
-                    className="row j-between"
+                    className="row j-between form-header"
                     style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '10px 0', alignItems: 'baseline' }}
                 >
-                    <div className="row gap-10">
+                    <div className="row gap-10" style={{ marginBottom: 10 }}>
                         <div
                             className="row gap-10 cursor-pointer"
                             style={{ marginBottom: 10 }}
@@ -1899,7 +1902,7 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                                 handleActiveTab(true);
                             }}
                         >
-                            <h3 style={{ color: !activeTab ? 'gray' : 'white' }}>Overview</h3>
+                            <h3 style={{ fontSize: '36px', color: '#24C3BC' }}>Overview</h3>
                         </div>
                         <div
                             className="row gap-10 cursor-pointer"
@@ -1908,7 +1911,7 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                                 handleActiveTab(false);
                             }}
                         >
-                            <h3 style={{ color: activeTab ? 'gray' : 'white' }}>Your liquidity</h3>
+                            <h3 style={{ fontSize: '36px', color: '#24C3BC' }}>Your liquidity</h3>
                         </div>
                     </div>
 
@@ -1950,11 +1953,68 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                                 {allPairs.length == 0 ? (
                                     <h4>Loading...</h4>
                                 ) : (
-                                    allPairs.map((item, index) => (
-                                        <PairComponent key={index} index={index} pairAddress={item} />
-                                    ))
+                                    <>
+                                        {allPairs.map((item, index) => (
+                                            <PairComponent key={index} index={index} pairAddress={item} />
+                                        ))}
+                                        <div className="table-swap">
+                                            <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
+                                                <Table sx={{}} aria-label="simple table">
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
+                                                            <TableCell style={{ textAlign: 'center' }}>
+                                                                Liquidity
+                                                            </TableCell>
+                                                            <TableCell style={{ textAlign: 'center' }}>
+                                                                Volume (24hr)
+                                                            </TableCell>
+                                                            <TableCell style={{ textAlign: 'center' }}>
+                                                                Fees (24hr)
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {/* {allPairs ? (
+                                                    <h4>Loading...</h4>
+                                                ) : allPairs.length == 0 ? (
+                                                    <h4>No liquidity</h4>
+                                                ) : (
+                                                    allPairs.map((pool, index) => {
+                                                        return (
+                                                            <PairComponent
+                                                                key={index}
+                                                                pool={pool}
+                                                                setReload={setReload}
+                                                            />
+                                                        );
+                                                    })
+                                                )} */}
+                                                        <TableRow
+                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                        >
+                                                            <TableCell
+                                                                style={{
+                                                                    display: 'flex',
+                                                                    alignItems: 'left',
+                                                                    textAlign: 'center',
+                                                                    cursor: 'pointer',
+                                                                }}
+                                                            >
+                                                                {/* {pool?.pair?.token0?.symbol ?? '~'} / {pool?.pair?.token1?.symbol ?? '~'} */}
+                                                                -
+                                                            </TableCell>
+                                                            {/* <TableCell style={{ textAlign: 'center' }}>{pool?.balanceOf.toSignificant(18)}</TableCell> */}
+                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                        </div>
+                                    </>
                                 )}
-                                {}
                             </div>
                         ) : (
                             <h5 style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>

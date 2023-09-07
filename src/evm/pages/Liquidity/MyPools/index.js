@@ -101,8 +101,6 @@ const MyPools = () => {
         };
     }, [chainId, account, library, reload]);
 
-    console.log(ownerPools);
-
     return (
         <div className="form-show" style={{ marginTop: 10 }}>
             {/* <div className="col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
@@ -130,7 +128,7 @@ const MyPools = () => {
                         <Table sx={{}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
+                                    <TableCell style={{ textAlign: 'left' }}>Name</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>Liquidity</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>Volume (24hr)</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>Fees (24hr)</TableCell>

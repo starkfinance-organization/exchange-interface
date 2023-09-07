@@ -117,7 +117,7 @@ const HeaderLayout = () => {
                     }}
                 >
                     <img src={assets.images.logo} alt="logo" style={{ height: '70px', width: '70px' }} />
-                    <h2 className="header__title">StarkSport</h2>
+                    <h2 className="header__title">STARKSPORT</h2>
                 </div>
 
                 <div className="header__nav row ">

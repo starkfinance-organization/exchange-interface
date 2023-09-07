@@ -13,6 +13,7 @@ import erc20 from '../../../assets/abi/erc20.js';
 import router from '../../../assets/abi/router.js';
 import factory from '../../../assets/abi/factory.js';
 import pair from '../../../assets/abi/pair.js';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 
@@ -1789,6 +1790,7 @@ const MyPools = ({ allPairs, pairsSymbol }) => {
 
     const { address, status } = useAccount();
     const [noLiquidityFound, setNoLiquidityFound] = useState(true);
+    const [reload, setReload] = useState(true);
     tempPairsSymbol = pairsSymbol;
     return (
         <div className="form-show" style={{ marginTop: 10 }}>
@@ -1798,19 +1800,52 @@ const MyPools = ({ allPairs, pairsSymbol }) => {
                         {allPairs.length == 0 ? (
                             <h4>Loading...</h4>
                         ) : (
-                            allPairs.map((item, index) => (
-                                <PairComponent
-                                    key={index}
-                                    index={index}
-                                    pairsSymbol={pairsSymbol}
-                                    allPairsLength={allPairs.length - 1}
-                                    pairAddress={item}
-                                    address={address}
-                                    status={status}
-                                    noLiquidityFound={noLiquidityFound}
-                                    setNoLiquidityFound={setNoLiquidityFound}
-                                />
-                            ))
+                            <>
+                                {allPairs.map((item, index) => (
+                                    <PairComponent
+                                        key={index}
+                                        index={index}
+                                        pairsSymbol={pairsSymbol}
+                                        allPairsLength={allPairs.length - 1}
+                                        pairAddress={item}
+                                        address={address}
+                                        status={status}
+                                        noLiquidityFound={noLiquidityFound}
+                                        setNoLiquidityFound={setNoLiquidityFound}
+                                    />
+                                ))}
+                                <div className="table-swap">
+                                    <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
+                                        <Table sx={{}} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Liquidity</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Volume (24hr)</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Fees (24hr)</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {allPairs ? (
+                                                    <h4>Loading...</h4>
+                                                ) : allPairs.length == 0 ? (
+                                                    <h4>No liquidity</h4>
+                                                ) : (
+                                                    allPairs.map((pool, index) => {
+                                                        return (
+                                                            <PairComponent
+                                                                key={index}
+                                                                pool={pool}
+                                                                setReload={setReload}
+                                                            />
+                                                        );
+                                                    })
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </>
                         )}
                         {}
                     </div>

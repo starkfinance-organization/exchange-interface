@@ -94,7 +94,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.OPSIDE_TESTNET)}
                               >
-                                  <img src={assets.images.metamask} />
+                                  <img src={assets.images.opside} />
                                   <p className="fz-18 fw-7">Opside</p>
                               </div>
                           </div>
