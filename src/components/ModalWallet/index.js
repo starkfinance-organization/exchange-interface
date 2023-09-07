@@ -60,7 +60,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                           }}
                       >
                           <div className="modal-header">
-                              <p className="fz-20 fw-7">WalletConnect</p>
+                              <p className="fz-20 fw-7">Switch Network</p>
 
                               <div className="modal-close" onClick={handleClose}>
                                   <img src={assets.svg.iconClose} alt="close" style={{ height: 15, width: 15 }} />
@@ -68,22 +68,22 @@ const ModalWallet = ({ isShowing, hide }) => {
                           </div>
                           <div className="modal-body row j-center g-50">
                               <div
-                                  className="wallet-icon col a-center g-5"
+                                  className="wallet-icon-inactive a-center g-5"
                                   onClick={() => handleConnect(connectors[1])}
                               >
-                                  <img src={assets.images.argent} />
+                                  <img src={assets.images.argent} alt="" />
                                   <p className="fz-18 fw-7">Argent</p>
                               </div>
                               <div
-                                  className="wallet-icon col a-center g-5"
+                                  className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(connectors[0])}
                               >
-                                  <img src={assets.images.braavos} />
+                                  <img src={assets.images.braavos} alt="" />
                                   <p className="fz-18 fw-7">Braavos</p>
                               </div>
 
                               <div
-                                  className="wallet-icon col a-center g-5"
+                                  className="wallet-icon-active col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
                               >
                                   <img src={assets.images.metamask} />
@@ -91,7 +91,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                               </div>
 
                               <div
-                                  className="wallet-icon col a-center g-5"
+                                  className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.OPSIDE_TESTNET)}
                               >
                                   <img src={assets.images.metamask} />
