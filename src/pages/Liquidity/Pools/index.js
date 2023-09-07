@@ -1756,24 +1756,29 @@ const TokenPairComponent = ({ index, pairAddress, token0Address, token1Address, 
     }, [status, token0Address, token1Address]);
 
     return (
-        <div className="body-one a-center row gap-20" style={{ flex: 'auto' }}>
-            <div className="row a-center gap-10 flex-2">
-                <h4>
-                    {token0Symbol}/{token1Symbol}
-                </h4>
-            </div>
-            <div className="col a-end flex-1">
-                <h5 className="body-one-title" style={{ color: '#747272' }}>
-                    Liquidity
-                </h5>
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell
+                style={{
+                    display: 'flex',
+                    alignItems: 'left',
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                }}
+            >
+                {token0Symbol}/{token1Symbol}
+            </TableCell>
+            {/* <TableCell style={{ textAlign: 'center' }}>{pool?.balanceOf.toSignificant(18)}</TableCell> */}
+            <TableCell style={{ textAlign: 'center' }}>
                 <TVLComponent
                     token0Symbol={token0Symbol}
                     token1Symbol={token1Symbol}
                     token0Reserve={token0Reserve}
                     token1Reserve={token1Reserve}
                 />
-            </div>
-        </div>
+            </TableCell>
+            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+        </TableRow>
     );
 };
 
@@ -1822,16 +1827,14 @@ const PairComponent = ({ index, pairAddress }) => {
     }, [status]);
 
     return (
-        <div className="row gap-5 a-center px-20 py-10 input-wrapper">
-            <TokenPairComponent
-                index={index}
-                pairAddress={pairAddress}
-                token0Address={token0Address}
-                token1Address={token1Address}
-                token0Reserve={token0Reserve}
-                token1Reserve={token1Reserve}
-            />
-        </div>
+        <TokenPairComponent
+            index={index}
+            pairAddress={pairAddress}
+            token0Address={token0Address}
+            token1Address={token1Address}
+            token0Reserve={token0Reserve}
+            token1Reserve={token1Reserve}
+        />
     );
 };
 
@@ -1841,10 +1844,12 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
     const { address, status } = useAccount();
     // 1. get_all_pairs​ in FACTORY
     const [allPairs, setAllPairs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             if (status === 'connected') {
+                setLoading(true);
                 const factoryContract = new Contract(factoryabi, FACTORY_ADDRESS, provider);
                 let all_pairs = await factoryContract.call('get_all_pairs');
                 let tempAllPairs = all_pairs.all_pairs;
@@ -1873,6 +1878,7 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                     });
                 }
                 setAllPairs(tempArr);
+                setLoading(false);
             }
         };
         fetchData();
@@ -1906,7 +1912,9 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                                 handleActiveTab(true);
                             }}
                         >
-                            <h3 style={{ fontSize: '36px', color: '#24C3BC' }}>Overview</h3>
+                            <h3 style={{ fontSize: '36px', color: '#24C3BC', opacity: activeTab ? 1 : 0.4 }}>
+                                Overview
+                            </h3>
                         </div>
                         <div
                             className="row gap-10 cursor-pointer"
@@ -1915,7 +1923,9 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                                 handleActiveTab(false);
                             }}
                         >
-                            <h3 style={{ fontSize: '36px', color: '#24C3BC' }}>Your liquidity</h3>
+                            <h3 style={{ fontSize: '36px', color: '#24C3BC', opacity: activeTab ? 0.4 : 1 }}>
+                                Your liquidity
+                            </h3>
                         </div>
                     </div>
 
@@ -1949,77 +1959,50 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
 
                 {activeTab ? (
                     <div className="form-show">
-                        {status == 'connected' || isConnectedEvm ? (
+                        {status == 'connected' ? (
                             <div
                                 className="row gap-10"
                                 style={{ flexDirection: 'column', justifyContent: 'space-between' }}
                             >
-                                {allPairs.length == 0 ? (
-                                    <h4>Loading...</h4>
-                                ) : (
-                                    <>
-                                        {allPairs.map((item, index) => (
-                                            <PairComponent key={index} index={index} pairAddress={item} />
-                                        ))}
-                                        <div className="table-swap">
-                                            <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
-                                                <Table sx={{}} aria-label="simple table">
-                                                    <TableHead>
-                                                        <TableRow>
-                                                            <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
-                                                            <TableCell style={{ textAlign: 'center' }}>
-                                                                Liquidity
-                                                            </TableCell>
-                                                            <TableCell style={{ textAlign: 'center' }}>
-                                                                Volume (24hr)
-                                                            </TableCell>
-                                                            <TableCell style={{ textAlign: 'center' }}>
-                                                                Fees (24hr)
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        {/* {allPairs ? (
-                                                    <h4>Loading...</h4>
+                                <div className="table-swap">
+                                    <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
+                                        <Table sx={{}} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell style={{ textAlign: 'center' }}>Name</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Liquidity</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Volume (24hr)</TableCell>
+                                                    <TableCell style={{ textAlign: 'center' }}>Fees (24hr)</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {loading ? (
+                                                    <TableRow>
+                                                        <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                                            Loading...
+                                                        </TableCell>
+                                                    </TableRow>
                                                 ) : allPairs.length == 0 ? (
-                                                    <h4>No liquidity</h4>
+                                                    <TableRow>
+                                                        <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                                            No liquidity
+                                                        </TableCell>
+                                                    </TableRow>
                                                 ) : (
                                                     allPairs.map((pool, index) => {
                                                         return (
                                                             <PairComponent
                                                                 key={index}
-                                                                pool={pool}
-                                                                setReload={setReload}
+                                                                index={index}
+                                                                pairAddress={pool}
                                                             />
                                                         );
                                                     })
-                                                )} */}
-                                                        <TableRow
-                                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                        >
-                                                            <TableCell
-                                                                style={{
-                                                                    display: 'flex',
-                                                                    alignItems: 'left',
-                                                                    textAlign: 'center',
-                                                                    cursor: 'pointer',
-                                                                }}
-                                                            >
-                                                                {/* {pool?.pair?.token0?.symbol ?? '~'} / {pool?.pair?.token1?.symbol ?? '~'} */}
-                                                                -
-                                                            </TableCell>
-                                                            {/* <TableCell style={{ textAlign: 'center' }}>{pool?.balanceOf.toSignificant(18)}</TableCell> */}
-                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
-                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
-                                                            <TableCell style={{ textAlign: 'center' }}>-</TableCell>
-                                                        </TableRow>
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        </div>
-                                    </>
-                                )}
-                                {}
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
                             </div>
                         ) : (
                             <h5 style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>
@@ -2029,7 +2012,7 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
                     </div>
                 ) : (
                     <>
-                        <MyPools allPairs={allPairs} pairsSymbol={pairsSymbol} />
+                        <MyPools loading={loading} allPairs={allPairs} pairsSymbol={pairsSymbol} />
                     </>
                 )}
             </div>

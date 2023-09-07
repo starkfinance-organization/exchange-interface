@@ -1,4 +1,5 @@
 .swap-page {
+    max-width: 100%;
     height: inherit;
     overflow-y: auto;
     margin: 100px auto;
@@ -94,6 +95,10 @@
         max-width: 439px;
         width: 100%;
 
+        @media (max-width: 840px) {
+            max-width: 100%;
+        }
+
         background-color: rgba(36, 195, 188, 0.1);
         border: 1px solid #24c3bc;
         border-radius: 6px;
@@ -133,11 +138,11 @@
             text-align: center;
         }
         .input-balance-wrapper {
-            display: flex;
-            justify-content: start;
+            // display: flex;
+            // justify-content: start;
             width: 100%;
             border-radius: 10px;
-            margin-bottom: 10px;
+            // margin-bottom: 10px;
             padding-right: 4px;
             p {
                 font-family: Roboto;
@@ -194,6 +199,7 @@
                 justify-content: end;
                 gap: 10px;
                 margin-top: 10px;
+                margin-bottom: 6px;
             }
 
             .btn-percent {

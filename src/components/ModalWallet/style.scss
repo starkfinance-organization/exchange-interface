@@ -28,7 +28,13 @@
         max-width: 800px;
         border: 1px solid #24c3bc;
         background: rgba(36, 195, 188, 0.3);
-        padding: 48px 82px;
+        padding: 20px;
+        backdrop-filter: blur(3px);
+
+        @media screen and (max-width: 768px) {
+            padding: 16px;
+            margin: 0 12px;
+        }
 
         .modal-header {
             display: flex;
@@ -67,15 +73,19 @@
 
         .modal-body {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: repeat(3, 1fr);
             padding: 20px 10px;
             background: transparent;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
 
-            @media screen and (min-width: 768px) {
+            @media screen and (max-width: 768px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media screen and (max-width: 480px) {
                 display: grid;
-                grid-template-columns: auto auto auto;
+                grid-template-columns: repeat(1, 1fr);
             }
             .wallet-icon-active {
                 border-radius: 6px;

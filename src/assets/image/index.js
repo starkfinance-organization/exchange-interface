@@ -93,10 +93,8 @@ import gif2 from './GIF2.gif';
 import certik_logo from './certik_logo.png';
 import stark_guardians_logo from './StarkGuardians_logo.png';
 import metamask from './metamask.png';
-<<<<<<< HEAD
 import zeta from './zeta.png';
 import opside from './opside.png';
-=======
 import STARKPORT from './STARKPORT.png';
 import OUR_FEATURES from './OUR_FEATURES.png';
 import SECURITY_AUDIT from './SECURITY_AUDIT.png';
@@ -107,7 +105,6 @@ import ROAD_MAP from './ROAD_MAP.png';
 import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
 import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
 import bg_home from './bg-home.png';
->>>>>>> 80426aad3f1ac4f1766e08bc887d8c4be35fa8db
 
 const images = {
     metamask,

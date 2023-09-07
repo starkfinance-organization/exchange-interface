@@ -904,11 +904,11 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                             </div>
                         </div>
                     </div>
-                    <div className="input-balance-wrapper">
+                    {/* <div className="input-balance-wrapper">
                         <p>Balance: {token0BalanceAmount}</p>
-                    </div>
+                    </div> */}
 
-                    <div className="wrapper-percent">
+                    {/* <div className="wrapper-percent">
                         {percentNumbers.map((item, index) => {
                             return (
                                 <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
@@ -916,7 +916,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                                 </button>
                             );
                         })}
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

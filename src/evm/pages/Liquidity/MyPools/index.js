@@ -43,6 +43,19 @@ const PairComponent = ({ pool, setReload }) => {
             <TableCell style={{ textAlign: 'center' }}>{pool?.balanceOf.toSignificant(18)}</TableCell>
             <TableCell style={{ textAlign: 'center' }}>-</TableCell>
             <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+            <TableCell style={{ display: 'flex', justifyContent: 'end' }}>
+                <Button
+                    style={{
+                        border: 'none',
+                        borderRadius: '10px',
+                    }}
+                    className="hover-primary-color"
+                    onClick={onRemoveLiquidityCallback}
+                    loading={submitting}
+                >
+                    Remove
+                </Button>
+            </TableCell>
         </TableRow>
     );
 
@@ -132,13 +145,22 @@ const MyPools = () => {
                                     <TableCell style={{ textAlign: 'center' }}>Liquidity</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>Volume (24hr)</TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>Fees (24hr)</TableCell>
+                                    <TableCell style={{ textAlign: 'center' }}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {loading ? (
-                                    <h4>Loading...</h4>
+                                    <TableRow>
+                                        <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                            Loading...
+                                        </TableCell>
+                                    </TableRow>
                                 ) : ownerPools.length == 0 ? (
-                                    <h4>No liquidity</h4>
+                                    <TableRow>
+                                        <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                            No liquidity
+                                        </TableCell>
+                                    </TableRow>
                                 ) : (
                                     ownerPools.map((pool, index) => {
                                         return <PairComponent key={index} pool={pool} setReload={setReload} />;

@@ -71,22 +71,22 @@ const ModalWallet = ({ isShowing, hide }) => {
                                   className="wallet-icon-inactive a-center g-5"
                                   onClick={() => handleConnect(connectors[1])}
                               >
-                                  <img src={assets.images.argent} alt="" />
-                                  <p className="fz-18 fw-7">Argent</p>
+                                  <img src={assets.images.starknet} alt="" />
+                                  <p className="fz-18 fw-7">Starknet</p>
                               </div>
-                              <div
+                              {/* <div
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(connectors[0])}
                               >
                                   <img src={assets.images.braavos} alt="" />
                                   <p className="fz-18 fw-7">Braavos</p>
-                              </div>
+                              </div> */}
 
                               <div
-                                  className="wallet-icon-active col a-center g-5"
+                                  className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
                               >
-                                  <img src={assets.images.metamask} />
+                                  <img src={assets.images.zeta} />
                                   <p className="fz-18 fw-7">MetaMask</p>
                               </div>
 
