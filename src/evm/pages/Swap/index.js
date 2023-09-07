@@ -673,7 +673,7 @@ const SwapPage = () => {
     };
 
     const [priceSrt, setPriceSrt] = useState();
-    const [dateCurrent, setDateCurrent] = useState();
+    const [dateCurrent, setDateCurrent] = useState(Math.floor(Date.now() / 1000));
     const [activeIndex, setActiveIndex] = useState(0);
     const [rowsData, setRowsData] = useState([]); // TODO
     const [pairAddr, setPairAddr] = useState(':');
@@ -768,7 +768,9 @@ const SwapPage = () => {
                                     Volume (24hr)
                                 </h5>
                                 <p className="chart-content-1__p1">${isNaN(vol) ? '0' : vol}</p>
-                                <p className="chart-content-1__p2">{dateCurrent ? dateCurrent : 'Jan 1, 2023 (UTC)'}</p>
+                                <p className="chart-content-1__p2">
+                                    {dateCurrent ? convertToLocalTime(dateCurrent) : 'Jan 1, 2023 (UTC)'}
+                                </p>
                             </div>
                             <div className="chart-content-2">
                                 <div className="active">M</div>
