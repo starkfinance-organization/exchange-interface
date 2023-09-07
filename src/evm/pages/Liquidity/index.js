@@ -324,6 +324,8 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
         },
     ];
 
+    const currentPath = window.location.pathname;
+
     return (
         <Modal
             open={isShowAddLiquidity}
@@ -354,14 +356,20 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                 <div className="row j-between" style={{ margin: '10px 0' }}>
                     <div className="row gap-10" style={{ marginBottom: 10 }}>
                         <h4
-                            className="hover-primary-color title-noactive"
+                            className="hover-primary-color-2 primary-color-2 title-noactive"
                             onClick={() => {
-                                navigate(route.swap);
+                                navigate('/swap');
                             }}
                         >
                             Swap
                         </h4>
-                        <h4 className="hover-primary-color">Liquidity</h4>
+                        <h4
+                            className={`hover-primary-color-2 ${
+                                currentPath === '/liquidity' ? 'primary-color-1' : 'primary-color-2'
+                            }`}
+                        >
+                            Liquidity
+                        </h4>
                     </div>
                     <div
                         className="btn__setting row gap-10 center"
@@ -370,7 +378,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                             openModalSetting();
                         }}
                     >
-                        <img src={assets.svg.setting} style={{ width: 15, height: 15 }} />
+                        <img src={assets.svg.setting} style={{ width: 15, height: 15 }} alt="" />
                     </div>
                     {/* <div style={{ height: 20, width: 20 }}>
                     <img src={assets.svg.setting} />
@@ -385,46 +393,60 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 value={tokenAmounts[Field.INPUT]}
                                 onChange={(e) => handleChangeAmounts(e.target.value, Field.INPUT)}
                             />
-                            <div
-                                className="row gap-5 option-wrapper a-center p-10"
-                                onClick={() => {
-                                    handleTokenShow(Field.INPUT);
-                                }}
-                            >
-                                <img
-                                    src={TOKEN_ICON_LIST[chainId]?.[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
-                                    style={{ height: 30, width: 30 }}
-                                    alt="eth_icon"
-                                />
-                                <h5>{tokens[Field.INPUT]?.symbol}</h5>
-                                <img
-                                    src={assets.svg.down_arrow}
-                                    style={{ height: 20, width: 20 }}
-                                    alt="down_arrow_icon"
-                                />
+                            <div>
+                                <div
+                                    className="row gap-5 option-wrapper a-center p-10"
+                                    onClick={() => {
+                                        handleTokenShow(Field.INPUT);
+                                    }}
+                                >
+                                    <img
+                                        src={
+                                            TOKEN_ICON_LIST[chainId]?.[tokens[Field.INPUT]?.address] ??
+                                            UNKNOWN_TOKEN_ICON
+                                        }
+                                        style={{ height: 30, width: 30 }}
+                                        alt="eth_icon"
+                                    />
+                                    <h5>{tokens[Field.INPUT]?.symbol}</h5>
+                                    <img
+                                        src={assets.svg.down_arrow}
+                                        style={{ height: 20, width: 20 }}
+                                        alt="down_arrow_icon"
+                                    />
+                                </div>
+                                <div className="wrapper-percent" style={{ marginTop: 10 }}>
+                                    {percentNumbers.map((item, index) => {
+                                        return (
+                                            <button
+                                                key={index}
+                                                className="btn-percent"
+                                                onClick={() => item.handleChoosingPercent(Field.INPUT)}
+                                            >
+                                                <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                                <div className="input-balance-wrapper">
+                                    <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="input-balance-wrapper">
-                            <p>Balance: {balances?.[0]?.toSignificant(18)}</p>
-                        </div>
-
-                        <div className="wrapper-percent" style={{ marginTop: 10 }}>
-                            {percentNumbers.map((item, index) => {
-                                return (
-                                    <button
-                                        key={index}
-                                        className="btn-percent"
-                                        onClick={() => item.handleChoosingPercent(Field.INPUT)}
-                                    >
-                                        <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
-                                    </button>
-                                );
-                            })}
                         </div>
                     </div>
                 </div>
-                <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
-                    <img src={assets.svg.plus} style={{ height: 20, width: 20 }} alt="swap_icon" />
+                <div
+                    className="center icon-swap-wrapper"
+                    style={{
+                        marginTop: 4,
+                        marginBottom: 4,
+                        zIndex: 99,
+                        // border: '4px solid #26193c',
+                        cursor: 'pointer',
+                    }}
+                    // onClick={() => handleReverse()}
+                >
+                    <img src={assets.svg.swap} style={{ height: 24, width: 24 }} alt="swap_icon" />
                 </div>
                 <div className="input-wrapper">
                     <div style={{ padding: 12 }}>
@@ -434,29 +456,32 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 value={tokenAmounts[Field.OUTPUT]}
                                 onChange={(e) => handleChangeAmounts(e.target.value, Field.OUTPUT)}
                             />
-                            <div
-                                className="row gap-5 option-wrapper a-center p-10"
-                                onClick={() => {
-                                    handleTokenShow(Field.OUTPUT);
-                                }}
-                            >
-                                <img
-                                    src={
-                                        TOKEN_ICON_LIST[chainId]?.[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON
-                                    }
-                                    style={{ height: 30, width: 30 }}
-                                    alt="eth_icon"
-                                />
-                                <h5>{tokens[Field.OUTPUT]?.symbol}</h5>
-                                <img
-                                    src={assets.svg.down_arrow}
-                                    style={{ height: 20, width: 20 }}
-                                    alt="down_arrow_icon"
-                                />
+                            <div>
+                                <div
+                                    className="row gap-5 option-wrapper a-center p-10"
+                                    onClick={() => {
+                                        handleTokenShow(Field.OUTPUT);
+                                    }}
+                                >
+                                    <img
+                                        src={
+                                            TOKEN_ICON_LIST[chainId]?.[tokens[Field.OUTPUT]?.address] ??
+                                            UNKNOWN_TOKEN_ICON
+                                        }
+                                        style={{ height: 30, width: 30 }}
+                                        alt="eth_icon"
+                                    />
+                                    <h5>{tokens[Field.OUTPUT]?.symbol}</h5>
+                                    <img
+                                        src={assets.svg.down_arrow}
+                                        style={{ height: 20, width: 20 }}
+                                        alt="down_arrow_icon"
+                                    />
+                                </div>
+                                <div className="input-balance-wrapper">
+                                    <p>Balance: {balances?.[1]?.toSignificant(18)}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="input-balance-wrapper">
-                            <p>Balance: {balances?.[1]?.toSignificant(18)}</p>
                         </div>
                     </div>
                 </div>
