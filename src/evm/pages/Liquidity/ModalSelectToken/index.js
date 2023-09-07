@@ -2,7 +2,7 @@ import { useAccount } from '@starknet-react/core';
 import 'antd/dist/antd.css';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useEffect, useState } from 'react';
-import { Contract, Provider, number } from 'starknet';
+import { Contract, Provider, RpcProvider, number } from 'starknet';
 import assets from '../../../../assets';
 import './style.scss';
 const provider = new RpcProvider({

@@ -98,12 +98,11 @@ import OUR_FEATURES from './OUR_FEATURES.png';
 import SECURITY_AUDIT from './SECURITY_AUDIT.png';
 import STARKSPORT_NFT_MARKETPLACE from './STARKSPORT_NFT_MARKETPLACE.png';
 import STARKSPORT_LAUNCHPAD from './STARKSPORT_LAUNCHPAD.png';
-import STARKSPORT_EARNINGS from './STARKSPORT_EARNINGS.png';
+import STARKSPORT_EARNINGS from './starksport_earnings.png';
 import ROAD_MAP from './ROAD_MAP.png';
 import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
 import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
 import bg_home from './bg-home.png';
-
 
 const images = {
     metamask,

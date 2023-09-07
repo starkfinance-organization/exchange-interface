@@ -5,7 +5,7 @@ import MyPools from '../MyPools';
 
 import { useAccount } from '@starknet-react/core';
 import BigNumber from 'bignumber.js';
-import { Contract, Provider, number, uint256 } from 'starknet';
+import { Contract, Provider, RpcProvider, number, uint256 } from 'starknet';
 import '../style.scss';
 
 import { useActiveWeb3React } from '../../../hooks/useActiveWeb3React';
