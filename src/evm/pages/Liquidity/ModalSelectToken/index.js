@@ -5,7 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { Contract, Provider, number } from 'starknet';
 import assets from '../../../../assets';
 import './style.scss';
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
+const provider = new RpcProvider({
+    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+});
 const erc20abi = [
     {
         members: [

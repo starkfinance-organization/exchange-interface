@@ -43,7 +43,9 @@ const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2da
 // const provider = new RpcProvider({
 //     nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
 // });
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
+const provider = new RpcProvider({
+    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+});
 const erc20abi = [
     {
         members: [
@@ -779,29 +781,29 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
     const { isShowingSetting, toggleSettingSwap } = useModalSettingSwap();
 
-        const percentNumbers = [
+    const percentNumbers = [
         {
             number: 25,
             handleChoosingPercent: () => {
-              return;
+                return;
             }
         },
         {
             number: 50,
             handleChoosingPercent: () => {
-              return;  
+                return;
             }
         },
         {
             number: 75,
             handleChoosingPercent: () => {
-              return;  
+                return;
             }
         },
         {
             number: 100,
             handleChoosingPercent: () => {
-              return;  
+                return;
             }
         }
     ]
@@ -873,7 +875,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
                     <div className='wrapper-percent'>
                         {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100 ? "MAX" : item.number + '%'}</p></button>)
                         })}
                     </div>
 
@@ -1107,7 +1109,7 @@ const SwapPage = () => {
             try {
                 let res = await axios.get(`https://api.starksport.finance/api/swap-transactions/latest`);
                 setRowsData(res.data);
-            } catch (error) {}
+            } catch (error) { }
         }
         getSwapTx();
     }, []);
