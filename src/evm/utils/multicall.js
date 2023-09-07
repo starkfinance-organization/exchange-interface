@@ -11,7 +11,7 @@ export function parseCallKey(callKey) {
     };
 }
 
-export const getSingleContractMultipleData = async (library, contract, methodName, callInputs) => {
+export const getSingleContractMultipleData = async (chainId, library, contract, methodName, callInputs) => {
     try {
         if (!contract?.interface) return undefined;
         const fragment = contract.interface?.getFunction(methodName);
@@ -24,7 +24,7 @@ export const getSingleContractMultipleData = async (library, contract, methodNam
                       };
                   })
                 : [];
-        const multicallContract = await getMulticallContract(library);
+        const multicallContract = await getMulticallContract(chainId, library);
         const chunks = await fetchChunk(multicallContract, calls);
         const { results } = chunks;
         return results.map((result) => contract.interface?.decodeFunctionResult(methodName, result));
@@ -33,7 +33,7 @@ export const getSingleContractMultipleData = async (library, contract, methodNam
     }
 };
 
-export const getMultipleContractMultipleData = async (library, contracts, methodName, callInputs) => {
+export const getMultipleContractMultipleData = async (chainId, library, contracts, methodName, callInputs) => {
     try {
         if (contracts.length != callInputs.length) return;
         const calls = contracts.map((contract, i) => {
@@ -44,7 +44,7 @@ export const getMultipleContractMultipleData = async (library, contracts, method
                 callData: contract.interface.encodeFunctionData(fragment, callInputs[i]),
             };
         });
-        const multicallContract = await getMulticallContract(library);
+        const multicallContract = await getMulticallContract(chainId, library);
         const chunks = await fetchChunk(multicallContract, calls);
         const { results } = chunks;
         return results.map((result, i) => {
@@ -59,7 +59,13 @@ export const getMultipleContractMultipleData = async (library, contracts, method
     }
 };
 
-export const getSingleContractMultipleDataMultipleMethods = async (library, contract, methodNames, callInputs) => {
+export const getSingleContractMultipleDataMultipleMethods = async (
+    chainId,
+    library,
+    contract,
+    methodNames,
+    callInputs,
+) => {
     try {
         if (methodNames.length != callInputs.length) return;
         const calls = methodNames.map((methodName, i) => {
@@ -70,7 +76,7 @@ export const getSingleContractMultipleDataMultipleMethods = async (library, cont
                 callData: contract.interface.encodeFunctionData(fragment, callInputs[i]),
             };
         });
-        const multicallContract = await getMulticallContract(library);
+        const multicallContract = await getMulticallContract(chainId, library);
         const chunks = await fetchChunk(multicallContract, calls);
         const { results } = chunks;
         return results.map((result, i) => contract.interface?.decodeFunctionResult(methodNames[i], result));
@@ -79,7 +85,13 @@ export const getSingleContractMultipleDataMultipleMethods = async (library, cont
     }
 };
 
-export const getMultipleContractMultipleDataMultipleMethods = async (library, contracts, methodNames, callInputs) => {
+export const getMultipleContractMultipleDataMultipleMethods = async (
+    chainId,
+    library,
+    contracts,
+    methodNames,
+    callInputs,
+) => {
     try {
         return Promise.all(
             contracts.map(async (contract, i) => {
@@ -94,7 +106,7 @@ export const getMultipleContractMultipleDataMultipleMethods = async (library, co
                               };
                           })
                         : [];
-                const multicallContract = await getMulticallContract(library);
+                const multicallContract = await getMulticallContract(chainId, library);
                 const chunks = await fetchChunk(multicallContract, calls);
                 const { results } = chunks;
                 return results.map((result) => contract.interface?.decodeFunctionResult(methodNames[i], result));

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAccount } from '@starknet-react/core';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
+import { CHAIN_ID } from '../../../evm/configs/networks';
 
 const ButtonConnectWallet = () => {
     const { account: accountEvm, isConnected: isConnectedEvm } = useActiveWeb3React();
@@ -50,6 +51,7 @@ const ButtonConnectWallet = () => {
 
 const HeaderLayout = () => {
     const navigate = useNavigate();
+    const { chainId, isConnected: isConnectedEvm } = useActiveWeb3React();
 
     const [showMenu, setShowMenu] = useState(false);
     const [showMenuEarn, setShowMenuEarn] = useState(false);
@@ -107,7 +109,7 @@ const HeaderLayout = () => {
     };
 
     return (
-        <div className="header row a-center j-between px-15">
+        <div className="header row a-center j-between">
             <div className="row a-center g-15">
                 <div
                     className="row g-10 a-center"
@@ -119,14 +121,15 @@ const HeaderLayout = () => {
                     <h2 className="header__title">STARKSPORT</h2>
                 </div>
             </div>
+
             <div className="header__nav row ">
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        openInNewTab('https://starksport.finance/');
+                        navClick(route.home);
                     }}
                 >
-                    <h4 style={{ color: 'white' }}>Home</h4>
+                    <h4>Home</h4>
                 </div>
                 <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
                     <h4>Exchange</h4>
@@ -148,6 +151,12 @@ const HeaderLayout = () => {
                                 }}
                             >
                                 Liquidity
+                            </p>
+                            <p
+                                className="menu__item py-10 fw-7"
+                                onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
+                            >
+                                Faucet
                             </p>
                             <p
                                 className="menu__item py-10 fw-7"
@@ -178,8 +187,13 @@ const HeaderLayout = () => {
                     <h4>Marketplace</h4>
                 </div>
 
-                <div className="header__item p-15" onClick={() => navClick(route.launchpad)}>
-                    <h4>Launchpads</h4>
+                <div
+                    className="header__item p-15"
+                    onClick={() => {
+                        navClick(route.launchpad);
+                    }}
+                >
+                    <h4>Launchpad</h4>
                 </div>
 
                 <div
@@ -187,7 +201,7 @@ const HeaderLayout = () => {
                     onMouseEnter={handleMenuEarnHover}
                     onMouseLeave={handleMenuEarnLeave}
                 >
-                    <h4>Earn</h4>
+                    <h4>Earnings</h4>
 
                     {showMenuEarn && (
                         <div ref={menuRef} className="menu col">
@@ -248,7 +262,19 @@ const HeaderLayout = () => {
                 </div>
             </div>
 
-            <div className="row g-20">
+            <div className="menu-drawer g-20">
+                <img
+                    src={
+                        !isConnectedEvm
+                            ? assets.svg.iconSwitchNetwork
+                            : chainId == CHAIN_ID.ZETA_TESTNET
+                            ? assets.images.zeta
+                            : assets.images.opside
+                    }
+                    alt="Switch network icon"
+                    style={{ width: '50px', height: '50px' }}
+                    className="menu-drawer-icon"
+                />
                 <ButtonConnectWallet />
                 <Drawer isShowing={isDrawerShowing} hide={toggleDrawer} />
                 <div className="menu-icon" onClick={toggleDrawer}>

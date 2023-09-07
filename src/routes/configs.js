@@ -3,6 +3,7 @@ const route = {
     nft: '/nft',
     // airdrop: '/airdrop',
     swap: '/swap',
+    faucet: '/faucet',
     liquidity: '/liquidity/:activeTab',
     liquidity2: '/liquidity',
     pools: '/pools',

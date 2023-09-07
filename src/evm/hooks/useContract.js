@@ -20,7 +20,6 @@ export async function callContract(contract, method, args, overrides = {}) {
         const res = await tx.wait();
         return res;
     } catch (error) {
-        console.error(error);
         throw error;
     }
 }
@@ -41,8 +40,8 @@ export async function callStaticContract(contract, method, args, overrides = {})
     }
 }
 
-export function getMulticallContract(library, account = undefined) {
-    return getContract(MULTICALL_ADDRESS, MulticallABI, library, account);
+export function getMulticallContract(chainId, library, account = undefined) {
+    return getContract(MULTICALL_ADDRESS[chainId], MulticallABI, library, account);
 }
 
 export function getERC20Contract(token, library, account = undefined) {
@@ -55,10 +54,10 @@ export function getPairContract(pair, library, account = undefined) {
     return getContract(pair, PairABI, library, account);
 }
 
-export function getFactoryContract(library, account = undefined) {
-    return getContract(FACTORY_ADDRESS, FactoryABI, library, account);
+export function getFactoryContract(chainId, library, account = undefined) {
+    return getContract(FACTORY_ADDRESS[chainId], FactoryABI, library, account);
 }
 
-export function getRouterContract(library, account = undefined) {
-    return getContract(ROUTER_ADDRESS, RouterABI, library, account);
+export function getRouterContract(chainId, library, account = undefined) {
+    return getContract(ROUTER_ADDRESS[chainId], RouterABI, library, account);
 }

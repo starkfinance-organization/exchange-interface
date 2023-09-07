@@ -6,11 +6,12 @@ import { MaxUint256 } from '@ethersproject/constants';
 import { Web3Provider } from '@ethersproject/providers';
 import { Token, TokenAmount, CurrencyAmount } from '@uniswap/sdk';
 
-export const getToken = async (token, library) => {
-    if (!library) return;
+export const getToken = async (chainId, token, library) => {
+    if (!library || !chainId) return;
     const erc20Contract = getERC20Contract(token, library);
     const erc20Methods = ['name', 'symbol', 'decimals'];
     const results = await getSingleContractMultipleDataMultipleMethods(
+        chainId,
         library,
         erc20Contract,
         erc20Methods,
@@ -23,20 +24,21 @@ export const getToken = async (token, library) => {
     }, {});
     if (Array.from(new Set([...Object.keys(_token), ...erc20Methods]).values()).length !== erc20Methods.length) return;
 
-    return new Token(NETWORKS_SUPPORTED.chainId, token, _token['decimals'], _token['symbol'], _token['name']);
+    return new Token(chainId, token, _token['decimals'], _token['symbol'], _token['name']);
 };
 
-export const getAllowances = async (library, owner, spender, tokens, amounts) => {
+export const getAllowances = async (chainId, library, owner, spender, tokens, amounts) => {
     try {
         if (tokens.every((token) => !token)) return [];
-        const onlyTokens = tokens.filter((token) => typeof token !== 'undefined' && !token.equals(WETH));
+        const onlyTokens = tokens.filter((token) => typeof token !== 'undefined' && !token.equals(WETH[chainId]));
         const onlyTokenAmounts = amounts.filter(
-            (_, i) => typeof tokens[i]?.address !== 'undefined' && !tokens?.[i]?.equals(WETH),
+            (_, i) => typeof tokens[i]?.address !== 'undefined' && !tokens?.[i]?.equals(WETH[chainId]),
         );
         const erc20Contracts = onlyTokens.map((token) =>
             token?.address ? getERC20Contract(token?.address, library) : undefined,
         );
         const results = await getMultipleContractMultipleData(
+            chainId,
             library,
             erc20Contracts,
             'allowance',
@@ -60,9 +62,9 @@ export const getAllowances = async (library, owner, spender, tokens, amounts) =>
     }
 };
 
-export const approves = async (library, account, spender, tokens) => {
+export const approves = async (chainId, library, account, spender, tokens) => {
     try {
-        const onlyTokens = tokens.filter((token) => typeof token !== 'undefined' && !token.equals(WETH));
+        const onlyTokens = tokens.filter((token) => typeof token !== 'undefined' && !token.equals(WETH[chainId]));
         if (!onlyTokens.length) return true;
         const erc20Contracts = tokens.map((token) =>
             token?.address ? getERC20Contract(token?.address, library, account) : undefined,

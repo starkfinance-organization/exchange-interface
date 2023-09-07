@@ -13,6 +13,8 @@ import erc20 from '../../../assets/abi/erc20.js';
 import router from '../../../assets/abi/router.js';
 import factory from '../../../assets/abi/factory.js';
 import pair from '../../../assets/abi/pair.js';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button } from 'antd';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 
@@ -1728,9 +1730,13 @@ const PairComponent = ({
         },
     ];
 
+    const [submitting, setSubmitting] = useState(false);
+
     const handleRemoveLiquidity = () => {
         if (status == 'connected') {
+            setSubmitting(true);
             execute();
+            setSubmitting(false);
         }
     };
     const { execute } = useStarknetExecute({ calls });
@@ -1741,80 +1747,138 @@ const PairComponent = ({
         console.log('🚀 ~ file: index.js:1731 ~ liquidityBalance:', liquidityBalance);
         console.log('==========================');
         return (
-            <div className="row gap-5 a-center p-20 input-wrapper">
-                <div className="body-one a-center row gap-30" style={{ flex: 'auto' }}>
-                    <div className="row a-center flex-2">
-                        {(() => {
-                            const foundPair = pairsSymbol.find((p) => p.pairAddress === pairAddress);
-                            console.log('🚀 ~ file: index.js:1734 ~ pairsSymbol:', pairsSymbol);
-                            console.log('🚀 ~ file: index.js:1734 ~ foundPair:', foundPair);
+            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell
+                    style={{
+                        display: 'flex',
+                        alignItems: 'left',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                    }}
+                >
+                    {(() => {
+                        const foundPair = pairsSymbol.find((p) => p.pairAddress === pairAddress);
+                        console.log('🚀 ~ file: index.js:1734 ~ pairsSymbol:', pairsSymbol);
+                        console.log('🚀 ~ file: index.js:1734 ~ foundPair:', foundPair);
 
-                            const pairWithSymbols = foundPair
-                                ? {
-                                    ...foundPair,
-                                    pairSymbol: `${foundPair.token0SymbolData}/${foundPair.token1SymbolData}`,
-                                }
-                                : null;
-                            console.log('🚀 ~ file: index.js:1737 ~ pairWithSymbols:', pairWithSymbols);
-                            if (pairWithSymbols) {
-                                return <h4>{pairWithSymbols.pairSymbol}</h4>;
-                            }
-                            return <h4>~ / ~</h4>;
-                        })()}
-                    </div>
-
-                    <div className="col a-center flex-1">
-                        <h5 className="body-one-title" style={{ color: '#747272' }}>
-                            Liquidity Provided
-                        </h5>
-                        <h5>{liquidityBalance}</h5>
-                    </div>
-                    <div
-                        className="row a-center flex-1 "
-                        style={{ flex: 'none' }}
-                        onClick={() => {
-                            handleRemoveLiquidity();
+                        const pairWithSymbols = foundPair
+                            ? {
+                                  ...foundPair,
+                                  pairSymbol: `${foundPair.token0SymbolData}/${foundPair.token1SymbolData}`,
+                              }
+                            : null;
+                        console.log('🚀 ~ file: index.js:1737 ~ pairWithSymbols:', pairWithSymbols);
+                        if (pairWithSymbols) {
+                            return <h4>{pairWithSymbols.pairSymbol}</h4>;
+                        }
+                        return <h4>~ / ~</h4>;
+                    })()}
+                </TableCell>
+                {/* <TableCell style={{ textAlign: 'center' }}>{pool?.balanceOf.toSignificant(18)}</TableCell> */}
+                <TableCell style={{ textAlign: 'center' }}>{liquidityBalance}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>-</TableCell>
+                <TableCell style={{ display: 'flex', justifyContent: 'end' }}>
+                    <Button
+                        style={{
+                            border: 'none',
+                            borderRadius: '10px',
                         }}
+                        className="hover-primary-color"
+                        onClick={() => handleRemoveLiquidity()}
+                        loading={submitting}
                     >
-                        <h5 className="hover-primary-color">Remove</h5>
-                    </div>
-                </div>
-            </div>
+                        Remove
+                    </Button>
+                </TableCell>
+            </TableRow>
+            // <div className="row gap-5 a-center p-20 input-wrapper">
+            //     <div className="body-one a-center row gap-30" style={{ flex: 'auto' }}>
+            //         <div className="row a-center flex-2">
+
+            //         </div>
+
+            //         <div className="col a-center flex-1">
+            //             <h5 className="body-one-title" style={{ color: '#747272' }}>
+            //                 Liquidity Provided
+            //             </h5>
+            //             <h5>{liquidityBalance}</h5>
+            //         </div>
+            //         <div
+            //             className="row a-center flex-1 "
+            //             style={{ flex: 'none' }}
+            //             onClick={() => {
+            //                 handleRemoveLiquidity();
+            //             }}
+            //         >
+            //             <h5 className="hover-primary-color">Remove</h5>
+            //         </div>
+            //     </div>
+            // </div>
         );
     } else if (noLiquidityFound && index == allPairsLength) {
         return <h5 style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>No liquidity found</h5>;
     }
 };
 
-const MyPools = ({ allPairs, pairsSymbol }) => {
+const MyPools = ({ loading, allPairs, pairsSymbol }) => {
     const { isConnected: isConnectedEvm } = useActiveWeb3React();
 
     const { address, status } = useAccount();
     const [noLiquidityFound, setNoLiquidityFound] = useState(true);
+    const [reload, setReload] = useState(true);
     tempPairsSymbol = pairsSymbol;
     return (
         <div className="form-show" style={{ marginTop: 10 }}>
             <div className="col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
                 {status == 'connected' || isConnectedEvm ? (
                     <div className="row gap-10" style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {allPairs.length == 0 ? (
-                            <h4>Loading...</h4>
-                        ) : (
-                            allPairs.map((item, index) => (
-                                <PairComponent
-                                    key={index}
-                                    index={index}
-                                    pairsSymbol={pairsSymbol}
-                                    allPairsLength={allPairs.length - 1}
-                                    pairAddress={item}
-                                    address={address}
-                                    status={status}
-                                    noLiquidityFound={noLiquidityFound}
-                                    setNoLiquidityFound={setNoLiquidityFound}
-                                />
-                            ))
-                        )}
-                        { }
+                        <div className="table-swap">
+                            <TableContainer component={Paper} style={{ background: '#0e0a1f' }}>
+                                <Table sx={{}} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell style={{ textAlign: 'left' }}>Name</TableCell>
+                                            <TableCell style={{ textAlign: 'center' }}>Liquidity</TableCell>
+                                            <TableCell style={{ textAlign: 'center' }}>Volume (24hr)</TableCell>
+                                            <TableCell style={{ textAlign: 'center' }}>Fees (24hr)</TableCell>
+                                            <TableCell style={{ textAlign: 'center' }}></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {loading ? (
+                                            <TableRow>
+                                                <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                                    Loading...
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : allPairs.length == 0 ? (
+                                            <TableRow>
+                                                <TableCell colSpan={4} style={{ textAlign: 'left' }}>
+                                                    No liquidity
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : (
+                                            allPairs.map((pool, index) => {
+                                                return (
+                                                    <PairComponent
+                                                        key={index}
+                                                        index={index}
+                                                        pairsSymbol={pairsSymbol}
+                                                        allPairsLength={allPairs.length - 1}
+                                                        pairAddress={pool}
+                                                        address={address}
+                                                        status={status}
+                                                        noLiquidityFound={noLiquidityFound}
+                                                        setNoLiquidityFound={setNoLiquidityFound}
+                                                    />
+                                                );
+                                            })
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
                     </div>
                 ) : (
                     <h5 style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}>

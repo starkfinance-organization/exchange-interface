@@ -9,6 +9,7 @@ import { useWallet } from '../../evm/hooks/useWallet';
 import { injected } from '../../evm/utils/web3React';
 import { useDispatch } from 'react-redux';
 import actions from '../../redux/action';
+import { CHAIN_ID } from '../../evm/configs/networks';
 
 const ModalWallet = ({ isShowing, hide }) => {
     const dispatch = useDispatch();
@@ -32,9 +33,9 @@ const ModalWallet = ({ isShowing, hide }) => {
     }, [refresh]);
 
     // Handle connect wallet, alert if user haven't installed that wallet
-    const handleConnect = (connector, isEvm = false) => {
+    const handleConnect = (connector, isEvm = false, _chainId = CHAIN_ID.ZETA_TESTNET) => {
         if (isEvm) {
-            connectEvm(connector);
+            connectEvm(connector, _chainId);
         } else {
             const isWalletConnected = available?.find(
                 (availableConnector) => availableConnector.id() === connector.id(),
@@ -59,7 +60,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                           }}
                       >
                           <div className="modal-header">
-                              <p className="fz-20 fw-7">WalletConnect</p>
+                              <p className="fz-20 fw-7">Switch Network</p>
 
                               <div className="modal-close" onClick={handleClose}>
                                   <img src={assets.svg.iconClose} alt="close" style={{ height: 15, width: 15 }} />
@@ -67,26 +68,34 @@ const ModalWallet = ({ isShowing, hide }) => {
                           </div>
                           <div className="modal-body row j-center g-50">
                               <div
-                                  className="wallet-icon col a-center g-5"
+                                  className="wallet-icon-inactive a-center g-5"
                                   onClick={() => handleConnect(connectors[1])}
                               >
-                                  <img src={assets.images.argent} />
-                                  <p className="fz-18 fw-7">Argent</p>
+                                  <img src={assets.images.starknet} alt="" />
+                                  <p className="fz-18 fw-7">Starknet</p>
                               </div>
-                              <div
-                                  className="wallet-icon col a-center g-5"
+                              {/* <div
+                                  className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(connectors[0])}
                               >
-                                  <img src={assets.images.braavos} />
+                                  <img src={assets.images.braavos} alt="" />
                                   <p className="fz-18 fw-7">Braavos</p>
+                              </div> */}
+
+                              <div
+                                  className="wallet-icon-inactive col a-center g-5"
+                                  onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
+                              >
+                                  <img src={assets.images.zeta} />
+                                  <p className="fz-18 fw-7">MetaMask</p>
                               </div>
 
                               <div
-                                  className="wallet-icon col a-center g-5"
-                                  onClick={() => handleConnect(injected, true)}
+                                  className="wallet-icon-inactive col a-center g-5"
+                                  onClick={() => handleConnect(injected, true, CHAIN_ID.OPSIDE_TESTNET)}
                               >
-                                  <img src={assets.images.metamask} />
-                                  <p className="fz-18 fw-7">MetaMask</p>
+                                  <img src={assets.images.opside} />
+                                  <p className="fz-18 fw-7">Opside</p>
                               </div>
                           </div>
                       </div>

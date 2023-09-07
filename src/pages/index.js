@@ -8,6 +8,7 @@ import LendingPage from './LendingPage';
 import FarmsPage from './Farms';
 import PrivateSalePage from './PrivateSale';
 import InfoPage from './Info';
+import FaucetPage from './Faucet';
 
 export {
     NFTPage,
@@ -20,4 +21,5 @@ export {
     AirdropPage,
     PrivateSalePage,
     InfoPage,
+    FaucetPage,
 };

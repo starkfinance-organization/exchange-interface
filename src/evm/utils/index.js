@@ -50,12 +50,12 @@ export function getContract(address, ABI, library, account = undefined) {
     return new Contract(address, ABI, getProviderOrSigner(library, account));
 }
 
-export const computePairAddress = ({ factoryAddress, tokenA, tokenB }) => {
+export const computePairAddress = ({ chainId, factoryAddress, tokenA, tokenB }) => {
     const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]; // does safety checks
     return getCreate2Address(
         factoryAddress,
         keccak256(['bytes'], [pack(['address', 'address'], [token0.address, token1.address])]),
-        INIT_CODE_HASH,
+        INIT_CODE_HASH[chainId],
     );
 };
 
@@ -65,9 +65,9 @@ export const wrappedCurrency = (currency) => {
 
 const ZERO_HEX = '0x0';
 
-export const swapCallParameters = (trade, options) => {
-    const etherIn = trade.inputAmount.currency.address === WETH.address;
-    const etherOut = trade.outputAmount.currency.address === WETH.address;
+export const swapCallParameters = (trade, options, chainId) => {
+    const etherIn = trade.inputAmount.currency.address === WETH[chainId].address;
+    const etherOut = trade.outputAmount.currency.address === WETH[chainId].address;
     // the router does not support both ether in and out
     invariant(!(etherIn && etherOut), 'ETHER_IN_OUT');
     invariant(!('ttl' in options) || options.ttl > 0, 'TTL');

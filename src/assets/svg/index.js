@@ -37,6 +37,7 @@ import iconClose from './close.svg';
 import charging from './charging.svg';
 import iconX from './X.svg';
 import iconMedium from './medium_logo.svg';
+import iconSwitchNetwork from './switch_network.svg';
 
 const svg = {
     ars,
@@ -77,6 +78,7 @@ const svg = {
     charging,
     iconX,
     iconMedium,
+    iconSwitchNetwork,
 };
 
 export default svg;

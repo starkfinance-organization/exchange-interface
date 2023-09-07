@@ -93,6 +93,8 @@ import gif2 from './GIF2.gif';
 import certik_logo from './certik_logo.png';
 import stark_guardians_logo from './StarkGuardians_logo.png';
 import metamask from './metamask.png';
+import zeta from './zeta.png';
+import opside from './opside.png';
 import STARKPORT from './STARKPORT.png';
 import OUR_FEATURES from './OUR_FEATURES.png';
 import SECURITY_AUDIT from './SECURITY_AUDIT.png';
@@ -198,6 +200,8 @@ const images = {
     gif2,
     certik_logo,
     stark_guardians_logo,
+    zeta,
+    opside,
     STARKPORT,
     OUR_FEATURES,
     SECURITY_AUDIT,

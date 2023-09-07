@@ -27,6 +27,7 @@ export const tryParseAmount = (value, currency) => {
 
 // from the current swap inputs, compute the best trade and return it.
 export const getDerivedSwapInfo = async ({
+    chainId,
     library,
     independentField = Field.INPUT,
     typedValue,
@@ -47,6 +48,7 @@ export const getDerivedSwapInfo = async ({
 
     const [bestTradeExactIn, bestTradeExactOut] = await Promise.all([
         getTradeExactIn(
+            chainId,
             library,
             inputCurrency,
             outputCurrency,
@@ -55,6 +57,7 @@ export const getDerivedSwapInfo = async ({
             singlehops,
         ),
         getTradeExactOut(
+            chainId,
             library,
             inputCurrency,
             outputCurrency,
@@ -81,6 +84,7 @@ export const getSwapCallArguments = async (
     allowedSlippage,
     routerContract,
     trade, // trade to execute, required
+    chainId,
 ) => {
     const recipient = recipientAddressOrName;
 
@@ -90,21 +94,29 @@ export const getSwapCallArguments = async (
 
     try {
         swapMethods.push(
-            swapCallParameters(trade, {
-                feeOnTransfer: false,
-                allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-                recipient,
-                deadline,
-            }),
-        );
-        if (trade.tradeType === TradeType.EXACT_INPUT) {
-            swapMethods.push(
-                swapCallParameters(trade, {
-                    feeOnTransfer: true,
+            swapCallParameters(
+                trade,
+                {
+                    feeOnTransfer: false,
                     allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
                     recipient,
                     deadline,
-                }),
+                },
+                chainId,
+            ),
+        );
+        if (trade.tradeType === TradeType.EXACT_INPUT) {
+            swapMethods.push(
+                swapCallParameters(
+                    trade,
+                    {
+                        feeOnTransfer: true,
+                        allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+                        recipient,
+                        deadline,
+                    },
+                    chainId,
+                ),
             );
         }
 
@@ -118,15 +130,16 @@ export const getSwapCallArguments = async (
 };
 
 export const swapCallback = async (
+    chainId,
     library,
     account, // the ENS name or address of the recipient of the trade, or null if swap should be returned to sender,
     trade, // trade to execute, required
     allowedSlippage,
 ) => {
     try {
-        if (!library || !account || !trade || isNaN(allowedSlippage)) return;
+        if (!chainId || !library || !account || !trade || isNaN(allowedSlippage)) return;
 
-        const routerContract = getRouterContract(library, account);
+        const routerContract = getRouterContract(chainId, library, account);
         const deadline = Math.floor(Date.now() / 1000) + 30 * 60;
 
         // swapCalls arguments
@@ -136,6 +149,7 @@ export const swapCallback = async (
             Math.floor(allowedSlippage * 100),
             routerContract,
             trade,
+            chainId,
         );
 
         if (!trade || !account || !swapCalls?.length || !routerContract) return;

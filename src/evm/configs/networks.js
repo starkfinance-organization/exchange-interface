@@ -1,48 +1,133 @@
 import { Percent, JSBI, Token } from '@uniswap/sdk';
 import assets from '../../assets';
 
-export const NETWORKS_SUPPORTED = {
-    name: 'Zeta Testnet',
-    chainId: 7001,
-    rpc: ['https://zetachain-athens-evm.blockpi.network/v1/rpc/public'],
-    explorer: 'https://athens3.explorer.zetachain.com/',
+export const CHAIN_ID = {
+    // ZETA_MAINNET: 7000,
+    ZETA_TESTNET: 7001,
+    // OPSIDE_MAINNET: 23118,
+    OPSIDE_TESTNET: 51178,
 };
 
-export const WETH = new Token(
-    NETWORKS_SUPPORTED.chainId,
-    '0x5F0b1a82749cb4E2278EC87F8BF6B618dC71a8bf',
-    18,
-    'ZETA',
-    'Zeta',
-);
+//   export const RPC: { [key in CHAIN_ID]: string[] } = {
+//     [CHAIN_ID.ZETA_MAINNET]: ['https://api.mainnet.zetachain.com/evm'],
+//     [CHAIN_ID.ZETA_TESTNET]: [
+//       'https://zetachain-athens-evm.blockpi.network/v1/rpc/public',
+//     ],
+//     [CHAIN_ID.OPSIDE_MAINNET]: ['https://testrpc.opside.network'],
+//     [CHAIN_ID.OPSIDE_TESTNET]: ['https://pre-alpha-hk-http-geth.opside.network'],
+//   };
+
+export const NETWORKS_SUPPORTED = {
+    [CHAIN_ID.ZETA_TESTNET]: {
+        name: 'Zeta Testnet',
+        chainId: CHAIN_ID.ZETA_TESTNET,
+        rpc: ['https://zetachain-athens-evm.blockpi.network/v1/rpc/public'],
+        explorer: 'https://athens3.explorer.zetachain.com/',
+        nativeCoin: {
+            name: 'Zeta',
+            symbol: 'ZETA',
+            decimals: 18,
+        },
+    },
+    [CHAIN_ID.OPSIDE_TESTNET]: {
+        name: 'Opside Testnet',
+        chainId: CHAIN_ID.OPSIDE_TESTNET,
+        rpc: ['https://pre-alpha-hk-http-geth.opside.network'],
+        explorer: 'https://pre-alpha.opside.info/',
+        nativeCoin: {
+            name: 'IDE',
+            symbol: 'IDE',
+            decimals: 18,
+        },
+    },
+};
+
+export const WETH = {
+    [CHAIN_ID.ZETA_TESTNET]: new Token(
+        NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET].chainId,
+        '0x5F0b1a82749cb4E2278EC87F8BF6B618dC71a8bf',
+        18,
+        'WZETA',
+        'Wrapper Zeta',
+    ),
+    [CHAIN_ID.OPSIDE_TESTNET]: new Token(
+        NETWORKS_SUPPORTED[CHAIN_ID.OPSIDE_TESTNET].chainId,
+        '0xD2Af4C638d9AF34405CDD6403F853Acb0774efe3',
+        18,
+        'WIDE',
+        'Wrapper Ide',
+    ),
+};
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST = [WETH];
 
 export const CUSTOM_BASES = {};
 
-export const TOKEN_LIST = [
-    WETH,
-    new Token(NETWORKS_SUPPORTED.chainId, '0xC05a487a9c4c9B155F4B39117bB854D1E792B210', 18, 'TEST_BTC', 'TEST_BTC'),
-    new Token(NETWORKS_SUPPORTED.chainId, '0x0439187Ab4a0E43B7E726482871df480Deb870b9', 18, 'MTK1', 'MyToken1'),
-];
+export const TOKEN_LIST = {
+    [CHAIN_ID.ZETA_TESTNET]: [
+        WETH[CHAIN_ID.ZETA_TESTNET],
+        new Token(
+            NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET].chainId,
+            '0xC05a487a9c4c9B155F4B39117bB854D1E792B210',
+            18,
+            'TEST_BTC',
+            'TEST_BTC',
+        ),
+        new Token(
+            NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET].chainId,
+            '0x0439187Ab4a0E43B7E726482871df480Deb870b9',
+            18,
+            'MTK1',
+            'MyToken1',
+        ),
+    ],
+    [CHAIN_ID.OPSIDE_TESTNET]: [
+        WETH[CHAIN_ID.OPSIDE_TESTNET],
+        new Token(
+            NETWORKS_SUPPORTED[CHAIN_ID.OPSIDE_TESTNET].chainId,
+            '0xcb79a3421826d4C90FCB18333F1621ae23af5182',
+            18,
+            'USDT',
+            'USDT',
+        ),
+    ],
+};
 
 export const TOKEN_ICON_LIST = {
-    [WETH.address]: assets.images.zeta,
-    '0xC05a487a9c4c9B155F4B39117bB854D1E792B210': assets.svg.btc,
-    '0x0439187Ab4a0E43B7E726482871df480Deb870b9': assets.svg.eth,
+    [CHAIN_ID.ZETA_TESTNET]: {
+        [WETH[CHAIN_ID.ZETA_TESTNET].address]: assets.images.zeta,
+        '0xC05a487a9c4c9B155F4B39117bB854D1E792B210': assets.svg.btc,
+        '0x0439187Ab4a0E43B7E726482871df480Deb870b9': assets.svg.eth,
+    },
+    [CHAIN_ID.OPSIDE_TESTNET]: {
+        [WETH[CHAIN_ID.OPSIDE_TESTNET].address]: assets.images.opside,
+        '0xcb79a3421826d4C90FCB18333F1621ae23af5182': assets.svg.btc,
+    },
 };
 
 export const UNKNOWN_TOKEN_ICON =
     'https://icones.pro/wp-content/uploads/2021/05/icone-point-d-interrogation-question-noir.png';
 
-export const MULTICALL_ADDRESS = '0x4aF8d9Ab04EA63C621C729EFd95d6BDCB8B15cf9';
+export const MULTICALL_ADDRESS = {
+    [CHAIN_ID.ZETA_TESTNET]: '0x4aF8d9Ab04EA63C621C729EFd95d6BDCB8B15cf9',
+    [CHAIN_ID.OPSIDE_TESTNET]: '0xa52E6160968aa9d9A536Cc38b58Bab89eFEFe09e',
+};
 
-export const FACTORY_ADDRESS = '0x2723a9B9F8D015C1f0bD3B5fd9393716e16D2f20';
+export const FACTORY_ADDRESS = {
+    [CHAIN_ID.ZETA_TESTNET]: '0x2723a9B9F8D015C1f0bD3B5fd9393716e16D2f20',
+    [CHAIN_ID.OPSIDE_TESTNET]: '0x5f31a74be306A7A6D25Fcefe662acE0a38C505B9',
+};
 
-export const ROUTER_ADDRESS = '0xDA9cd02db532d205D593430ce7B12769F2F1e291';
+export const ROUTER_ADDRESS = {
+    [CHAIN_ID.ZETA_TESTNET]: '0xDA9cd02db532d205D593430ce7B12769F2F1e291',
+    [CHAIN_ID.OPSIDE_TESTNET]: '0xAA281f1f8f312a1334B860c1ddF7F16D7f7Bf0D2',
+};
 
-export const INIT_CODE_HASH = '0x5bfbf8ac5fa24ec49b051b579d000fb25988e044b9ab8fe321d250613193c74f';
+export const INIT_CODE_HASH = {
+    [CHAIN_ID.ZETA_TESTNET]: '0x5bfbf8ac5fa24ec49b051b579d000fb25988e044b9ab8fe321d250613193c74f',
+    [CHAIN_ID.OPSIDE_TESTNET]: '0x9981e46724cb553da182b88725e57f667320a0979eafccba4fc34f0ca03e5ed6',
+};
 
 export const Field = {
     INPUT: 'INPUT',

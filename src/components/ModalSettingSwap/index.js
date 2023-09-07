@@ -28,54 +28,57 @@ const ModalSettingSwap = ({ isShowing, hide }) => {
 
     return isShowing
         ? ReactDOM.createPortal(
-            <React.Fragment>
-                <div className="modal-overlay" />
-                <div className="modal-wrapper-swap" aria-modal aria-hidden tabIndex={-1} role="dialog">
-                    <div
-                        className="modal"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                        }}
-                    >
-                        <div className="modal-header">
-                            <p className="fz-20 fw-7">Transaction Settings</p>
+              <React.Fragment>
+                  <div className="modal-overlay" />
+                  <div className="modal-wrapper-swap" aria-modal aria-hidden tabIndex={-1} role="dialog">
+                      <div
+                          className="modal"
+                          onClick={(event) => {
+                              event.stopPropagation();
+                          }}
+                      >
+                          <div className="modal-header">
+                              {/* <p className="fz-20 fw-7">Transaction Settings</p> */}
 
-                            <div className="modal-close" onClick={handleClose}>
-                                <img src={assets.svg.iconClose} alt="close" style={{ height: 15, width: 15 }} />
-                            </div>
-                        </div>
-                        <div className="modal-body col j-center g-20">
-                            <p>
-                                <strong>Slippage tolerance:</strong> Your transaction will revert if the price changes
-                                unfavorably by more than this percentage.
-                            </p>
+                              <div className="modal-close" onClick={handleClose}>
+                                  <img src={assets.svg.iconClose} alt="close" style={{ height: 15, width: 15 }} />
+                              </div>
+                          </div>
+                          <div className="modal-body col j-center g-20">
+                              <p className="text-heading">Transaction Settings</p>
+                              <p>
+                                  <strong>Slippage tolerance:</strong> Your transaction will revert if the price changes
+                                  unfavorably by more than this percentage.
+                              </p>
 
-                            <div className="body__select">
-                                {buttonOptions.map((option, index) => (
-                                    <div
-                                        key={index}
-                                        className={`btn__outline${index === activeButtonIndex ? ' btn__outline--active' : ''}`}
-                                        onClick={() => handleButtonClick(index)}
-                                    >
-                                        <p>{option}</p>
-                                    </div>
-                                ))}
-                            </div>
+                              <div className="body__select">
+                                  {buttonOptions.map((option, index) => (
+                                      <div
+                                          key={index}
+                                          className={`btn__outline${
+                                              index === activeButtonIndex ? ' btn__outline--active' : ''
+                                          }`}
+                                          onClick={() => handleButtonClick(index)}
+                                      >
+                                          <p>{option}</p>
+                                      </div>
+                                  ))}
+                              </div>
 
-                            <div className="inputvalue">
-                                <input />
-                                <p>%</p>
-                            </div>
+                              <div className="inputvalue">
+                                  <input />
+                                  <p>%</p>
+                              </div>
 
-                            <div className="btn" onClick={handleClose}>
-                                <p>Confirm</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </React.Fragment>,
-            document.body,
-        )
+                              <div className="btn" onClick={handleClose}>
+                                  <p>Confirm</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </React.Fragment>,
+              document.body,
+          )
         : null;
 };
 

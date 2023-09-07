@@ -12,6 +12,7 @@
     --text-color-default: #fff;
 
     --primary-color: rgb(61 236 167);
+    --primary-color-2: #24c3bc;
     --second-color: #f85aca;
 
     --color-background: #0e0a1f;
@@ -28,6 +29,7 @@ body {
     text-rendering: optimizeSpeed;
     color: var(--text-color-default);
     background: var(--color-background) !important;
+    background: lightgray 50% / cover no-repeat, rgba(14, 10, 31, 0.7);
     margin: 0;
 }
 

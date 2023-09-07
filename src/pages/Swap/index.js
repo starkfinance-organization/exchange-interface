@@ -4,7 +4,7 @@ import assets from '../../assets';
 import Footer from '../../layouts/Footer';
 import { route } from '../../routes/configs';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
-import './style.scss';
+// import './style.scss';
 import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
@@ -37,6 +37,7 @@ import svg from '../../assets/svg';
 
 import SwapPageEvm from '../../evm/pages/Swap';
 import { useActiveWeb3React } from '../../evm/hooks/useActiveWeb3React';
+import DUMMY_DATA from '../../evm/pages/Swap/dummy-data-chart';
 
 const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
 const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2daa7be435c2';
@@ -517,6 +518,7 @@ const getCurrentDateInUTC = () => {
 const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
     const { address, status } = useAccount();
     const [isShow, setIsShow] = useState(false);
+    const [percent, setPercent] = useState(100);
     const navigate = useNavigate();
 
     const inputToken0Ref = useRef(null);
@@ -786,27 +788,29 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
             number: 25,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 50,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 75,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 100,
             handleChoosingPercent: () => {
                 return;
-            }
-        }
-    ]
+            },
+        },
+    ];
+
+    const currentPath = window.location.pathname;
 
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2 }}>
@@ -824,9 +828,15 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
             <div className="row j-between" style={{ margin: '10px 0' }}>
                 <div className="row gap-10" style={{ marginBottom: 10 }}>
-                    <h4 className="hover-primary-color ">Swap</h4>
                     <h4
-                        className="hover-primary-color title-noactive"
+                        className={`hover-primary-color-2 ${
+                            currentPath === '/swap' ? 'primary-color-1' : 'primary-color-2'
+                        }`}
+                    >
+                        Swap
+                    </h4>
+                    <h4
+                        className="hover-primary-color-2 primary-color-2 title-noactive"
                         onClick={() => {
                             navigate('/liquidity');
                         }}
@@ -853,32 +863,60 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                     <div className="row">
                         <input
                             placeholder="0.0"
+                            style={{ color: '#fff !important' }}
                             type={'number'}
                             ref={inputToken0Ref}
                             onChange={handleToken0InputAmountChange}
                         />
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                setTypeModal(1);
-                                setIsShow(true);
-                            }}
-                        >
-                            <img src={token0.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
-                            <h5>{token0.name}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    setTypeModal(1);
+                                    setIsShow(true);
+                                }}
+                            >
+                                <img src={token0.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
+                                <h5>{token0.name}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="wrapper-percent">
+                                {percentNumbers.map((item, index) => {
+                                    return (
+                                        <button
+                                            key={index}
+                                            className={`${
+                                                item.number === percent ? 'btn-percent-select' : 'btn-percent'
+                                            }`}
+                                            onClick={item.handleChoosingPercent}
+                                        >
+                                            <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="input-balance-wrapper">
+                                <p>Balance: {token0BalanceAmount}</p>
+                            </div>
                         </div>
                     </div>
-                    <div className="input-balance-wrapper">
+                    {/* <div className="input-balance-wrapper">
                         <p>Balance: {token0BalanceAmount}</p>
-                    </div>
+                    </div> */}
 
-                    <div className='wrapper-percent'>
+                    {/* <div className="wrapper-percent">
                         {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100 ? "MAX" : item.number + '%'}</p></button>)
+                            return (
+                                <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
+                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                </button>
+                            );
                         })}
-                    </div>
-
+                    </div> */}
                 </div>
             </div>
 
@@ -888,7 +926,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                     marginTop: 4,
                     marginBottom: 4,
                     zIndex: 99,
-                    border: '4px solid #26193c',
+                    // border: '4px solid #26193c',
                     cursor: 'pointer',
                 }}
                 onClick={() => handleChangeToken()}
@@ -900,20 +938,26 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 <div style={{ padding: 12, marginTop: 10 }}>
                     <div className="row">
                         <h4 style={{ margin: 'auto' }}>~ {token1OutputDisplayAmount}</h4>
-                        <div
-                            className="row gap-5 option-wrapper a-center p-10"
-                            onClick={() => {
-                                setTypeModal(2);
-                                setIsShow(true);
-                            }}
-                        >
-                            <img src={token1.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
-                            <h5>{token1.name}</h5>
-                            <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
+                        <div>
+                            <div
+                                className="row gap-5 option-wrapper a-center p-10"
+                                onClick={() => {
+                                    setTypeModal(2);
+                                    setIsShow(true);
+                                }}
+                            >
+                                <img src={token1.icon} style={{ height: 30, width: 30 }} alt="eth_icon" />
+                                <h5>{token1.name}</h5>
+                                <img
+                                    src={assets.svg.down_arrow}
+                                    style={{ height: 20, width: 20 }}
+                                    alt="down_arrow_icon"
+                                />
+                            </div>
+                            <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
+                                <p>Balance: {token1BalanceAmount}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="input-balance-wrapper" style={{ marginBottom: 0 }}>
-                        <p>Balance: {token1BalanceAmount}</p>
                     </div>
                 </div>
             </div>
@@ -1109,7 +1153,7 @@ const SwapPage = () => {
             try {
                 let res = await axios.get(`https://api.starksport.finance/api/swap-transactions/latest`);
                 setRowsData(res.data);
-            } catch (error) { }
+            } catch (error) {}
         }
         getSwapTx();
     }, []);
@@ -1144,19 +1188,37 @@ const SwapPage = () => {
             <div className="row j-center gap-30 flex-wrap">
                 <div className="chart-wrapper">
                     <div className="mb-50">
-                        <h5 className="" style={{ marginTop: 12, color: 'grey' }}>
+                        {/* <h5 className="" style={{ marginTop: 12, color: 'grey' }}>
                             24h Vol: ${isNaN(vol) ? '0' : vol}
-                        </h5>
-                        <div className="row  flex-wrap a-end gap-20">
+                        </h5> */}
+                        <div className="chart-header">
+                            <div className="chart-content-1">
+                                <h5
+                                    className=""
+                                    style={{ fontSize: '18px', fontWeight: '800', marginTop: 12, color: '#fff' }}
+                                >
+                                    Volume (24hr)
+                                </h5>
+                                <p className="chart-content-1__p1">${isNaN(vol) ? '0' : vol}</p>
+                                <p className="chart-content-1__p2">{dateCurrent ? dateCurrent : 'Jan 1, 2023 (UTC)'}</p>
+                            </div>
+                            <div className="chart-content-2">
+                                <div className="active">M</div>
+                                <div className="in-active">D</div>
+                                <div className="in-active">W</div>
+                                <div className="in-active">Y</div>
+                            </div>
+                        </div>
+                        {/* <div className="row  flex-wrap a-end gap-20">
                             <h2 className="fz-40 fw-900 text-end cl-green">{priceSrt}</h2>
-                            {/* <div className="row gap-20">
+                            <div className="row gap-20">
                                 <h2 className="fz-20">AVAX/1INCH</h2>
                                 <h2 className="fz-20">-1.29%</h2>
-                            </div> */}
+                            </div>
                         </div>
-                        <h3 className="fz-16">{dateCurrent}</h3>
+                        <h3 className="fz-16">{dateCurrent}</h3> */}
                     </div>
-                    <AreaChart
+                    {/* <AreaChart
                         width={windowSize.width > 600 ? 600 : windowSize.width - 80}
                         height={300}
                         data={historicalPrices}
@@ -1169,27 +1231,42 @@ const SwapPage = () => {
                         </defs>
                         <XAxis dataKey="name" />
                         <YAxis domain={[historicalPrices[0] - 5, 'auto']} />
-                        {/* <Legend /> */}
+                        <Legend />
 
-                        {/* <Line
+                        <Line
                            
                             type="monotone"
                             dataKey="price"
                             stroke="#14ffe3"
-                        /> */}
+                        />
                         <Area
-                            // activeDot={(e) => {
-                            //     handleMouseEnter(e.index);
-                            // }}
-                            // onMouseEnter={(e) => {
-                            //     console.log(e);
-                            // }}
+                            activeDot={(e) => {
+                                handleMouseEnter(e.index);
+                            }}
+                            onMouseEnter={(e) => {
+                                console.log(e);
+                            }}
                             type="monotone"
                             dataKey="price"
                             stroke="#14ffe3"
                             fill="url(#colorUv)"
                         />
                         <Tooltip content={<CustomTooltip />} />
+                    </AreaChart> */}
+                    <AreaChart
+                        width={windowSize.width > 600 ? 600 : windowSize.width - 80}
+                        height={300}
+                        data={DUMMY_DATA.data}
+                    >
+                        {/* <defs>
+                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                            </linearGradient>
+                        </defs> */}
+                        <XAxis dataKey="uv" />
+                        {/* <Tooltip content={<CustomTooltip />} /> */}
+                        <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
                     </AreaChart>
                 </div>
 
@@ -1261,7 +1338,12 @@ const SwapPage = () => {
                                         {row.id}
                                     </TableCell> */}
                                     <TableCell
-                                        style={{ textAlign: 'center', cursor: 'pointer' }}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            textAlign: 'center',
+                                            cursor: 'pointer',
+                                        }}
                                         onClick={() => {
                                             openInNewTab(`https://starkscan.co/tx/` + row.tx_hash);
                                         }}
@@ -1269,7 +1351,7 @@ const SwapPage = () => {
                                         {shortAddress(row.tx_hash)}
                                         <img
                                             src={svg.link}
-                                            style={{ height: 13, width: 13, marginLeft: 5, marginBottom: 15 }}
+                                            style={{ height: 13, width: 13, marginLeft: '3px', marginBottom: '4px' }}
                                         />
                                     </TableCell>
                                     <TableCell style={{ textAlign: 'center' }}>

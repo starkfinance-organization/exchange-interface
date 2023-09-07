@@ -16,6 +16,13 @@
     }
 }
 
+.hover-primary-color-2 {
+    &:hover {
+        cursor: pointer;
+        color: var(--primary-color-2);
+    }
+}
+
 .btn-dev {
     height: 30px;
     width: fit-content;
