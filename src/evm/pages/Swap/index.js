@@ -14,6 +14,7 @@ import svg from '../../../assets/svg';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
 import './style.scss';
 import {
+    CHAIN_ID,
     Field,
     ROUTER_ADDRESS,
     TOKEN_ICON_LIST,
@@ -600,6 +601,8 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
 };
 
 const SwapPage = () => {
+    const { chainId } = useActiveWeb3React();
+
     const [vol, setVol] = useState(0);
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
@@ -719,12 +722,14 @@ const SwapPage = () => {
             try {
                 const tokens = pairAddr.split(':');
                 if (tokens.length != 2 || !isAddress(tokens[0]) || !isAddress(tokens[1])) return setRowsData([]);
-                let res = await axios.get(`https://api-zeta.starksport.finance/indexer/tx/${pairAddr}`);
+                let res = await axios.get(
+                    `https://api-zeta.starksport.finance/indexer/tx/${chainId ?? CHAIN_ID.ZETA_TESTNET}/${pairAddr}`,
+                );
                 setRowsData(res.data);
             } catch (error) {}
         }
         getSwapTx(pairAddr);
-    }, [pairAddr]);
+    }, [pairAddr, chainId]);
 
     // Handle short address type
     const shortAddress = (address) => {

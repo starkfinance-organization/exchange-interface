@@ -101,8 +101,6 @@ const MyPools = () => {
         };
     }, [chainId, account, library, reload]);
 
-    console.log(ownerPools);
-
     return (
         <div className="form-show" style={{ marginTop: 10 }}>
             {/* <div className="col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
