@@ -440,3 +440,10 @@
         background-position: right center;
     }
 }
+
+.form-header {
+    @media screen and (min-width: 1382px) {
+        width: 1382px;
+        margin: 10px auto !important;
+    }
+}

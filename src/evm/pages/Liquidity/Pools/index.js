@@ -1786,13 +1786,19 @@ const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) =
     const { isConnected: isConnectedEvm } = useActiveWeb3React();
 
     return (
-        <div className="pool-page">
+        <div className="">
             <div className="form-wrapper col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
                 <div
-                    className="row j-between"
-                    style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', margin: '10px 0', alignItems: 'baseline' }}
+                    className="row j-between form-header"
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '20px',
+                        margin: '10px 0',
+                        alignItems: 'baseline',
+                    }}
                 >
-                    <div className="row gap-10">
+                    <div className="row gap-10" style={{ maxWidth: '1382px' }}>
                         <div className="row gap-10 cursor-pointer" style={{ marginBottom: 10 }}>
                             <h3 style={{ fontSize: '36px', color: '#24C3BC' }}>Your liquidity</h3>
                         </div>
