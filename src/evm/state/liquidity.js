@@ -12,17 +12,18 @@ import {
 import { computePairAddress } from '../utils';
 import { getSingleContractMultipleDataMultipleMethods } from '../utils/multicall';
 
-export const getCurrencyBalances = async (account, library, currencies) => {
+export const getCurrencyBalances = async (chainId, account, library, currencies) => {
     try {
         if (!currencies.filter((currency) => !!currency).length) return undefined;
-        const tokens = currencies?.filter((currency) => currency instanceof Token && !currency.equals(WETH)) ?? [];
-        const containsBNB = currencies?.some((currency) => currency === WETH) ?? false;
-        const ethBalance = await getBNBBalances(library, containsBNB ? [account] : []);
-        const tokenBalances = await getTokenBalances(account, library, tokens);
+        const tokens =
+            currencies?.filter((currency) => currency instanceof Token && !currency.equals(WETH[chainId])) ?? [];
+        const containsBNB = currencies?.some((currency) => currency === WETH[chainId]) ?? false;
+        const ethBalance = await getBNBBalances(chainId, library, containsBNB ? [account] : []);
+        const tokenBalances = await getTokenBalances(chainId, account, library, tokens);
         return (
             currencies?.map((currency) => {
                 if (!account || !currency) return undefined;
-                if (currency === WETH) return ethBalance[account];
+                if (currency === WETH[chainId]) return ethBalance[account];
                 if (currency instanceof Token) return tokenBalances[currency.address];
                 return undefined;
             }) ?? []
@@ -44,12 +45,13 @@ export const EmptyPool = {
     noLiquidity: true,
 };
 
-export const getPoolInfo = async (account, library, currencies) => {
-    if (!WETH || !FACTORY_ADDRESS) return undefined;
+export const getPoolInfo = async (chainId, account, library, currencies) => {
+    if (!WETH[chainId] || !FACTORY_ADDRESS[chainId]) return undefined;
     const [tokenA, tokenB] = currencies;
     if (!tokenA || !tokenB || tokenA.equals(tokenB)) return undefined;
     const computePair = computePairAddress({
-        factoryAddress: FACTORY_ADDRESS,
+        chainId,
+        factoryAddress: FACTORY_ADDRESS[chainId],
         tokenA,
         tokenB,
     });
@@ -60,7 +62,7 @@ export const getPoolInfo = async (account, library, currencies) => {
     } catch (error) {
         return EmptyPool;
     }
-    const pairInfo = await getPairInfo(library, account, pairContract);
+    const pairInfo = await getPairInfo(chainId, library, account, pairContract);
     if (!pairInfo) return EmptyPool;
     const { token0, reserve0, reserve1, balanceOf, totalSupply } = pairInfo;
     const isTokenA0 = tokenA.address === token0;
@@ -85,20 +87,20 @@ export const getPoolInfo = async (account, library, currencies) => {
         noLiquidity: false,
     };
 };
-export const addLiquidityCallback = async (account, library, tokens, amounts) => {
+export const addLiquidityCallback = async (chainId, account, library, tokens, amounts) => {
     try {
         if (!account || !library || [tokens, amounts].some((e) => !e[Field.INPUT] || !e[Field.OUTPUT])) return;
 
-        const routerContract = getRouterContract(library, account);
+        const routerContract = getRouterContract(chainId, library, account);
 
         let args,
             overrides = {},
             methodName = '';
 
         // addLiquidityETH
-        if (tokens[Field.INPUT]?.equals(WETH) || tokens[Field.OUTPUT]?.equals(WETH)) {
+        if (tokens[Field.INPUT]?.equals(WETH[chainId]) || tokens[Field.OUTPUT]?.equals(WETH[chainId])) {
             methodName = 'addLiquidityETH';
-            const inputIsETH = tokens[Field.INPUT]?.equals(WETH);
+            const inputIsETH = tokens[Field.INPUT]?.equals(WETH[chainId]);
             args = [
                 (inputIsETH ? tokens[Field.OUTPUT]?.address : tokens[Field.INPUT]?.address) ?? '', // token
                 (inputIsETH ? amounts[Field.OUTPUT]?.raw.toString() : amounts[Field.INPUT]?.raw.toString()) ?? 0, // token amount
@@ -131,11 +133,11 @@ export const addLiquidityCallback = async (account, library, tokens, amounts) =>
     }
 };
 
-export const getAllLiquidityPools = async (library) => {
+export const getAllLiquidityPools = async (chainId, library) => {
     try {
-        if (!library) return [];
+        if (!library || !chainId) return [];
 
-        const factoryContract = getFactoryContract(library);
+        const factoryContract = getFactoryContract(chainId, library);
         const allPairsLength = await callContract(factoryContract, 'allPairsLength', []);
         const allPairs = await Promise.all(
             new Array(+allPairsLength.toString())
@@ -161,6 +163,7 @@ export const getAllLiquidityPools = async (library) => {
                         const erc20Contract = getERC20Contract(token, library);
                         const erc20Methods = ['name', 'symbol', 'decimals'];
                         const results = await getSingleContractMultipleDataMultipleMethods(
+                            chainId,
                             library,
                             erc20Contract,
                             erc20Methods,
@@ -178,7 +181,7 @@ export const getAllLiquidityPools = async (library) => {
                             return;
 
                         return new Token(
-                            NETWORKS_SUPPORTED.chainId,
+                            NETWORKS_SUPPORTED[chainId].chainId,
                             token,
                             _token['decimals'],
                             _token['symbol'],
@@ -211,11 +214,11 @@ export const getAllLiquidityPools = async (library) => {
     }
 };
 
-export const getOwnerLiquidityPools = async (library, account) => {
+export const getOwnerLiquidityPools = async (chainId, library, account) => {
     try {
-        if (!library || !account) return [];
+        if (!library || !account || !chainId) return [];
 
-        const factoryContract = getFactoryContract(library);
+        const factoryContract = getFactoryContract(chainId, library);
         const allPairsLength = await callContract(factoryContract, 'allPairsLength', []);
         const allPairs = await Promise.all(
             new Array(+allPairsLength.toString())
@@ -258,6 +261,7 @@ export const getOwnerLiquidityPools = async (library, account) => {
                         const erc20Contract = getERC20Contract(token, library);
                         const erc20Methods = ['name', 'symbol', 'decimals'];
                         const results = await getSingleContractMultipleDataMultipleMethods(
+                            chainId,
                             library,
                             erc20Contract,
                             erc20Methods,
@@ -275,7 +279,7 @@ export const getOwnerLiquidityPools = async (library, account) => {
                             return;
 
                         return new Token(
-                            NETWORKS_SUPPORTED.chainId,
+                            NETWORKS_SUPPORTED[chainId].chainId,
                             token,
                             _token['decimals'],
                             _token['symbol'],
@@ -309,13 +313,13 @@ export const getOwnerLiquidityPools = async (library, account) => {
     }
 };
 
-export const removeLiquidityCallback = async (account, library, pair, removeAmount) => {
+export const removeLiquidityCallback = async (chainId, account, library, pair, removeAmount) => {
     try {
-        if (!account || !library || !WETH || removeAmount.lte(BigNumber.from('0'))) return;
+        if (!account || !library || !WETH[chainId] || removeAmount.lte(BigNumber.from('0'))) return;
         let token0, token1;
         [token0, token1] = [pair.token0, pair.token1];
 
-        const routerContract = getRouterContract(library, account);
+        const routerContract = getRouterContract(chainId, library, account);
 
         const deadline = Math.floor(Date.now() / 1000) + 30 * 60;
 
@@ -324,9 +328,9 @@ export const removeLiquidityCallback = async (account, library, pair, removeAmou
             methodName = '';
 
         // removeLiquidityETH
-        if (token0.equals(WETH) || token1.equals(WETH)) {
+        if (token0.equals(WETH[chainId]) || token1.equals(WETH[chainId])) {
             methodName = 'removeLiquidityETH';
-            const token0IsETH = token0.equals(WETH);
+            const token0IsETH = token0.equals(WETH[chainId]);
             args = [
                 (token0IsETH ? token1.address : token0.address) ?? '', // token
                 removeAmount.toString(), // liquidity remove
@@ -349,12 +353,13 @@ export const removeLiquidityCallback = async (account, library, pair, removeAmou
             ];
         }
         const _pair = computePairAddress({
-            factoryAddress: FACTORY_ADDRESS,
+            chainId,
+            factoryAddress: FACTORY_ADDRESS[chainId],
             tokenA: token0,
             tokenB: token1,
         });
         const pairContract = getPairContract(_pair, library, account);
-        await callContract(pairContract, 'approve', [ROUTER_ADDRESS, removeAmount]);
+        await callContract(pairContract, 'approve', [ROUTER_ADDRESS[chainId], removeAmount]);
         return callContract(routerContract, methodName, args, overrides);
     } catch (error) {
         console.error(error);

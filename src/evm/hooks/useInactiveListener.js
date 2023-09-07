@@ -4,7 +4,7 @@ import { useWallet } from './useWallet';
 import { useActiveWeb3React } from './useActiveWeb3React';
 
 export function useInactiveListener(suppress) {
-    const { active, error } = useActiveWeb3React();
+    const { active, error, chainId } = useActiveWeb3React();
     const { connect } = useWallet();
 
     useEffect(() => {
@@ -12,16 +12,16 @@ export function useInactiveListener(suppress) {
         if (ethereum && ethereum.on && !active && !error && !suppress) {
             const handleConnect = () => {
                 console.log("Handling 'connect' event");
-                connect(injected);
+                // connect(injected, chainId);
             };
             const handleChainChanged = (chainId) => {
                 console.log("Handling 'chainChanged' event with payload", chainId);
-                connect(injected);
+                // connect(injected, chainId);
             };
             const handleAccountsChanged = (accounts) => {
                 console.log("Handling 'accountsChanged' event with payload", accounts);
                 if (accounts.length > 0) {
-                    connect(injected);
+                    // connect(injected, chainId);
                 }
             };
             // const handleNetworkChanged = (networkId) => {

@@ -100,15 +100,23 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
         });
     };
 
-    const { account, library, isConnected: isConnectedEvm } = useActiveWeb3React();
+    const { account, library, isConnected: isConnectedEvm, chainId } = useActiveWeb3React();
     // const { query } = useRouter();
-    const listTokens = useListTokens();
-    // const { connect } = useWallet();
+    const listTokens = useListTokens(chainId);
 
     const [tokens, setTokens] = useState({
-        [Field.INPUT]: WETH,
-        [Field.OUTPUT]: TOKEN_LIST[1],
+        [Field.INPUT]: WETH[chainId],
+        [Field.OUTPUT]: undefined,
     });
+
+    useEffect(() => {
+        if (chainId) {
+            setTokens({
+                [Field.INPUT]: WETH[chainId],
+                [Field.OUTPUT]: undefined,
+            });
+        }
+    }, [chainId]);
 
     // Reset token 0 input amount when change another token
     useEffect(() => {
@@ -131,11 +139,11 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
 
     useEffect(() => {
         (async () => {
-            if (!account || !library) return;
+            if (!chainId || !account || !library) return;
             try {
                 const [balances, poolInfo] = await Promise.all([
-                    getCurrencyBalances(account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
-                    getPoolInfo(account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
+                    getCurrencyBalances(chainId, account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
+                    getPoolInfo(chainId, account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
                 ]);
                 poolInfo && setPoolInfo(poolInfo);
                 balances && setBalances(balances);
@@ -144,14 +152,15 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                 console.error(error);
             }
         })();
-    }, [account, library, tokens, reloadPool]);
+    }, [chainId, account, library, tokens, reloadPool]);
 
     useEffect(() => {
         (async () => {
             try {
-                if (!account) return;
+                if (!account || !library || !chainId) return;
                 setLoadedPool(false);
                 const trade = await getDerivedSwapInfo({
+                    chainId,
                     library,
                     independentField,
                     typedValue,
@@ -165,10 +174,10 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                 console.error(error);
             }
         })();
-    }, [account, library, tokens, typedValue, independentField, disabledMultihops]);
+    }, [chainId, account, library, tokens, typedValue, independentField, disabledMultihops]);
 
     useEffect(() => {
-        if (!account || !library || !trade || !tokens[Field.INPUT] || !typedValue) return;
+        if (!chainId || !account || !library || !trade || !tokens[Field.INPUT] || !typedValue) return;
 
         const decimals = tokens[Field.INPUT]?.decimals ?? 18;
         const parsedAmount = new Fraction(parseUnits(typedValue, decimals).toString());
@@ -176,10 +185,10 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
             independentField === Field.INPUT
                 ? new TokenAmount(tokens?.[Field.INPUT], parsedAmount.quotient.toString())
                 : trade.inputAmount;
-        getAllowances(library, account, ROUTER_ADDRESS, [tokens[Field.INPUT]], [inputAmount])
+        getAllowances(chainId, library, account, ROUTER_ADDRESS[chainId], [tokens[Field.INPUT]], [inputAmount])
             .then(setTokensNeedApproved)
             .catch(console.error);
-    }, [account, library, trade, tokens, independentField, typedValue]);
+    }, [chainId, account, library, trade, tokens, independentField, typedValue]);
 
     // const handleOpenModal = (independentField) => {
     // 	setIndependentField(independentField);
@@ -229,9 +238,9 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
 
     const onSwapCallback = useCallback(async () => {
         try {
-            if (!account || !library || submitting) return;
+            if (!chainId || !account || !library || submitting) return;
             setSubmitting(true);
-            await swapCallback(library, account, trade, +slippage);
+            await swapCallback(chainId, library, account, trade, +slippage);
             setReloadPool((pre) => !pre);
             setSubmitting(false);
             setTypedValue('');
@@ -241,13 +250,13 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
             setSubmitting(false);
             alert(error?.reason ?? error?.message ?? error);
         }
-    }, [account, library, trade, slippage]);
+    }, [chainId, account, library, trade, slippage]);
 
     const onApproveTokens = useCallback(async () => {
         try {
-            if (!account || !library || submitting) return;
+            if (!chainId || !account || !library || submitting) return;
             setSubmitting(true);
-            const result = await approves(library, account, ROUTER_ADDRESS, tokensNeedApproved);
+            const result = await approves(chainId, library, account, ROUTER_ADDRESS[chainId], tokensNeedApproved);
             if (result) setTokensNeedApproved([]);
             setSubmitting(false);
             alert('Approve tokens success');
@@ -256,7 +265,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
             setSubmitting(false);
             alert(error?.reason ?? error?.message ?? error);
         }
-    }, [account, library, tokensNeedApproved]);
+    }, [chainId, account, library, tokensNeedApproved]);
 
     // const isHighPriceImpact = useMemo(
     // 	() => (trade ? trade.priceImpact.greaterThan(FIVE_PERCENT) : false),
@@ -312,10 +321,10 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
         if (!searchToken || !isAddress(searchToken)) return listTokens;
         const existsTokens = listTokens.filter((t) => t.address.toLowerCase() === searchToken.toLowerCase());
         if (existsTokens.length) return existsTokens;
-        const _t = await getToken(searchToken, library);
+        const _t = await getToken(chainId, searchToken, library);
         if (_t instanceof Token) return [_t];
         return [];
-    }, [listTokens, searchToken, library]);
+    }, [listTokens, searchToken, library, chainId]);
 
     useEffect(() => {
         (async () => {
@@ -411,7 +420,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                                             onClick={() => handleSelectToken(t, independentField)}
                                         >
                                             <img
-                                                src={TOKEN_ICON_LIST[t.address] ?? UNKNOWN_TOKEN_ICON}
+                                                src={TOKEN_ICON_LIST[chainId]?.[t.address] ?? UNKNOWN_TOKEN_ICON}
                                                 alt={t.symbol ?? '?'}
                                                 style={{ height: 30, width: 30 }}
                                             />
@@ -487,7 +496,7 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                             >
                                 <img
                                     alt={tokens[Field.INPUT]?.symbol ?? '?'}
-                                    src={TOKEN_ICON_LIST[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    src={TOKEN_ICON_LIST[chainId]?.[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
                                     style={{ height: 30, width: 30 }}
                                 />
                                 <h5>{tokens[Field.INPUT]?.symbol ?? '--'}</h5>
@@ -552,7 +561,9 @@ const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
                             >
                                 <img
                                     alt={tokens[Field.OUTPUT]?.symbol ?? '?'}
-                                    src={TOKEN_ICON_LIST[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    src={
+                                        TOKEN_ICON_LIST[chainId]?.[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON
+                                    }
                                     style={{ height: 30, width: 30 }}
                                 />
                                 <h5>{tokens[Field.OUTPUT]?.symbol ?? '--'}</h5>
@@ -707,7 +718,7 @@ const SwapPage = () => {
         async function getSwapTx(pairAddr) {
             try {
                 const tokens = pairAddr.split(':');
-                if (tokens.length != 2 || !isAddress(tokens[0]) || !isAddress(tokens[1])) return;
+                if (tokens.length != 2 || !isAddress(tokens[0]) || !isAddress(tokens[1])) return setRowsData([]);
                 let res = await axios.get(`https://api-zeta.starksport.finance/indexer/tx/${pairAddr}`);
                 setRowsData(res.data);
             } catch (error) {}

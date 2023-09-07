@@ -93,6 +93,8 @@ import gif2 from './GIF2.gif';
 import certik_logo from './certik_logo.png';
 import stark_guardians_logo from './StarkGuardians_logo.png';
 import metamask from './metamask.png';
+import zeta from './zeta.png';
+import opside from './opside.png';
 
 const images = {
     metamask,
@@ -188,6 +190,8 @@ const images = {
     gif2,
     certik_logo,
     stark_guardians_logo,
+    zeta,
+    opside,
 };
 
 export default images;

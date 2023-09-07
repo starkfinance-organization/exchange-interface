@@ -20,12 +20,12 @@ import { isAddress } from '../../utils';
 import useListTokens from '../../hooks/useListTokens';
 
 const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
-    const { account, library, isConnected: isConnectedEvm } = useActiveWeb3React();
+    const { account, library, isConnected: isConnectedEvm, chainId } = useActiveWeb3React();
 
     // add liquidity
     const [tokens, setTokens] = useState({
-        [Field.INPUT]: WETH,
-        [Field.OUTPUT]: TOKEN_LIST[1],
+        [Field.INPUT]: WETH[chainId],
+        [Field.OUTPUT]: undefined,
     });
     const [balances, setBalances] = useState();
     const [tokenAmounts, setTokenAmounts] = useState({
@@ -45,11 +45,11 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
 
     useEffect(() => {
         (async () => {
-            if (!account || !library) return;
+            if (!chainId || !account || !library) return;
             try {
                 const [balances, poolInfo] = await Promise.all([
-                    getCurrencyBalances(account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
-                    getPoolInfo(account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
+                    getCurrencyBalances(chainId, account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
+                    getPoolInfo(chainId, account, library, [tokens[Field.INPUT], tokens[Field.OUTPUT]]),
                 ]);
                 poolInfo && setPoolInfo(poolInfo);
                 balances && setBalances(balances);
@@ -57,20 +57,21 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                 console.error(error);
             }
         })();
-    }, [account, library, tokens, reloadPool]);
+    }, [chainId, account, library, tokens, reloadPool]);
 
     useEffect(() => {
-        if (!account || !library) return;
+        if (!account || !library || !chainId) return;
         getAllowances(
+            chainId,
             library,
             account,
-            ROUTER_ADDRESS,
+            ROUTER_ADDRESS[chainId],
             [tokens[Field.INPUT], tokens[Field.OUTPUT]],
             [parsedTokenAmounts[Field.INPUT], parsedTokenAmounts[Field.OUTPUT]],
         )
             .then(setTokensNeedApproved)
             .catch(console.error);
-    }, [account, library, tokens, parsedTokenAmounts]);
+    }, [chainId, account, library, tokens, parsedTokenAmounts]);
 
     useEffect(() => {
         if (!poolInfo.noLiquidity) {
@@ -177,9 +178,9 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
 
     const onAddLiquidityCallback = useCallback(async () => {
         try {
-            if (!account || !library || submitting) return;
+            if (!chainId || !account || !library || submitting) return;
             setSubmitting(true);
-            await addLiquidityCallback(account, library, tokens, parsedTokenAmounts);
+            await addLiquidityCallback(chainId, account, library, tokens, parsedTokenAmounts);
             setReloadPool((pre) => !pre);
             setSubmitting(false);
             alert('Add liquidity success');
@@ -188,13 +189,13 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
             alert(error?.reason ?? error?.message ?? error);
             setSubmitting(false);
         }
-    }, [account, library, tokens, parsedTokenAmounts]);
+    }, [chainId, account, library, tokens, parsedTokenAmounts]);
 
     const onApproveTokens = useCallback(async () => {
         try {
-            if (!account || !library || submitting) return;
+            if (!chainId || !account || !library || submitting) return;
             setSubmitting(true);
-            const result = await approves(library, account, ROUTER_ADDRESS, tokensNeedApproved);
+            const result = await approves(chainId, library, account, ROUTER_ADDRESS[chainId], tokensNeedApproved);
             if (result) setTokensNeedApproved([]);
             setSubmitting(false);
             alert('Approve success');
@@ -203,7 +204,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
             alert(error?.reason ?? error?.message ?? error);
             setSubmitting(false);
         }
-    }, [account, library, tokensNeedApproved]);
+    }, [chainId, account, library, tokensNeedApproved]);
 
     const buttonText = useMemo(() => {
         if (!account) return 'Connect wallet';
@@ -256,7 +257,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
     const { isShowingSetting, toggleSettingSwap } = useModalSettingSwap();
 
     // search token
-    const listTokens = useListTokens();
+    const listTokens = useListTokens(chainId);
     const [searchToken, setSearchToken] = useState('');
     const [_listTokens, _setListTokens] = useState([]);
 
@@ -264,10 +265,10 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
         if (!searchToken || !isAddress(searchToken)) return listTokens;
         const existsTokens = listTokens.filter((t) => t.address.toLowerCase() === searchToken.toLowerCase());
         if (existsTokens.length) return existsTokens;
-        const _t = await getToken(searchToken, library);
+        const _t = await getToken(chainId, searchToken, library);
         if (_t instanceof Token) return [_t];
         return [];
-    }, [listTokens, searchToken, library]);
+    }, [listTokens, searchToken, library, chainId]);
 
     useEffect(() => {
         (async () => {
@@ -391,7 +392,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 }}
                             >
                                 <img
-                                    src={TOKEN_ICON_LIST[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    src={TOKEN_ICON_LIST[chainId]?.[tokens[Field.INPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
                                     style={{ height: 30, width: 30 }}
                                     alt="eth_icon"
                                 />
@@ -440,7 +441,9 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                 }}
                             >
                                 <img
-                                    src={TOKEN_ICON_LIST[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON}
+                                    src={
+                                        TOKEN_ICON_LIST[chainId]?.[tokens[Field.OUTPUT]?.address] ?? UNKNOWN_TOKEN_ICON
+                                    }
                                     style={{ height: 30, width: 30 }}
                                     alt="eth_icon"
                                 />
@@ -514,7 +517,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                                                 onClick={() => handleSelectToken(t, independentField)}
                                             >
                                                 <img
-                                                    src={TOKEN_ICON_LIST[t.address] ?? UNKNOWN_TOKEN_ICON}
+                                                    src={TOKEN_ICON_LIST[chainId]?.[t.address] ?? UNKNOWN_TOKEN_ICON}
                                                     alt={t.symbol ?? '?'}
                                                     style={{ height: 30, width: 30 }}
                                                 />

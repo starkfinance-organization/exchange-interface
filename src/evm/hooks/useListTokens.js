@@ -1,8 +1,8 @@
 import { getListTokens } from '../utils/networks';
 import { useMemo } from 'react';
 
-const useListTokens = () => {
-    return useMemo(() => getListTokens(), []);
+const useListTokens = (chainId) => {
+    return useMemo(() => getListTokens(chainId), [chainId]);
 };
 
 export default useListTokens;

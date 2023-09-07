@@ -7,16 +7,16 @@ import '../style.scss';
 import { Button } from 'antd';
 
 const PairComponent = ({ pool, setReload }) => {
-    const { account, library } = useActiveWeb3React();
+    const { account, library, chainId } = useActiveWeb3React();
 
     const [submitting, setSubmitting] = useState(false);
 
     const onRemoveLiquidityCallback = useCallback(async () => {
         try {
-            if (!pool) return;
+            if (!pool || !chainId || !account || !library) return;
             const removeAmount = BigNumber.from(pool.balanceOf.raw.toString());
             setSubmitting(true);
-            await removeLiquidityCallback(account, library, pool.pair, removeAmount);
+            await removeLiquidityCallback(chainId, account, library, pool.pair, removeAmount);
             setSubmitting(false);
             setReload((pre) => !pre);
             alert('Remove liquidity success');
@@ -25,7 +25,7 @@ const PairComponent = ({ pool, setReload }) => {
             setSubmitting(false);
             alert(error?.reason ?? error?.message ?? error);
         }
-    }, [account, library, pool]);
+    }, [chainId, account, library, pool]);
 
     return (
         <div className="row gap-5 a-center p-20 input-wrapper">
@@ -59,7 +59,7 @@ const PairComponent = ({ pool, setReload }) => {
 };
 
 const MyPools = () => {
-    const { account, isConnected: isConnectedEvm, library } = useActiveWeb3React();
+    const { account, isConnected: isConnectedEvm, library, chainId } = useActiveWeb3React();
 
     // liquidity pools
     const [loading, setLoading] = useState(true);
@@ -68,7 +68,7 @@ const MyPools = () => {
 
     useEffect(() => {
         let isMounted = true;
-        getOwnerLiquidityPools(library, account)
+        getOwnerLiquidityPools(chainId, library, account)
             .then((res) => {
                 isMounted && setOwnerPools(res);
                 setLoading(false);
@@ -80,15 +80,17 @@ const MyPools = () => {
         return () => {
             isMounted = false;
         };
-    }, [account, library, reload]);
+    }, [chainId, account, library, reload]);
 
     return (
         <div className="form-show" style={{ marginTop: 10 }}>
             <div className="col gap-10" style={{ gap: 2, marginTop: 0, marginBottom: 0 }}>
                 {isConnectedEvm ? (
                     <div className="row gap-10" style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {ownerPools.length == 0 ? (
+                        {loading ? (
                             <h4>Loading...</h4>
+                        ) : ownerPools.length == 0 ? (
+                            <h4>No liquidity</h4>
                         ) : (
                             ownerPools.map((pool, index) => (
                                 <PairComponent key={index} pool={pool} setReload={setReload} />

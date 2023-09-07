@@ -20,8 +20,8 @@ import {
 /**
  * Returns a map of the given addresses to their eventually consistent BNB balances.
  */
-export const getBNBBalances = async (library, uncheckedAddresses = undefined) => {
-    const multicallContract = await getMulticallContract(library);
+export const getBNBBalances = async (chainId, library, uncheckedAddresses = undefined) => {
+    const multicallContract = await getMulticallContract(chainId, library);
     const addresses = uncheckedAddresses
         ? uncheckedAddresses
               .map(isAddress)
@@ -29,6 +29,7 @@ export const getBNBBalances = async (library, uncheckedAddresses = undefined) =>
               .sort()
         : [];
     const results = await getSingleContractMultipleData(
+        chainId,
         library,
         multicallContract,
         'getEthBalance',
@@ -44,10 +45,11 @@ export const getBNBBalances = async (library, uncheckedAddresses = undefined) =>
 /**
  * Returns a map of the given addresses to their eventually consistent token balances.
  */
-export const getTokenBalances = async (account, library, tokens) => {
+export const getTokenBalances = async (chainId, account, library, tokens) => {
     try {
         const tokenContracts = tokens.map((token) => getERC20Contract(token.address, library));
         const results = await getMultipleContractMultipleData(
+            chainId,
             library,
             tokenContracts,
             'balanceOf',
@@ -67,16 +69,16 @@ export const getTokenBalances = async (account, library, tokens) => {
 /**
  * Returns pair info
  */
-export const getPairInfo = async (library, account, pairContract) => {
+export const getPairInfo = async (chainId, library, account, pairContract) => {
     try {
         const methodNames = ['token0', 'token1', 'getReserves', 'balanceOf', 'totalSupply'];
-        const results = await getSingleContractMultipleDataMultipleMethods(library, pairContract, methodNames, [
-            [],
-            [],
-            [],
-            [account],
-            [],
-        ]);
+        const results = await getSingleContractMultipleDataMultipleMethods(
+            chainId,
+            library,
+            pairContract,
+            methodNames,
+            [[], [], [], [account], []],
+        );
         return methodNames.reduce((memo, method, i) => {
             const value = results?.[i][0];
             // console.log("value + ", value + "");
@@ -99,13 +101,14 @@ export const PairState = {
     INVALID: 3,
 };
 
-export const getPairs = async (library, currencies) => {
+export const getPairs = async (chainId, library, currencies) => {
     const tokens = currencies.map(([currencyA, currencyB]) => [wrappedCurrency(currencyA), wrappedCurrency(currencyB)]);
 
     const pairAddresses = tokens.map(([tokenA, tokenB]) => {
         return tokenA && tokenB && !tokenA.equals(tokenB)
             ? computePairAddress({
-                  factoryAddress: FACTORY_ADDRESS,
+                  chainId,
+                  factoryAddress: FACTORY_ADDRESS[chainId],
                   tokenA,
                   tokenB,
               })
@@ -114,6 +117,7 @@ export const getPairs = async (library, currencies) => {
     const pairContracts = pairAddresses.filter((pair) => !!pair).map((pair) => getPairContract(pair, library));
 
     const results = await getMultipleContractMultipleData(
+        chainId,
         library,
         pairContracts,
         'getReserves',
@@ -136,7 +140,7 @@ export const getPairs = async (library, currencies) => {
     });
 };
 
-export const getAllCommonPairs = async (library, currencyA, currencyB) => {
+export const getAllCommonPairs = async (chainId, library, currencyA, currencyB) => {
     if (!library) return [];
     const [tokenA, tokenB] = [
         // wrappedCurrency(currencyA),
@@ -182,7 +186,7 @@ export const getAllCommonPairs = async (library, currencyA, currencyB) => {
                   })
             : [];
 
-    const allPairs = await getPairs(library, allPairCombinations);
+    const allPairs = await getPairs(chainId, library, allPairCombinations);
 
     return Object.values(
         allPairs
@@ -217,6 +221,7 @@ export function isTradeBetter(tradeA, tradeB, minimumDelta = ZERO_PERCENT) {
 }
 
 export const getTradeExactIn = async (
+    chainId,
     library,
     currencyA,
     currencyB,
@@ -224,7 +229,7 @@ export const getTradeExactIn = async (
     currencyOut,
     singleHopOnly = true,
 ) => {
-    const allowedPairs = await getAllCommonPairs(library, currencyA, currencyB);
+    const allowedPairs = await getAllCommonPairs(chainId, library, currencyA, currencyB);
     if (!allowedPairs.length) return null;
 
     if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
@@ -254,8 +259,16 @@ export const getTradeExactIn = async (
     return null;
 };
 
-export const getTradeExactOut = async (library, currencyA, currencyB, currencyAmountOut, currencyIn, singleHopOnly) => {
-    const allowedPairs = await getAllCommonPairs(library, currencyA, currencyB);
+export const getTradeExactOut = async (
+    chainId,
+    library,
+    currencyA,
+    currencyB,
+    currencyAmountOut,
+    currencyIn,
+    singleHopOnly,
+) => {
+    const allowedPairs = await getAllCommonPairs(chainId, library, currencyA, currencyB);
     if (!allowedPairs.length) return null;
 
     if (currencyAmountOut && currencyIn && allowedPairs.length > 0) {
