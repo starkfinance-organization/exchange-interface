@@ -41,6 +41,8 @@ function useWindowSize() {
 }
 
 const App = () => {
+    console.clear();
+
     const dispatch = useDispatch();
 
     const isEvm = useSelector((state) => state.isEvm);
@@ -79,9 +81,9 @@ const App = () => {
                             return <Route key={index} path={route.path} element={<Page />}></Route>;
                         })}
                     </Routes>
-                    <div style={{position: 'relative'}}>
-                        <div className='overlay-footer'></div>
-                        <div className='wrapper-footer'>
+                    <div style={{ position: 'relative' }}>
+                        <div className="overlay-footer"></div>
+                        <div className="wrapper-footer">
                             <Footer />
                             <FooterLayout />
                         </div>

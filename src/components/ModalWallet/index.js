@@ -87,7 +87,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
                               >
                                   <img src={assets.images.zeta} />
-                                  <p className="fz-18 fw-7">MetaMask</p>
+                                  <p className="fz-18 fw-7">Zetachain</p>
                               </div>
 
                               <div
