@@ -42,6 +42,11 @@ export const NETWORKS_SUPPORTED = {
     },
 };
 
+export const EXPLORER_TX = {
+    [CHAIN_ID.ZETA_TESTNET]: 'https://explorer.zetachain.com/evm/tx',
+    [CHAIN_ID.OPSIDE_TESTNET]: 'https://pre-alpha.opside.info/tx',
+};
+
 export const WETH = {
     [CHAIN_ID.ZETA_TESTNET]: new Token(
         NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET].chainId,

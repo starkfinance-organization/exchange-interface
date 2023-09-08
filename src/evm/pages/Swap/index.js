@@ -21,6 +21,7 @@ import {
     TOKEN_LIST,
     UNKNOWN_TOKEN_ICON,
     WETH,
+    EXPLORER_TX,
 } from '../../configs/networks.js';
 import { Token, TokenAmount } from '@uniswap/sdk';
 import { Fraction } from '@uniswap/sdk-core';
@@ -672,7 +673,7 @@ const SwapPage = () => {
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
 
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        return `${year}-${month}-${day}`;
     };
 
     const [priceSrt, setPriceSrt] = useState();
@@ -812,7 +813,7 @@ const SwapPage = () => {
                     <AreaChart
                         width={windowSize.width > 600 ? 600 : windowSize.width - 100}
                         height={300}
-                        data={DUMMY_DATA.data}
+                        // data={DUMMY_DATA.data}
                     >
                         {/* <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -897,7 +898,7 @@ const SwapPage = () => {
                                             cursor: 'pointer',
                                         }}
                                         onClick={() => {
-                                            openInNewTab(`https://athens3.explorer.zetachain.com/evm/tx/` + row.txHash);
+                                            openInNewTab(`${EXPLORER_TX[chainId]}/${row.txHash}`);
                                         }}
                                     >
                                         {shortAddress(row.txHash)}
