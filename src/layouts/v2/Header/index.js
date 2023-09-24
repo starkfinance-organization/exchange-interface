@@ -152,12 +152,12 @@ const HeaderLayout = () => {
                             >
                                 Liquidity
                             </p>
-                            <p
+                            {/* <p
                                 className="menu__item py-10 fw-7"
                                 onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
                             >
                                 Faucet
-                            </p>
+                            </p> */}
                             <p
                                 className="menu__item py-10 fw-7"
                                 onClick={() => {
