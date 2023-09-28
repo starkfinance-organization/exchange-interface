@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import assets from '../../assets';
 import Footer from '../../layouts/Footer';
 import { route } from '../../routes/configs';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
+import { Button } from 'antd';
 // import './style.scss';
 import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
@@ -45,7 +46,8 @@ const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2da
 //     nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
 // });
 const provider = new RpcProvider({
-    nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+    // nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
+    nodeUrl: 'https://starknet-goerli.infura.io/v3/4c1d46736d6c4c9f8d6c6f17002e4e6b',
 });
 const erc20abi = [
     {
@@ -445,14 +447,14 @@ const mockDataTokenTest = [
     {
         name: 'WBTC',
         icon: assets.svg.btc,
-        address: '0x3fe2b97c1fd336e750087d68b9b867997fd64a2661ff3ca5a7c771641e8e7ac',
+        address: '0x03e85bfbb8e2a42b7bead9e88e9a1b19dbccf661471061807292120462396ec9',
         decimals: 8,
         freeToken: 1,
     },
     {
         name: 'ETH',
         icon: assets.images.eth,
-        address: '0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
+        address: '0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7',
         decimals: 18,
         freeToken: 10000,
     },
@@ -537,7 +539,6 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
             setToken1OutputAmount(0);
             setToken1OutputDisplayAmount(0);
         } else {
-            setToken0InputAmount(getTokenAmountInWei(event.target.value, token0.decimals));
         }
     };
 
@@ -552,6 +553,17 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 
     // Token 1 Balance
     const [token1BalanceAmount, setToken1BalanceAmount] = useState(0);
+
+    const [submitting, setSubmitting] = useState(false);
+
+    const handleCHangeToken0InputByPercent = useCallback(
+        (percent) => {
+            const amount = ((parseFloat(token0BalanceAmount || 0) * percent) / 100).toFixed(token0.decimals);
+            setToken0InputAmount(getTokenAmountInWei(amount, token0.decimals));
+            inputToken0Ref.current.value = amount;
+        },
+        [token0BalanceAmount, token0],
+    );
 
     // Slippage
     const [slippagePercentage, setSlippagePercentage] = useState(0.5);
@@ -596,7 +608,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             });
-            console.log('🚀 ~ file: index.js:571 ~ getPairId ~ vol:', vol);
+            // console.log('🚀 ~ file: index.js:571 ~ getPairId ~ vol:', vol);
             setVol(vol);
         }
         getPairId(token0.address, token1.address);
@@ -640,11 +652,19 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
     // console.log("🚀 ~ file: index.js:589 ~ FormSwap ~ (token1OutputAmount - token1OutputAmount * (slippagePercentage / 100)).toString():", (token1OutputAmount - token1OutputAmount * (slippagePercentage / 100)).toString())
     // console.log("token1OutputAmount - token1OutputAmount * (slippagePercentage / 100)", token1OutputAmount - token1OutputAmount * (slippagePercentage / 100));
 
-    const handleSwap = () => {
-        if (status == 'connected') {
-            execute();
-        } else {
-            alert('Please connect wallet');
+    const handleSwap = async () => {
+        try {
+            if (status == 'connected') {
+                if (submitting) return;
+                setSubmitting(true);
+                await execute();
+                setSubmitting(false);
+            } else {
+                setSubmitting(false);
+                alert('Please connect wallet');
+            }
+        } catch (error) {
+            setSubmitting(false);
         }
     };
 
@@ -723,10 +743,10 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
         if (initialRender.current) {
             initialRender.current = false;
         } else {
-            console.log(token0InputAmount);
+            // console.log(token0InputAmount);
             const fetchData = async () => {
                 const routerContract = new Contract(router.abi, ROUTER_ADDRESS, provider);
-                console.log('routerContract', routerContract);
+                // console.log('routerContract', routerContract);
                 let token1Output = await routerContract.call('get_amounts_out', [
                     [token0InputAmount, 0],
                     [token0.address, token1.address],
@@ -892,7 +912,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                                             className={`${
                                                 item.number === percent ? 'btn-percent-select' : 'btn-percent'
                                             }`}
-                                            onClick={item.handleChoosingPercent}
+                                            onClick={() => handleCHangeToken0InputByPercent(item.number)}
                                         >
                                             <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
                                         </button>
@@ -962,9 +982,23 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 </div>
             </div>
 
-            <div className="btn p-20" style={{ marginTop: 20 }} onClick={() => handleSwap()}>
+            <Button
+                style={{
+                    marginTop: 20,
+                    width: '100%',
+                    border: 'none',
+                }}
+                className="btn p-20"
+                onClick={() => {
+                    handleSwap();
+                }}
+                loading={submitting}
+            >
+                Swap
+            </Button>
+            {/* <div className="btn p-20" style={{ marginTop: 20 }} onClick={() => handleSwap()}>
                 <h4>Swap</h4>
-            </div>
+            </div> */}
         </div>
     );
 };
@@ -1082,7 +1116,7 @@ const SwapPage = () => {
     }
 
     function formatPrice3(price) {
-        console.log('🚀 ~ file: index.js:1002 ~ formatPrice3 ~ price:', price);
+        // console.log('🚀 ~ file: index.js:1002 ~ formatPrice3 ~ price:', price);
         let formattedPrice = 0;
         if (price > 1) {
             formattedPrice = Number(price).toFixed(2);
