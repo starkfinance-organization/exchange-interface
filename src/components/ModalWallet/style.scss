@@ -46,6 +46,10 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
 
+            @media screen and (max-width: 480px) {
+                padding: 0;
+            }
+
             .model-back {
                 display: flex;
                 align-items: center;
