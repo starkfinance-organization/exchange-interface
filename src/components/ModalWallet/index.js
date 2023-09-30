@@ -84,6 +84,7 @@ const ModalWallet = ({ isShowing, hide }) => {
                                   <img src={assets.images.braavos} alt="" />
                                   <p className="fz-18 fw-7">Braavos</p>
                               </div></>) : <div
+                                  className="wallet-icon-inactive a-center g-5"
                                   onClick={() => setShowWallet(true)}
                               >
                                   <img src={assets.svg.iconSwitchNetwork} alt="" />
