@@ -46,7 +46,20 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
 
-            & > p {
+            .model-back {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .icon-back {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                cursor: pointer;
+            }
+
+            p {
                 color: #24c3bc;
                 font-family: Roboto;
                 font-size: 30px;
