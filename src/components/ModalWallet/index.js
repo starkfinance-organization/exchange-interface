@@ -1,5 +1,5 @@
 import { useConnectors } from '@starknet-react/core';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import assets from '../../assets';
@@ -22,9 +22,12 @@ const ModalWallet = ({ isShowing, hide }) => {
 
     const handleClose = () => {
         hide();
+        setShowWallet(false);
     };
 
     const { available, connectors, connect, refresh } = useConnectors();
+
+    const [showWallet, setShowWallet] = useState(false);
 
     // Refresh to check for available connectors every 5 seconds.
     useEffect(() => {
@@ -67,21 +70,25 @@ const ModalWallet = ({ isShowing, hide }) => {
                               </div>
                           </div>
                           <div className="modal-body row j-center g-50">
-                              <div
+                                {showWallet ? (<><div
                                   className="wallet-icon-inactive a-center g-5"
                                   onClick={() => handleConnect(connectors[1])}
                               >
                                   <img src={assets.images.argent} alt="" />
-                                  <p className="fz-18 fw-7">Starknet (ArgentX)</p>
+                                  <p className="fz-18 fw-7">ArgentX</p>
                               </div>
                               <div
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(connectors[0])}
                               >
                                   <img src={assets.images.braavos} alt="" />
-                                  <p className="fz-18 fw-7">Starknet (Braavos)</p>
-                              </div>
-
+                                  <p className="fz-18 fw-7">Braavos</p>
+                              </div></>) : <div
+                                  onClick={() => setShowWallet(true)}
+                              >
+                                  <img src={assets.svg.iconSwitchNetwork} alt="" />
+                                  <p className="fz-18 fw-7">Starknet</p>
+                              </div>}
                               <div
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
