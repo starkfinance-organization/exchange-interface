@@ -19,7 +19,6 @@ const Drawer = ({ isShowing, hide }) => {
     return ReactDOM.createPortal(
         <React.Fragment>
             {isShowing && <div className="drawer-overlay" onClick={hide} />}
-            {/* <div className="drawer-overlay" onClick={hide} /> */}
             <div
                 className={`drawer-wrapper ${isShowing ? 'show-drawer' : ''}`}
                 aria-modal
@@ -33,12 +32,6 @@ const Drawer = ({ isShowing, hide }) => {
                         event.stopPropagation();
                     }}
                 >
-                    <p
-                        className="drawer__item"
-                        onClick={() => openInNewTab('https://marketplace.starksport.finance/events')}
-                    >
-                        Marketplace
-                    </p>
                     <p className="drawer__item" onClick={() => navClick(route.swap)}>
                         Swap
                     </p>
@@ -54,37 +47,7 @@ const Drawer = ({ isShowing, hide }) => {
                     >
                         Overview
                     </p>
-                    <p className="drawer__item" onClick={() => navClick(route.pools)}>
-                        Staking
-                    </p>
-                    <p className="drawer__item" onClick={() => navClick(route.farms)}>
-                        Yield Farms
-                    </p>
 
-                    <p className="drawer__item" onClick={() => navClick(route.launchpad)}>
-                        Launchpads
-                    </p>
-
-                    <p className="drawer__item" onClick={() => navClick(route.lending)}>
-                        Lending Network
-                    </p>
-
-                    {/* <p className="drawer__item" onClick={() => navClick(route.airdrop)}>
-                            NFT Holder Airdrop
-                        </p> */}
-
-                    {/* <p className="drawer__item" onClick={() => navClick(route.info)}>
-                              Info
-                          </p> */}
-
-                    {/* <p
-                              className="drawer__item"
-                              onClick={() => {
-                                  navClick(route.claimToken);
-                              }}
-                          >
-                              Claim Testnet Token
-                          </p> */}
                     <p
                         className="drawer__item"
                         onClick={() => {

@@ -123,15 +123,7 @@ const HeaderLayout = () => {
             </div>
 
             <div className="header__nav row ">
-                <div
-                    className="header__item p-15"
-                    onClick={() => {
-                        navClick(route.home);
-                    }}
-                >
-                    <h4>Home</h4>
-                </div>
-                <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
+                {/* <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
                     <h4>Exchange</h4>
 
                     {showMenu && (
@@ -152,12 +144,6 @@ const HeaderLayout = () => {
                             >
                                 Liquidity
                             </p>
-                            {/* <p
-                                className="menu__item py-10 fw-7"
-                                onClick={() => openInNewTab('https://zeta-faucet.starksport.finance/')}
-                            >
-                                Faucet
-                            </p> */}
                             <p
                                 className="menu__item py-10 fw-7"
                                 onClick={() => {
@@ -166,91 +152,34 @@ const HeaderLayout = () => {
                             >
                                 Overview
                             </p>
-                            {/* <div
-                                    className="menu__item py-10 fw-7"
-                                    onClick={() => {
-                                        navClick(route.claimToken);
-                                    }}
-                                >
-                                    <h4>Claim Testnet Token</h4>
-                                </div> */}
                         </div>
                     )}
-                </div>
+                </div> */}
 
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        openInNewTab('https://marketplace.starksport.finance/');
+                        navClick(route.swap);
                     }}
                 >
-                    <h4>Marketplace</h4>
+                    <h4>Swap</h4>
                 </div>
-
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        navClick(route.launchpad);
+                        navClick('liquidity');
                     }}
                 >
-                    <h4>Launchpad</h4>
+                    <h4>Liquidity</h4>
                 </div>
-
                 <div
                     className="header__item p-15"
-                    onMouseEnter={handleMenuEarnHover}
-                    onMouseLeave={handleMenuEarnLeave}
+                    onClick={() => {
+                        navClick(route.liquidity2);
+                    }}
                 >
-                    <h4>Earnings</h4>
-
-                    {showMenuEarn && (
-                        <div ref={menuRef} className="menu col">
-                            <p
-                                className="menu__item py-10 fw-7"
-                                onClick={() => {
-                                    navClick(route.pools);
-                                }}
-                            >
-                                Staking
-                            </p>
-                            <p
-                                className="menu__item py-10 fw-7"
-                                onClick={() => {
-                                    navClick(route.farms);
-                                }}
-                            >
-                                Yield Farms
-                            </p>
-
-                            <p
-                                className="menu__item py-10 fw-7"
-                                onClick={() => {
-                                    navClick(route.lending);
-                                }}
-                            >
-                                Lending Network
-                            </p>
-                        </div>
-                    )}
+                    <h4>Overview</h4>
                 </div>
-
-                {/* <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            navClick(route.airdrop);
-                        }}
-                    >
-                        <h4>NFT Holder Reward</h4>
-                    </div> */}
-
-                {/* <div
-                        className="header__item p-15"
-                        onClick={() => {
-                            navClick(route.info);
-                        }}
-                    >
-                        <h4>Info</h4>
-                    </div> */}
 
                 <div
                     className="header__item p-15"

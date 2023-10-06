@@ -1,5 +1,5 @@
 import { useConnectors } from '@starknet-react/core';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import assets from '../../assets';
@@ -22,9 +22,12 @@ const ModalWallet = ({ isShowing, hide }) => {
 
     const handleClose = () => {
         hide();
+        setShowWallet(false);
     };
 
     const { available, connectors, connect, refresh } = useConnectors();
+
+    const [showWallet, setShowWallet] = useState(false);
 
     // Refresh to check for available connectors every 5 seconds.
     useEffect(() => {
@@ -48,6 +51,8 @@ const ModalWallet = ({ isShowing, hide }) => {
         handleClose();
     };
 
+    const iconBack = <svg class="tiktok-45b2fy-StyledArrowLeft e1dq5aum2" width="1em" data-e2e="" height="1em" viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.58579 22.5858L20.8787 6.29289C21.2692 5.90237 21.9024 5.90237 22.2929 6.29289L23.7071 7.70711C24.0976 8.09763 24.0976 8.7308 23.7071 9.12132L10.8284 22H39C39.5523 22 40 22.4477 40 23V25C40 25.5523 39.5523 26 39 26H10.8284L23.7071 38.8787C24.0976 39.2692 24.0976 39.9024 23.7071 40.2929L22.2929 41.7071C21.9024 42.0976 21.2692 42.0976 20.8787 41.7071L4.58579 25.4142C3.80474 24.6332 3.80474 23.3668 4.58579 22.5858Z"></path></svg>
+
     return isShowing
         ? ReactDOM.createPortal(
               <React.Fragment>
@@ -60,35 +65,46 @@ const ModalWallet = ({ isShowing, hide }) => {
                           }}
                       >
                           <div className="modal-header">
-                              <p className="fz-20 fw-7">Switch Network</p>
+                            <div className='model-back'>
+                                {showWallet && <div className='icon-back' onClick={() => setShowWallet(false)}>{iconBack}</div>}
+                                <p className="fz-20 fw-7">Switch Network</p>
+                            </div>
 
                               <div className="modal-close" onClick={handleClose}>
                                   <img src={assets.svg.iconClose} alt="close" style={{ height: 15, width: 15 }} />
                               </div>
                           </div>
                           <div className="modal-body row j-center g-50">
-                              <div
+                                {showWallet ? 
+                                <><div
                                   className="wallet-icon-inactive a-center g-5"
                                   onClick={() => handleConnect(connectors[1])}
-                              >
+                                >
                                   <img src={assets.images.argent} alt="" />
-                                  <p className="fz-18 fw-7">Starknet (ArgentX)</p>
-                              </div>
-                              <div
+                                  <p className="fz-18 fw-7">ArgentX</p>
+                                </div>
+                                <div
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(connectors[0])}
-                              >
+                                >
                                   <img src={assets.images.braavos} alt="" />
-                                  <p className="fz-18 fw-7">Starknet (Braavos)</p>
-                              </div>
-
-                              <div
+                                  <p className="fz-18 fw-7">Braavos</p>
+                                </div></> 
+                                : 
+                                <><div
+                                  className="wallet-icon-inactive a-center g-5"
+                                  onClick={() => setShowWallet(true)}
+                                >
+                                  <img src={assets.svg.iconSwitchNetwork} alt="" />
+                                  <p className="fz-18 fw-7">Starknet</p>
+                                </div>
+                                <div
                                   className="wallet-icon-inactive col a-center g-5"
                                   onClick={() => handleConnect(injected, true, CHAIN_ID.ZETA_TESTNET)}
-                              >
+                                >
                                   <img src={assets.images.zeta} />
                                   <p className="fz-18 fw-7">Zetachain</p>
-                              </div>
+                                </div>
 
                               <div
                                   className="wallet-icon-inactive col a-center g-5"
@@ -97,6 +113,8 @@ const ModalWallet = ({ isShowing, hide }) => {
                                   <img src={assets.images.opside} />
                                   <p className="fz-18 fw-7">Opside</p>
                               </div>
+                              </>}
+                             
                           </div>
                       </div>
                   </div>
