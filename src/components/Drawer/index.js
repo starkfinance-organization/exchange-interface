@@ -32,12 +32,6 @@ const Drawer = ({ isShowing, hide }) => {
                         event.stopPropagation();
                     }}
                 >
-                    <p
-                        className="drawer__item"
-                        onClick={() => openInNewTab('https://marketplace.starksport.finance/events')}
-                    >
-                        Marketplace
-                    </p>
                     <p className="drawer__item" onClick={() => navClick(route.swap)}>
                         Swap
                     </p>

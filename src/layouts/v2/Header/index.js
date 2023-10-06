@@ -123,7 +123,7 @@ const HeaderLayout = () => {
             </div>
 
             <div className="header__nav row ">
-                <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
+                {/* <div className="header__item p-15" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
                     <h4>Exchange</h4>
 
                     {showMenu && (
@@ -154,16 +154,33 @@ const HeaderLayout = () => {
                             </p>
                         </div>
                     )}
-                </div>
+                </div> */}
 
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        openInNewTab('https://marketplace.starksport.finance/');
+                        navClick(route.swap);
                     }}
                 >
-                    <h4>Marketplace</h4>
+                    <h4>Swap</h4>
                 </div>
+                <div
+                    className="header__item p-15"
+                    onClick={() => {
+                        navClick('liquidity');
+                    }}
+                >
+                    <h4>Liquidity</h4>
+                </div>
+                <div
+                    className="header__item p-15"
+                    onClick={() => {
+                        navClick(route.liquidity2);
+                    }}
+                >
+                    <h4>Overview</h4>
+                </div>
+
                 <div
                     className="header__item p-15"
                     onClick={() => {
