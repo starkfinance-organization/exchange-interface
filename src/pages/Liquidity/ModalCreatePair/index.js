@@ -4,19 +4,20 @@ import assets from '../../../assets';
 import ModalSelectToken from '../ModalSelectToken';
 
 import './style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
 import erc20 from '../../../assets/abi/erc20.js';
 import router from '../../../assets/abi/router.js';
 import Modal from 'antd/lib/modal/Modal';
+import useCurrentAccount from '../../../hooks/useCurrentAccount';
 // import PoolComponent from './Pools';
 
 const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
 const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2daa7be435c2';
 
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } })
+const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
 const erc20abi = [
     {
         members: [
@@ -1080,7 +1081,7 @@ function getDeadlineTime(deadlineMinutes) {
 }
 
 const FormSwap = ({ setIsShowCreatePair }) => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [isShow, setIsShow] = useState(false);
     const [isShowSetting, setIsShowSetting] = useState(false);
 
@@ -1193,12 +1194,12 @@ const FormSwap = ({ setIsShowCreatePair }) => {
             if (status === 'connected') {
                 const erc20Contract = new Contract(erc20abi, token0.address, provider);
                 let token0Balance = await erc20Contract.call('balanceOf', [address]);
-                console.log("token0Balance", token0Balance);
+                console.log('token0Balance', token0Balance);
                 let token0BalanceInWei = uint256.uint256ToBN(token0Balance.balance).toString();
-                console.log("token0BalanceInWei", token0BalanceInWei);
+                console.log('token0BalanceInWei', token0BalanceInWei);
                 let token0BalanceInEther = getTokenAmountInEther(token0BalanceInWei, token0.decimals);
-                console.log("token0.decimals", token0.decimals);
-                console.log("token0BalanceInEther", token0BalanceInEther);
+                console.log('token0.decimals', token0.decimals);
+                console.log('token0BalanceInEther', token0BalanceInEther);
                 setToken0BalanceAmount(token0BalanceInEther);
 
                 const erc201Contract = new Contract(erc20abi, token1.address, provider);
@@ -1249,13 +1250,14 @@ const FormSwap = ({ setIsShowCreatePair }) => {
     ];
     const handleCreatePoolAddLiquidity = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     /// GET OPTIMAL AMOUNT TOKEN 1 BEFORE ADD LIQUIDITY
 
@@ -1316,31 +1318,31 @@ const FormSwap = ({ setIsShowCreatePair }) => {
     }, [token0InputAmount]);
 
     const percentNumbers = [
-            {
-                number: 25,
-                handleChossingPercent: () => {
+        {
+            number: 25,
+            handleChossingPercent: () => {
                 return;
-                }
             },
-            {
-                number: 50,
-                handleChossingPercent: () => {
-                return;  
-                }
+        },
+        {
+            number: 50,
+            handleChossingPercent: () => {
+                return;
             },
-            {
-                number: 75,
-                handleChossingPercent: () => {
-                return;  
-                }
+        },
+        {
+            number: 75,
+            handleChossingPercent: () => {
+                return;
             },
-            {
-                number: 100,
-                handleChossingPercent: () => {
-                return;  
-                }
-            }
-    ]
+        },
+        {
+            number: 100,
+            handleChossingPercent: () => {
+                return;
+            },
+        },
+    ];
 
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2, margin: 0 }}>
@@ -1380,16 +1382,19 @@ const FormSwap = ({ setIsShowCreatePair }) => {
                             <img src={assets.svg.down_arrow} style={{ height: 20, width: 20 }} alt="down_arrow_icon" />
                         </div>
                     </div>
-                    <div className="input-balance-wrapper" style={{marginBottom: 10}}>
+                    <div className="input-balance-wrapper" style={{ marginBottom: 10 }}>
                         <p>Balance: {token0BalanceAmount}</p>
                     </div>
 
-                    <div className='wrapper-percent'>
+                    <div className="wrapper-percent">
                         {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100? "MAX" : item.number + '%'}</p></button>)
+                            return (
+                                <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
+                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                </button>
+                            );
                         })}
                     </div>
-
                 </div>
             </div>
             <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
@@ -1437,7 +1442,7 @@ const FormSwap = ({ setIsShowCreatePair }) => {
 };
 
 const ModalCreatePair = ({ isShowCreatePair, setIsShowCreatePair }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     return (
         <Modal
             open={isShowCreatePair}

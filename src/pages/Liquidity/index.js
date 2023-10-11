@@ -5,7 +5,7 @@ import Footer from '../../layouts/Footer';
 import { route } from '../../routes/configs';
 import ModalSelectToken from './ModalSelectToken';
 import './style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
@@ -16,6 +16,7 @@ import ModalSettingSwap from '../../components/ModalSettingSwap';
 import PoolComponent from './Pools';
 import ModalCreatePair from './ModalCreatePair';
 import { Modal } from 'antd';
+import useCurrentAccount from '../../hooks/useCurrentAccount';
 
 import { useActiveWeb3React } from '../../evm/hooks/useActiveWeb3React';
 import LiquidityPageEvm from '../../evm/pages/Liquidity';
@@ -1667,7 +1668,7 @@ function getDeadlineTime() {
 }
 
 const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [isShow, setIsShow] = useState(false);
     const navigate = useNavigate();
 
@@ -1725,7 +1726,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
             setToken1OutputAmount(0);
             setToken1OutputDisplayAmount(0);
             inputToken0Ref.current.value = '';
-        } catch (err) { }
+        } catch (err) {}
     }, [token0, token1]);
 
     useEffect(() => {
@@ -1781,13 +1782,14 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
 
     const handleAddLiquidity = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -1885,27 +1887,27 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
             number: 25,
             handleChossingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 50,
             handleChossingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 75,
             handleChossingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 100,
             handleChossingPercent: () => {
                 return;
-            }
-        }
-    ]
+            },
+        },
+    ];
 
     return (
         <Modal
@@ -1988,12 +1990,15 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
                             <p>Balance: {token0BalanceAmount}</p>
                         </div>
 
-                        <div className='wrapper-percent'>
+                        <div className="wrapper-percent">
                             {percentNumbers.map((item, index) => {
-                                return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100 ? "MAX" : item.number + '%'}</p></button>)
+                                return (
+                                    <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
+                                        <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                    </button>
+                                );
                             })}
                         </div>
-
                     </div>
                 </div>
                 <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
@@ -2040,7 +2045,7 @@ const FormSwap = ({ isShowAddLiquidity, setIsShowAddLiquidity }) => {
 };
 
 const LiquidityPage = () => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [isShowCreatePair, setIsShowCreatePair] = useState(false);
     const [isShowAddLiquidity, setIsShowAddLiquidity] = useState(false);
 
@@ -2065,13 +2070,14 @@ const LiquidityPage = () => {
 
     const handleClaimFreeToken = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
     return (
         <div className="liquidity-page">
             <ModalCreatePair isShowCreatePair={isShowCreatePair} setIsShowCreatePair={setIsShowCreatePair} />

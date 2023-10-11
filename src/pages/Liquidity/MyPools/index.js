@@ -5,7 +5,7 @@ import Footer from '../../../layouts/Footer';
 import { route } from '../../../routes/configs';
 
 import '../style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
@@ -15,6 +15,7 @@ import factory from '../../../assets/abi/factory.js';
 import pair from '../../../assets/abi/pair.js';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { Button } from 'antd';
+import useCurrentAccount from '../../../hooks/useCurrentAccount';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 
@@ -1645,6 +1646,7 @@ const PairComponent = ({
 }) => {
     const [liquidityBalance, setLiquidityBalance] = useState('');
     const [liquidityBalanceInWei, setLiquidityBalanceInWei] = useState(0);
+    const { account } = useCurrentAccount();
 
     useEffect(() => {
         console.log('fetching data');
@@ -1732,14 +1734,15 @@ const PairComponent = ({
 
     const [submitting, setSubmitting] = useState(false);
 
-    const handleRemoveLiquidity = () => {
+    const handleRemoveLiquidity = async () => {
         if (status == 'connected') {
             setSubmitting(true);
-            execute();
+            // execute();
+            await account.execute(calls);
             setSubmitting(false);
         }
     };
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
     if (liquidityBalance != '0.000000 / 0.000000') {
         setNoLiquidityFound(false);
         console.log('🚀 ~ file: index.js:1775 ~ allPairsLength:', allPairsLength);
@@ -1824,7 +1827,7 @@ const PairComponent = ({
 const MyPools = ({ loading, allPairs, pairsSymbol }) => {
     const { isConnected: isConnectedEvm } = useActiveWeb3React();
 
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     const [noLiquidityFound, setNoLiquidityFound] = useState(true);
     const [reload, setReload] = useState(true);
     tempPairsSymbol = pairsSymbol;

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import assets from '../../assets';
 import './style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
+import useCurrentAccount from '../../hooks/useCurrentAccount';
 
 const mockDataTokenTest = [
     // {
@@ -37,7 +38,7 @@ function getTokenAmountInWei(amount, decimals) {
 }
 
 const ClaimTestnetTokenPage = () => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
@@ -74,13 +75,14 @@ const ClaimTestnetTokenPage = () => {
 
     const handleClaimFreeToken = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     return (
         <div className="testnet-token-page ">

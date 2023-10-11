@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import assets from '../../../../assets';
 import ModalSelectToken from '../ModalSelectToken';
 
-import { useAccount, useStarknetExecute } from '@starknet-react/core';
+import { useStarknetExecute } from '@starknet-react/core';
 import Modal from 'antd/lib/modal/Modal';
 import BigInt from 'big-integer';
 import BigNumber from 'bignumber.js';
 import { Contract, Provider, uint256 } from 'starknet';
+import useCurrentAccount from '../../../../hooks/useCurrentAccount';
 import './style.scss';
 // import PoolComponent from './Pools';
 
@@ -1080,7 +1081,7 @@ function getDeadlineTime(deadlineMinutes) {
 }
 
 const FormSwap = ({ setIsShowCreatePair }) => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [isShow, setIsShow] = useState(false);
     const [isShowSetting, setIsShowSetting] = useState(false);
 
@@ -1249,13 +1250,14 @@ const FormSwap = ({ setIsShowCreatePair }) => {
     ];
     const handleCreatePoolAddLiquidity = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     /// GET OPTIMAL AMOUNT TOKEN 1 BEFORE ADD LIQUIDITY
 
@@ -1320,27 +1322,27 @@ const FormSwap = ({ setIsShowCreatePair }) => {
             number: 25,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 50,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 75,
             handleChoosingPercent: () => {
                 return;
-            }
+            },
         },
         {
             number: 100,
             handleChoosingPercent: () => {
                 return;
-            }
-        }
-    ]
+            },
+        },
+    ];
 
     return (
         <div className="form-wrapper col gap-10" style={{ gap: 2, margin: 0 }}>
@@ -1379,12 +1381,15 @@ const FormSwap = ({ setIsShowCreatePair }) => {
                         <p>Balance: {token0BalanceAmount}</p>
                     </div>
 
-                    <div className='wrapper-percent' style={{ marginTop: 10 }}>
+                    <div className="wrapper-percent" style={{ marginTop: 10 }}>
                         {percentNumbers.map((item, index) => {
-                            return (<button key={index} className='btn-percent' onClick={item.handleChoosingPercent}><p>{item.number === 100 ? "MAX" : item.number + '%'}</p></button>)
+                            return (
+                                <button key={index} className="btn-percent" onClick={item.handleChoosingPercent}>
+                                    <p>{item.number === 100 ? 'MAX' : item.number + '%'}</p>
+                                </button>
+                            );
                         })}
                     </div>
-
                 </div>
             </div>
             <div className="center icon-swap-wrapper" style={{ zIndex: 99 }}>
@@ -1432,7 +1437,7 @@ const FormSwap = ({ setIsShowCreatePair }) => {
 };
 
 const ModalCreatePair = ({ isShowCreatePair, setIsShowCreatePair }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     return (
         <Modal
             open={isShowCreatePair}

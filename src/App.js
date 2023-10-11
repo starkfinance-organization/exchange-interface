@@ -13,6 +13,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { useWeb3React, Web3ReactProvider } from '@web3-react/core';
 import { useDispatch, useSelector } from 'react-redux';
 import actions from './redux/action';
+import { GlobalProvider } from './context/GlobalProvider';
 
 function getLibrary(provider) {
     const library = new Web3Provider(provider);
@@ -48,7 +49,9 @@ const App = () => {
     const isEvm = useSelector((state) => state.isEvm);
 
     useEffect(() => {
-        const isEvm = String(localStorage.getItem('isEvm')).toLowerCase() === 'true';
+        const isEvm =
+            String(localStorage.getItem('isEvm')).toLowerCase() === 'true' &&
+            localStorage.getItem('isOkx').toLowerCase() !== 'true';
         dispatch(actions.setIsEvm(isEvm));
     }, []);
 
@@ -71,25 +74,27 @@ const App = () => {
 
     return (
         <StarknetConfig connectors={connectors}>
-            <Router>
-                <div className="content-wrapper">
-                    <HeaderLayout />
+            <GlobalProvider>
+                <Router>
+                    <div className="content-wrapper">
+                        <HeaderLayout />
 
-                    <Routes>
-                        {publicRoutes.map((route, index) => {
-                            const Page = route.element;
-                            return <Route key={index} path={route.path} element={<Page />}></Route>;
-                        })}
-                    </Routes>
-                    <div style={{ position: 'relative' }}>
-                        <div className="overlay-footer"></div>
-                        <div className="wrapper-footer">
-                            <Footer />
-                            <FooterLayout />
+                        <Routes>
+                            {publicRoutes.map((route, index) => {
+                                const Page = route.element;
+                                return <Route key={index} path={route.path} element={<Page />}></Route>;
+                            })}
+                        </Routes>
+                        <div style={{ position: 'relative' }}>
+                            <div className="overlay-footer"></div>
+                            <div className="wrapper-footer">
+                                <Footer />
+                                <FooterLayout />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </GlobalProvider>
         </StarknetConfig>
     );
 };

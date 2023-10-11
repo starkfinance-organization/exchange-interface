@@ -5,8 +5,9 @@ import { route } from '../../routes/configs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import actions from '../../redux/action';
-import { useAccount, useConnectors, useNetwork } from '@starknet-react/core';
+import { useConnectors, useNetwork } from '@starknet-react/core';
 import { useEffect, useState } from 'react';
+import useCurrentAccount from '../../hooks/useCurrentAccount';
 
 const mockTrending = [
     {
@@ -100,7 +101,7 @@ const HeaderLayout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { disconnect } = useConnectors();
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     const { chain } = useNetwork();
     const [dataTrending, setDataTrending] = useState(mockTrending);
 

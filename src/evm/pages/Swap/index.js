@@ -1,39 +1,33 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { useAccount, useStarknetExecute } from '@starknet-react/core';
-import axios from 'axios';
 import { BigNumber } from '@ethersproject/bignumber';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { formatEther, parseUnits } from '@ethersproject/units';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Token, TokenAmount } from '@uniswap/sdk';
+import { Fraction } from '@uniswap/sdk-core';
+import { Button, Modal } from 'antd';
+import axios from 'axios';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
-import { Contract, Provider, uint256 } from 'starknet';
-import router from '../../../assets/abi/router.js';
-import ModalSettingSwap from '../../../components/ModalSettingSwap';
-import useModalSettingSwap from '../../../components/ModalSettingSwap/useModalSettingSwap';
+import { Area, AreaChart, XAxis } from 'recharts';
 import assets from '../../../assets';
 import svg from '../../../assets/svg';
-import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
-import './style.scss';
+import ModalSettingSwap from '../../../components/ModalSettingSwap';
+import useModalSettingSwap from '../../../components/ModalSettingSwap/useModalSettingSwap';
 import {
     CHAIN_ID,
+    EXPLORER_TX,
     Field,
     ROUTER_ADDRESS,
     TOKEN_ICON_LIST,
-    TOKEN_LIST,
     UNKNOWN_TOKEN_ICON,
     WETH,
-    EXPLORER_TX,
 } from '../../configs/networks.js';
-import { Token, TokenAmount } from '@uniswap/sdk';
-import { Fraction } from '@uniswap/sdk-core';
-import { formatEther, parseEther, parseUnits } from '@ethersproject/units';
 import { useActiveWeb3React } from '../../hooks/useActiveWeb3React.js';
 import useListTokens from '../../hooks/useListTokens.js';
+import { approves, getAllowances, getToken } from '../../state/erc20';
 import { EmptyPool, getCurrencyBalances, getPoolInfo } from '../../state/liquidity.js';
 import { getDerivedSwapInfo, swapCallback } from '../../state/swap';
-import { approves, getAllowances, getToken } from '../../state/erc20';
 import { isAddress } from '../../utils/index.js';
-import { Button, Modal } from 'antd';
-import DUMMY_DATA from './dummy-data-chart.js';
+import './style.scss';
 
 const FormSwap = ({ setHistoricalPrices, setVol, setPairAddr }) => {
     const [isShow, setIsShow] = useState(false);

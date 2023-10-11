@@ -7,7 +7,7 @@ import MyPools from '../MyPools';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 import '../style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
@@ -15,6 +15,7 @@ import erc20 from '../../../assets/abi/erc20.js';
 import router from '../../../assets/abi/router.js';
 import factory from '../../../assets/abi/factory.js';
 import pair from '../../../assets/abi/pair.js';
+import useCurrentAccount from '../../../hooks/useCurrentAccount';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 
@@ -1730,7 +1731,7 @@ const TVLComponent = ({ token0Symbol, token1Symbol, token0Reserve, token1Reserve
 };
 
 const TokenPairComponent = ({ index, pairAddress, token0Address, token1Address, token0Reserve, token1Reserve }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     // Get token symbols
     const [token0Symbol, setToken0Symbol] = useState(' - ');
     const [token1Symbol, setToken1Symbol] = useState(' - ');
@@ -1783,7 +1784,7 @@ const TokenPairComponent = ({ index, pairAddress, token0Address, token1Address, 
 };
 
 const PairComponent = ({ index, pairAddress }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     // Get token addresses
     const [token0Address, setToken0Address] = useState();
     const [token1Address, setToken1Address] = useState();
@@ -1841,7 +1842,7 @@ const PairComponent = ({ index, pairAddress }) => {
 const PoolComponent = ({ isShow, setIsShowCreatePair, setIsShowAddLiquidity }) => {
     const { isConnected: isConnectedEvm } = useActiveWeb3React();
 
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     // 1. get_all_pairs​ in FACTORY
     const [allPairs, setAllPairs] = useState([]);
     const [loading, setLoading] = useState(true);

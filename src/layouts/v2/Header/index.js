@@ -7,16 +7,16 @@ import useModal from '../../../components/ModalWallet/useModal';
 import ModalWallet from '../../../components/ModalWallet';
 import { route } from '../../../routes/configs';
 import { useNavigate } from 'react-router-dom';
-import { useAccount } from '@starknet-react/core';
 
 import { useActiveWeb3React } from '../../../evm/hooks/useActiveWeb3React';
 import { CHAIN_ID } from '../../../evm/configs/networks';
+import useCurrentAccount from '../../../hooks/useCurrentAccount';
 
 const ButtonConnectWallet = () => {
     const { account: accountEvm, isConnected: isConnectedEvm } = useActiveWeb3React();
+    const { address, status } = useCurrentAccount();
 
     const { isShowing, toggle } = useModal();
-    const { address, status } = useAccount();
 
     // Handle short address type
     const shortAddress = () => {

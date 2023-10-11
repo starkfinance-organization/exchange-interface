@@ -6,7 +6,7 @@ import { route } from '../../routes/configs';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
 import { Button } from 'antd';
 // import './style.scss';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
@@ -14,6 +14,8 @@ import erc20 from '../../assets/abi/erc20.js';
 import router from '../../assets/abi/router.js';
 import ModalSettingSwap from '../../components/ModalSettingSwap';
 import useModalSettingSwap from '../../components/ModalSettingSwap/useModalSettingSwap';
+import useCurrentAccount from '../../hooks/useCurrentAccount';
+
 import {
     Area,
     AreaChart,
@@ -518,7 +520,7 @@ const getCurrentDateInUTC = () => {
 };
 
 const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [isShow, setIsShow] = useState(false);
     const [percent, setPercent] = useState(100);
     const navigate = useNavigate();
@@ -526,8 +528,8 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
     const inputToken0Ref = useRef(null);
 
     // Token Picker
-    const [token0, setToken0] = useState(mockDataTokenTest[0]);
-    const [token1, setToken1] = useState(mockDataTokenTest[1]);
+    const [token0, setToken0] = useState(mockDataTokenTest[1]);
+    const [token1, setToken1] = useState(mockDataTokenTest[2]);
     const [typeModal, setTypeModal] = useState(1);
 
     // Token 0 Input Amount
@@ -658,7 +660,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
             if (status == 'connected') {
                 if (submitting) return;
                 setSubmitting(true);
-                await execute();
+                await account.execute(calls);
                 setSubmitting(false);
             } else {
                 setSubmitting(false);
@@ -669,7 +671,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     /// GET BALANCE TOKEN 0
 
@@ -1005,7 +1007,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
 };
 
 const SwapPage = () => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     const [vol, setVol] = useState(0);
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
@@ -1044,13 +1046,14 @@ const SwapPage = () => {
 
     const handleClaimFreeToken = () => {
         if (status == 'connected') {
-            execute();
+            // execute();
+            account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
     const data = [
         { name: 'Tháng 1', doanhThu: 2400, chiPhi: 800, loiNhuan: 1600 },
         { name: 'Tháng 2', doanhThu: 1398, chiPhi: 1200, loiNhuan: 198 },

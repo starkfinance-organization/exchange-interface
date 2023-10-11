@@ -1,9 +1,10 @@
 import assets from '../../assets';
 import './home.scss';
 
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import Footer from '../../layouts/Footer';
+import useCurrentAccount from '../../hooks/useCurrentAccount';
 
 const airdropContractAddress = '0x292c8e888e5a2f595b1c70343825a83f5a5143dd11bbe27ab5caf22231584d4';
 
@@ -5066,7 +5067,7 @@ const proofs = {
 };
 
 const AirdropPage = () => {
-    const { address, status } = useAccount();
+    const { account, address, status } = useCurrentAccount();
     let calldataa;
     let calls = [
         {
@@ -5086,13 +5087,14 @@ const AirdropPage = () => {
                 }
             }
             calls[0].calldata = calldataa;
-            execute();
+            // execute();
+            return account.execute(calls);
         } else {
             alert('Please connect wallet');
         }
     };
 
-    const { execute } = useStarknetExecute({ calls });
+    // const { execute } = useStarknetExecute({ calls });
 
     return (
         <div className="nft-page">

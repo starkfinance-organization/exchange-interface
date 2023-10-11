@@ -105,8 +105,10 @@ import ROAD_MAP from './ROAD_MAP.png';
 import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
 import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
 import bg_home from './bg-home.png';
+import okx from './okx.png';
 
 const images = {
+    okx,
     metamask,
     audit_logo,
     banner_2,

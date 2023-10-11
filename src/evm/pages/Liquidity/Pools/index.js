@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import assets from '../../../../assets';
 import MyPools from '../MyPools';
 
-import { useAccount } from '@starknet-react/core';
 import BigNumber from 'bignumber.js';
 import { Contract, Provider, RpcProvider, number, uint256 } from 'starknet';
+import useCurrentAccount from '../../../../hooks/useCurrentAccount';
 import '../style.scss';
 
 import { useActiveWeb3React } from '../../../hooks/useActiveWeb3React';
@@ -1722,7 +1722,7 @@ const TVLComponent = ({ token0Symbol, token1Symbol, token0Reserve, token1Reserve
 };
 
 const TokenPairComponent = ({ index, pairAddress, token0Address, token1Address, token0Reserve, token1Reserve }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     // Get token symbols
     const [token0Symbol, setToken0Symbol] = useState(' - ');
     const [token1Symbol, setToken1Symbol] = useState(' - ');

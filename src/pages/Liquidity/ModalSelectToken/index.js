@@ -4,10 +4,11 @@ import Modal from 'antd/lib/modal/Modal';
 import assets from '../../../assets';
 import React, { useEffect, useState } from 'react';
 import erc20 from '../../../assets/abi/erc20.js';
-import { useAccount, useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
+import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
 import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
 import { ModalCreatePair } from '../ModalCreatePair';
-const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } })
+import useCurrentAccount from '../../../hooks/useCurrentAccount';
+const provider = new Provider({ sequencer: { network: 'mainnet-alpha' } });
 const erc20abi = [
     {
         members: [
@@ -1013,7 +1014,7 @@ function hex2a(hexx) {
 }
 
 const TokenInfo = ({ tokenAddress, handleSelectToken }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     const [tokenSymbol, setTokenSymbol] = useState(null);
     const [tokenDecimals, setTokenDecimals] = useState(null);
 

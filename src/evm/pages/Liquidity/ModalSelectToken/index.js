@@ -1,9 +1,9 @@
-import { useAccount } from '@starknet-react/core';
 import 'antd/dist/antd.css';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useEffect, useState } from 'react';
 import { Contract, Provider, RpcProvider, number } from 'starknet';
 import assets from '../../../../assets';
+import useCurrentAccount from '../../../../hooks/useCurrentAccount';
 import './style.scss';
 const provider = new RpcProvider({
     nodeUrl: 'https://starknet-mainnet.infura.io/v3/6892505f20e24c1d86f9b3313f47ea74',
@@ -1013,7 +1013,7 @@ function hex2a(hexx) {
 }
 
 const TokenInfo = ({ tokenAddress, handleSelectToken }) => {
-    const { address, status } = useAccount();
+    const { address, status } = useCurrentAccount();
     const [tokenSymbol, setTokenSymbol] = useState(null);
     const [tokenDecimals, setTokenDecimals] = useState(null);
 
