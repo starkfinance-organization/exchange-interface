@@ -18,8 +18,8 @@ export const simpleRpcProvider = new StaticJsonRpcProvider(rpcNode);
 
 export const getNetwork = (chainId) => {
     switch (chainId) {
-        case CHAIN_ID.OPSIDE_TESTNET:
-            return NETWORKS_SUPPORTED[CHAIN_ID.OPSIDE_TESTNET];
+        case CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP:
+            return NETWORKS_SUPPORTED[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP];
 
         default:
             return NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET];

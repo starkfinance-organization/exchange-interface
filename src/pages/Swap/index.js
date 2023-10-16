@@ -993,7 +993,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 </div>
             </div>
 
-            <div className="row space-between mt-16">
+            <div className="row mt-16" style={{ justifyContent: 'space-between' }}>
                 <div>Price impact</div>
                 <div
                     style={{

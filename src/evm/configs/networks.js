@@ -5,7 +5,7 @@ export const CHAIN_ID = {
     // ZETA_MAINNET: 7000,
     ZETA_TESTNET: 7001,
     // OPSIDE_MAINNET: 23118,
-    OPSIDE_TESTNET: 51178,
+    STARKSPRT_OPSIDE_ROLLUP: 12029,
 };
 
 //   export const RPC: { [key in CHAIN_ID]: string[] } = {
@@ -14,7 +14,7 @@ export const CHAIN_ID = {
 //       'https://zetachain-athens-evm.blockpi.network/v1/rpc/public',
 //     ],
 //     [CHAIN_ID.OPSIDE_MAINNET]: ['https://testrpc.opside.network'],
-//     [CHAIN_ID.OPSIDE_TESTNET]: ['https://pre-alpha-hk-http-geth.opside.network'],
+//     [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: ['https://pre-alpha-hk-http-geth.opside.network'],
 //   };
 
 export const NETWORKS_SUPPORTED = {
@@ -29,14 +29,14 @@ export const NETWORKS_SUPPORTED = {
             decimals: 18,
         },
     },
-    [CHAIN_ID.OPSIDE_TESTNET]: {
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: {
         name: 'Opside Testnet',
-        chainId: CHAIN_ID.OPSIDE_TESTNET,
-        rpc: ['https://pre-alpha-hk-http-geth.opside.network'],
-        explorer: 'https://pre-alpha.opside.info/',
+        chainId: CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP,
+        rpc: ['https://pre-alpha-zkrollup-rpc.opside.network/starksport-rollup'],
+        explorer: 'https://starksport-rollup.zkevm.opside.info/',
         nativeCoin: {
-            name: 'IDE',
-            symbol: 'IDE',
+            name: 'SFN',
+            symbol: 'SFN',
             decimals: 18,
         },
     },
@@ -44,7 +44,7 @@ export const NETWORKS_SUPPORTED = {
 
 export const EXPLORER_TX = {
     [CHAIN_ID.ZETA_TESTNET]: 'https://explorer.zetachain.com/evm/tx',
-    [CHAIN_ID.OPSIDE_TESTNET]: 'https://pre-alpha.opside.info/tx',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: 'https://starksport-rollup.zkevm.opside.info/tx',
 };
 
 export const WETH = {
@@ -55,12 +55,12 @@ export const WETH = {
         'WZETA',
         'Wrapper Zeta',
     ),
-    [CHAIN_ID.OPSIDE_TESTNET]: new Token(
-        NETWORKS_SUPPORTED[CHAIN_ID.OPSIDE_TESTNET].chainId,
-        '0xD2Af4C638d9AF34405CDD6403F853Acb0774efe3',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: new Token(
+        NETWORKS_SUPPORTED[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP].chainId,
+        '0x66efeA0Cf97907E8cE51f6739535c88278ce8683',
         18,
-        'WIDE',
-        'Wrapper Ide',
+        'SFN',
+        'StarkSport',
     ),
 };
 
@@ -87,11 +87,11 @@ export const TOKEN_LIST = {
             'MyToken1',
         ),
     ],
-    [CHAIN_ID.OPSIDE_TESTNET]: [
-        WETH[CHAIN_ID.OPSIDE_TESTNET],
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: [
+        WETH[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP],
         new Token(
-            NETWORKS_SUPPORTED[CHAIN_ID.OPSIDE_TESTNET].chainId,
-            '0xcb79a3421826d4C90FCB18333F1621ae23af5182',
+            NETWORKS_SUPPORTED[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP].chainId,
+            '0x87Bc2d3a2eDBbE8Df5f6929Be15A4A87879Aa5FB',
             18,
             'USDT',
             'USDT',
@@ -105,9 +105,9 @@ export const TOKEN_ICON_LIST = {
         '0xC05a487a9c4c9B155F4B39117bB854D1E792B210': assets.svg.btc,
         '0x0439187Ab4a0E43B7E726482871df480Deb870b9': assets.svg.eth,
     },
-    [CHAIN_ID.OPSIDE_TESTNET]: {
-        [WETH[CHAIN_ID.OPSIDE_TESTNET].address]: assets.images.opside,
-        '0xcb79a3421826d4C90FCB18333F1621ae23af5182': assets.svg.btc,
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: {
+        [WETH[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP].address]: assets.images.opside,
+        '0x87Bc2d3a2eDBbE8Df5f6929Be15A4A87879Aa5FB': assets.svg.btc,
     },
 };
 
@@ -116,22 +116,22 @@ export const UNKNOWN_TOKEN_ICON =
 
 export const MULTICALL_ADDRESS = {
     [CHAIN_ID.ZETA_TESTNET]: '0x4aF8d9Ab04EA63C621C729EFd95d6BDCB8B15cf9',
-    [CHAIN_ID.OPSIDE_TESTNET]: '0xa52E6160968aa9d9A536Cc38b58Bab89eFEFe09e',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: '0x51Ba566222d88996658c39CBe38e17efa84b69e5',
 };
 
 export const FACTORY_ADDRESS = {
     [CHAIN_ID.ZETA_TESTNET]: '0x2723a9B9F8D015C1f0bD3B5fd9393716e16D2f20',
-    [CHAIN_ID.OPSIDE_TESTNET]: '0x5f31a74be306A7A6D25Fcefe662acE0a38C505B9',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: '0xa52E6160968aa9d9A536Cc38b58Bab89eFEFe09e',
 };
 
 export const ROUTER_ADDRESS = {
     [CHAIN_ID.ZETA_TESTNET]: '0xDA9cd02db532d205D593430ce7B12769F2F1e291',
-    [CHAIN_ID.OPSIDE_TESTNET]: '0xAA281f1f8f312a1334B860c1ddF7F16D7f7Bf0D2',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: '0xcb79a3421826d4C90FCB18333F1621ae23af5182',
 };
 
 export const INIT_CODE_HASH = {
     [CHAIN_ID.ZETA_TESTNET]: '0x5bfbf8ac5fa24ec49b051b579d000fb25988e044b9ab8fe321d250613193c74f',
-    [CHAIN_ID.OPSIDE_TESTNET]: '0x9981e46724cb553da182b88725e57f667320a0979eafccba4fc34f0ca03e5ed6',
+    [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: '0x9981e46724cb553da182b88725e57f667320a0979eafccba4fc34f0ca03e5ed6',
 };
 
 export const Field = {

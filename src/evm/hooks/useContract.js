@@ -12,7 +12,6 @@ export async function callContract(contract, method, args, overrides = {}) {
         const estimateGas = await contract.estimateGas[method](...args, {
             ...overrides,
         });
-
         const gasLimit = estimateGas.add(estimateGas.mul(BigNumber.from(15)).div(BigNumber.from(100)));
 
         const tx = await contract[method](...args, { gasLimit: gasLimit.toString(), ...overrides });
