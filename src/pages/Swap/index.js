@@ -1,46 +1,29 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { Button } from 'antd';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import assets from '../../assets';
-import Footer from '../../layouts/Footer';
-import { route } from '../../routes/configs';
 import ModalSelectToken from '../Liquidity/ModalSelectToken/index.js';
-import { Button } from 'antd';
 // import './style.scss';
-import { useContract, useStarknetCall, useStarknetExecute } from '@starknet-react/core';
-import { RpcProvider, Provider, Contract, Account, ec, json, uint256, number } from 'starknet';
-import BigNumber from 'bignumber.js';
 import BigInt from 'big-integer';
-import erc20 from '../../assets/abi/erc20.js';
+import BigNumber from 'bignumber.js';
+import { BigNumber as BigNumberEthers } from 'ethers';
+import { Contract, RpcProvider, uint256 } from 'starknet';
+import factoryAbi from '../../assets/abi/factory';
+import pairAbi from '../../assets/abi/pair';
 import router from '../../assets/abi/router.js';
 import ModalSettingSwap from '../../components/ModalSettingSwap';
 import useModalSettingSwap from '../../components/ModalSettingSwap/useModalSettingSwap';
 import useCurrentAccount from '../../hooks/useCurrentAccount';
 
-import {
-    Area,
-    AreaChart,
-    defs,
-    LinearGradient,
-    Stop,
-    Bar,
-    BarChart,
-    CartesianGrid,
-    Legend,
-    Line,
-    LineChart,
-    XAxis,
-    YAxis,
-    Tooltip,
-    ResponsiveContainer,
-} from 'recharts';
-import dataChart from './res.json';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
+import { Area, AreaChart, XAxis } from 'recharts';
 import svg from '../../assets/svg';
 
-import SwapPageEvm from '../../evm/pages/Swap';
 import { useActiveWeb3React } from '../../evm/hooks/useActiveWeb3React';
+import SwapPageEvm from '../../evm/pages/Swap';
 import DUMMY_DATA from '../../evm/pages/Swap/dummy-data-chart';
+import { sortsTokenBefore } from '../../utils/dex';
 
 const FACTORY_ADDRESS = '0x594074315e98393351438011f5a558466f1733fde666f73f41738a39804c27';
 const ROUTER_ADDRESS = '0x2d300192ea8d3291755bfd2bb2f9e16b38f48a20e4ce98e189d2daa7be435c2';
@@ -557,6 +540,8 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
     // Token 1 Balance
     const [token1BalanceAmount, setToken1BalanceAmount] = useState(0);
 
+    const [priceImpact, setPriceImpact] = useState();
+
     const [submitting, setSubmitting] = useState(false);
 
     const handleCHangeToken0InputByPercent = useCallback(
@@ -748,6 +733,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
         } else {
             // console.log(token0InputAmount);
             const fetchData = async () => {
+                setPriceImpact(undefined);
                 const routerContract = new Contract(router.abi, ROUTER_ADDRESS, provider);
                 // console.log('routerContract', routerContract);
                 let token1Output = await routerContract.call('get_amounts_out', [
@@ -758,6 +744,26 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 let token1OutputInEther = getTokenAmountInEther(token1OutputInWei, token1.decimals);
                 setToken1OutputAmount(token1OutputInWei);
                 setToken1OutputDisplayAmount(token1OutputInEther);
+
+                const factoryContract = new Contract(factoryAbi.abi, FACTORY_ADDRESS, provider);
+                let result = await factoryContract.call('get_pair', [token0.address, token1.address]);
+                const pairAddress = BigNumberEthers.from(result.pair.toString()).toHexString();
+                const pairContract = new Contract(pairAbi.abi, pairAddress, provider);
+                const isToken0 = sortsTokenBefore(token0.address, token1.address) ? true : false;
+                const reserves = await pairContract.call('get_reserves');
+                const reserve0 = BigNumberEthers.from(reserves.reserve0.low.toString());
+                const reserve1 = BigNumberEthers.from(reserves.reserve1.low.toString());
+                const k = reserve0.mul(reserve1);
+                const newReserve = isToken0
+                    ? reserve0.add(BigNumberEthers.from(token0InputAmount))
+                    : reserve1.add(BigNumberEthers.from(token0InputAmount));
+                const newOtherReserve = k.div(newReserve);
+                const priceImpact =
+                    (isToken0 ? reserve1.sub(newOtherReserve) : reserve0.sub(newOtherReserve))
+                        .mul(BigNumberEthers.from(100))
+                        .toString() / newOtherReserve.toString();
+
+                setPriceImpact(priceImpact > 100 ? 100 : priceImpact);
             };
             if (token0InputAmount > 0) {
                 setToken1OutputAmount('Loading');
@@ -766,6 +772,8 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
             }
         }
     }, [token0InputAmount]);
+
+    const warningPriceImpact = useMemo(() => (priceImpact ? priceImpact > 10 : false), [priceImpact]);
 
     // const { contract: routerContract } = useContract({
     //     address: ROUTER_ADDRESS,
@@ -985,6 +993,17 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 </div>
             </div>
 
+            <div className="row space-between mt-16">
+                <div>Price impact</div>
+                <div
+                    style={{
+                        color: warningPriceImpact ? 'red' : 'inherit',
+                    }}
+                >
+                    {priceImpact ? parseFloat(priceImpact).toFixed(2) : '--'}%
+                </div>
+            </div>
+
             <Button
                 style={{
                     marginTop: 20,
@@ -997,7 +1016,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 }}
                 loading={submitting}
             >
-                Swap
+                {warningPriceImpact ? 'Swap anyway' : 'Swap'}
             </Button>
             {/* <div className="btn p-20" style={{ marginTop: 20 }} onClick={() => handleSwap()}>
                 <h4>Swap</h4>
