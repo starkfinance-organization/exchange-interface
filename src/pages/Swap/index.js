@@ -754,14 +754,22 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                 const reserve0 = BigNumberEthers.from(reserves.reserve0.low.toString());
                 const reserve1 = BigNumberEthers.from(reserves.reserve1.low.toString());
                 const k = reserve0.mul(reserve1);
-                const newReserve = isToken0
+                const newReserve0 = isToken0
                     ? reserve0.add(BigNumberEthers.from(token0InputAmount))
+                    : k.div(reserve1.add(BigNumberEthers.from(token0InputAmount)));
+                const newReserve1 = isToken0
+                    ? k.div(reserve0.add(BigNumberEthers.from(token0InputAmount)))
                     : reserve1.add(BigNumberEthers.from(token0InputAmount));
-                const newOtherReserve = k.div(newReserve);
+
+                const lastPrice = reserve0.toString() / reserve1.toString();
+                const currentPrice = isToken0
+                    ? BigNumberEthers.from(token0InputAmount).toString() / token1OutputInWei
+                    : token1OutputInWei / BigNumberEthers.from(token0InputAmount).toString();
+
                 const priceImpact =
-                    (isToken0 ? reserve1.sub(newOtherReserve) : reserve0.sub(newOtherReserve))
-                        .mul(BigNumberEthers.from(100))
-                        .toString() / newOtherReserve.toString();
+                    (currentPrice - lastPrice > 0
+                        ? (currentPrice - lastPrice) / currentPrice
+                        : (lastPrice - currentPrice) / lastPrice) * 100;
 
                 setPriceImpact(priceImpact > 100 ? 100 : priceImpact);
             };
@@ -1000,7 +1008,7 @@ const FormSwap = ({ historicalPrices, setHistoricalPrices, setVol }) => {
                         color: warningPriceImpact ? 'red' : 'inherit',
                     }}
                 >
-                    {priceImpact ? parseFloat(priceImpact).toFixed(2) : '--'}%
+                    {priceImpact ? parseFloat(priceImpact).toFixed(3) : '--'}%
                 </div>
             </div>
 
