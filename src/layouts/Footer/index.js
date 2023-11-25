@@ -1,12 +1,13 @@
 import assets from '../../assets';
 import './style.scss';
+import { Tooltip } from 'antd';
 
 const Footer = () => {
     const contactData = {
-        telegram: 'https://t.me/starksportglobal',
         telegramChannel: 'https://t.me/starksportchanel',
-        twitter: 'https://twitter.com/starkfinance?s=21&t=mYOANC7ZpixnNnYAW14NEQ',
-        discord: 'https://discord.gg/Z2Z8BwHy6k',
+        twitter: 'https://twitter.com/starkfinance',
+        discord: 'https://discord.gg/vm7DJJn54Y',
+        medium: 'https://starkfinance.medium.com',
     };
 
     function openInNewTab(url) {
@@ -21,8 +22,9 @@ const Footer = () => {
                     <img src={assets.images.logo} style={{ height: 30, width: 30, borderRadius: 50 }} />
                     <h1 className="project-name">STARKSPORT</h1>
                 </div>
-                <h4 style={{fontSize:18, maxWidth: 500, color: "#ffffffb3"}}>
-                    Starksport aims to combine the outstanding features of Defi, NFT Marketplace and Launchpad together to attract users and support other projects on multichain
+                <h4 style={{ fontSize: 18, maxWidth: 500, color: '#ffffffb3' }}>
+                    Starksport aims to combine the outstanding features of Defi, NFT Marketplace and Launchpad together
+                    to attract users and support other projects on multichain
                 </h4>
             </div>
 
@@ -30,33 +32,33 @@ const Footer = () => {
                 <div className="col gap-20">
                     <h1 className="footer-title">SUPPORT</h1>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/contact-us');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/');
                         }}
                     >
                         FAQ
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://discord.gg/vm7DJJn54Y');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/sfn-token/sfn-tokenomics');
                         }}
                     >
                         Tokenomics
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/tokennomics');
+                            openInNewTab('https://skynet.certik.com/projects/Starkfinance');
                         }}
                     >
                         Audits
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://alpha.starkguardians.com/audits');
+                            openInNewTab('https://marketplace.starksport.finance/events');
                         }}
                     >
                         Starksport NFT
@@ -65,37 +67,27 @@ const Footer = () => {
                 <div className="col gap-20">
                     <h1 className="footer-title">ACCESS</h1>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/');
+                            openInNewTab('https://exchange.starkfinance.co/');
                         }}
                     >
                         Exchange
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
-                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/roadmap');
+                            openInNewTab('https://marketplace.starkfinance.co/');
                         }}
                     >
                         Marketplace
                     </h4>
-                    <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
-                        onClick={() => {
-                            openInNewTab('https://starkfinance.gitbook.io/starkfinance');
-                        }}
-                    >
-                        Launchpad
-                    </h4>
-                    <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
-                        onClick={() => {
-                            openInNewTab('https://github.com/possc/StarkSportContracts');
-                        }}
-                    >
-                        Earnings
-                    </h4>
+                    <Tooltip placement="bottom" title="Coming Soon">
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Launchpad</h4>
+                    </Tooltip>
+                    <Tooltip placement="bottom" title="Coming Soon">
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Earnings</h4>
+                    </Tooltip>
                 </div>
             </div>
         </div>
