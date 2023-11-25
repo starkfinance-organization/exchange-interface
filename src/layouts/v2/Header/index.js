@@ -114,7 +114,7 @@ const HeaderLayout = () => {
                 <div
                     className="row g-10 a-center"
                     onClick={() => {
-                        navClick(route.home);
+                        navClick(route.homepage);
                     }}
                 >
                     <img src={assets.images.logo} alt="logo" style={{ height: '5rem', width: '5rem' }} />
@@ -126,7 +126,7 @@ const HeaderLayout = () => {
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        navClick(route.home);
+                        navClick(route.homepage);
                     }}
                 >
                     <h4>Home</h4>

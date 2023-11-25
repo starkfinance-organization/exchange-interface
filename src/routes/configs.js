@@ -1,5 +1,6 @@
 const route = {
     home: '/',
+    homepage: '/home',
     nft: '/nft',
     // airdrop: '/airdrop',
     swap: '/swap',

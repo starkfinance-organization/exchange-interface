@@ -83,10 +83,10 @@ const Footer = () => {
                         Marketplace
                     </h4>
                     <Tooltip placement="bottom" title="Coming Soon">
-                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Launchpad</h4>
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}>Launchpad</h4>
                     </Tooltip>
                     <Tooltip placement="bottom" title="Coming Soon">
-                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Earnings</h4>
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}>Earnings</h4>
                     </Tooltip>
                 </div>
             </div>
