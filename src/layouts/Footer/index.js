@@ -32,7 +32,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/support');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/contact-us');
                         }}
                     >
                         FAQ
@@ -40,7 +40,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://discord.gg/Z2Z8BwHy6k');
+                            openInNewTab('https://discord.gg/vm7DJJn54Y');
                         }}
                     >
                         Tokenomics
@@ -48,7 +48,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/tokennomics');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/tokennomics');
                         }}
                     >
                         Audits
@@ -67,7 +67,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/');
                         }}
                     >
                         Exchange
@@ -75,7 +75,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/roadmap');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/roadmap');
                         }}
                     >
                         Marketplace
@@ -83,7 +83,7 @@ const Footer = () => {
                     <h4
                         style={{ fontSize: 18, color: '#ffffffb3' }}
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance');
                         }}
                     >
                         Launchpad
