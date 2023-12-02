@@ -112,6 +112,7 @@ export const TOKEN_ICON_LIST = {
         [WETH[CHAIN_ID.ZETA_TESTNET].address]: assets.images.zeta,
         '0xC05a487a9c4c9B155F4B39117bB854D1E792B210': assets.svg.btc,
         '0x0439187Ab4a0E43B7E726482871df480Deb870b9': assets.svg.eth,
+        '0x17ff5320C6fE629730dEAC6Ff0FD795246cfdD06': assets.images.snt_token,
     },
     [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: {
         [WETH[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP].address]: assets.images.opside,

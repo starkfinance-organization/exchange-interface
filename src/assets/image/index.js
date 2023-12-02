@@ -108,6 +108,7 @@ import bg_home from './bg-home.png';
 import okx from './okx.png';
 import starkfinance_blue from './starksport_on_blue.png';
 import starkfinance_white from './starksport_on_white.png';
+import snt_token from './snt.png';
 
 const images = {
     okx,
@@ -218,6 +219,7 @@ const images = {
     bg_home,
     starkfinance_blue,
     starkfinance_white,
+    snt_token,
 };
 
 export default images;
