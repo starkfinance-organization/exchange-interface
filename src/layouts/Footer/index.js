@@ -34,7 +34,7 @@ const Footer = () => {
                 <div className="col gap-20">
                     <h1 className="footer-title">SUPPORT</h1>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://starkfinance.gitbook.io/starkfinance/');
                         }}
@@ -42,7 +42,7 @@ const Footer = () => {
                         FAQ
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://starkfinance.gitbook.io/starkfinance/sfn-token/sfn-tokenomics');
                         }}
@@ -50,7 +50,7 @@ const Footer = () => {
                         Tokenomics
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://skynet.certik.com/projects/StarkFinance');
                         }}
@@ -58,7 +58,7 @@ const Footer = () => {
                         Audits
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://marketplace.starksport.finance/events');
                         }}
@@ -69,7 +69,7 @@ const Footer = () => {
                 <div className="col gap-20">
                     <h1 className="footer-title">ACCESS</h1>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://exchange.starkfinance.co/');
                         }}
@@ -77,7 +77,7 @@ const Footer = () => {
                         Exchange
                     </h4>
                     <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://marketplace.starkfinance.co/');
                         }}
@@ -85,7 +85,7 @@ const Footer = () => {
                         Marketplace
                     </h4>
                     {/* <h4
-                        style={{ fontSize: 18, color: '#ffffffb3' }}
+                        style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}
                         onClick={() => {
                             openInNewTab('https://starkfinance.gitbook.io/starkfinance');
                         }}
@@ -93,10 +93,10 @@ const Footer = () => {
                         Launchpad
                     </h4> */}
                     <Tooltip placement="bottom" title="Coming Soon">
-                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Launchpad</h4>
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}>Launchpad</h4>
                     </Tooltip>
                     <Tooltip placement="bottom" title="Coming Soon">
-                        <h4 style={{ fontSize: 18, color: '#ffffffb3' }}>Earnings</h4>
+                        <h4 style={{ fontSize: 18, color: '#ffffffb3', cursor: 'pointer' }}>Earnings</h4>
                     </Tooltip>
                 </div>
             </div>

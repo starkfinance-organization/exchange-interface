@@ -16,3 +16,16 @@
     background-color: #00000080;
     z-index: -1;
 }
+
+.mobile-hidden {
+    @media only screen and (max-width: 485px) {
+        display: none;
+    }
+}
+
+.mobile-show {
+    display: none;
+    @media only screen and (max-width: 485px) {
+        display: block;
+    }
+}

@@ -117,7 +117,18 @@ const HeaderLayout = () => {
                         navClick(route.home);
                     }}
                 >
-                    <img src={assets.images.starkfinance_white} alt="logo" style={{ height: 48, width: 212.08 }} />
+                    <img
+                        className="mobile-hidden"
+                        src={assets.images.starkfinance_white}
+                        alt="logo"
+                        style={{ height: 48, width: 212.08 }}
+                    />
+                    <img
+                        className="mobile-show"
+                        src={assets.images.logo}
+                        alt="logo"
+                        style={{ height: 48, width: 'auto' }}
+                    />
                 </div>
             </div>
 
