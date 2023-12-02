@@ -86,6 +86,14 @@ export const TOKEN_LIST = {
             'MTK1',
             'MyToken1',
         ),
+
+        new Token(
+            NETWORKS_SUPPORTED[CHAIN_ID.ZETA_TESTNET].chainId,
+            '0x17ff5320C6fE629730dEAC6Ff0FD795246cfdD06',
+            18,
+            'ZNT',
+            'ZNSToken',
+        ),
     ],
     [CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP]: [
         WETH[CHAIN_ID.STARKSPRT_OPSIDE_ROLLUP],
