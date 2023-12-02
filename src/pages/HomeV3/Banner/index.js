@@ -13,7 +13,7 @@ function Banner() {
             <div className="left">
                 <p className="title-1">Decentralized Finance Platform</p>
                 <img className="starkport-img" src={assets.images.STARKPORT} alt="" />
-                {/* <p className="title-size">STARKSPORT</p> */}
+                {/* <p className="title-size">StarkFinance</p> */}
                 <p className="title-2">Cryptocurrency trading platform, NFTS event</p>
                 <p className="all-time-volume">$4960 ALL-TIME VOLUME</p>
                 <div className="flex a-center gap-15">

@@ -52,7 +52,7 @@ function OurFeatures() {
             <div
                 className="btn"
                 onClick={() => {
-                    openInNewTab('https://starksport.gitbook.io/');
+                    openInNewTab('https://starkfinance.gitbook.io/');
                 }}
             >
                 <p className="btn__title">EXPLORE MORE</p>

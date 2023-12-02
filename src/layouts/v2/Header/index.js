@@ -117,8 +117,7 @@ const HeaderLayout = () => {
                         navClick(route.home);
                     }}
                 >
-                    <img src={assets.images.logo} alt="logo" style={{ height: '5rem', width: '5rem' }} />
-                    <h2 className="header__title">STARKSPORT</h2>
+                    <img src={assets.images.starkfinance_white} alt="logo" style={{ height: 48, width: 212.08 }} />
                 </div>
             </div>
 
@@ -184,7 +183,7 @@ const HeaderLayout = () => {
                 <div
                     className="header__item p-15"
                     onClick={() => {
-                        openInNewTab('https://starksport.gitbook.io/staksport/');
+                        openInNewTab('https://starkfinance.gitbook.io/staksport/');
                     }}
                 >
                     <h4>Documentation</h4>

@@ -106,6 +106,8 @@ import BACKER_AND_INVESTORS from './BACKER_AND_INVESTORS.png';
 import COLLAB_AND_PARTNERS from './COLLAB_AND_PARTNERS.png';
 import bg_home from './bg-home.png';
 import okx from './okx.png';
+import starkfinance_blue from './starksport_on_blue.png';
+import starkfinance_white from './starksport_on_white.png';
 
 const images = {
     okx,
@@ -214,6 +216,8 @@ const images = {
     BACKER_AND_INVESTORS,
     COLLAB_AND_PARTNERS,
     bg_home,
+    starkfinance_blue,
+    starkfinance_white,
 };
 
 export default images;

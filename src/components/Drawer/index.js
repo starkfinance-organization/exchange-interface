@@ -51,7 +51,7 @@ const Drawer = ({ isShowing, hide }) => {
                     <p
                         className="drawer__item"
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/staksport/');
+                            openInNewTab('https://starkfinance.gitbook.io/starkfinance/');
                         }}
                     >
                         Documentation

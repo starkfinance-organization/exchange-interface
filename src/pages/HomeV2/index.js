@@ -76,7 +76,7 @@ const HomePageV2 = () => {
                     <div
                         className="btn"
                         onClick={() => {
-                            openInNewTab('https://starksport.gitbook.io/');
+                            openInNewTab('https://starkfinance.gitbook.io/');
                         }}
                     >
                         <p className="btn__title">Open docs</p>
